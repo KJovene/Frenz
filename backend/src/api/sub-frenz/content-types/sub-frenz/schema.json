@@ -1,0 +1,17 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sub_frenzs",
+  "info": {
+    "singularName": "sub-frenz",
+    "pluralName": "sub-frenzs",
+    "displayName": "SubFrenz"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    }
+  }
+}
