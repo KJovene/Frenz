@@ -34,13 +34,13 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <h1>Articles</h1>
+    <div className="h-screen w-full flex flex-col items-center justify-center border-4 border-blue-500">
+      <h1>Elément de Neon :</h1>
       {error ? (
         <div>Error: {error}</div>
       ) : articles.length > 0 ? (
         articles.map((article) => (
-          <div key={article.id}>
+          <div key={article.id} className="border-2 border-red-500 m-2 p-2">
             <h2>{article.title}</h2>
           </div>
         ))
