@@ -1,14 +1,17 @@
-import React from 'react';
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Register from './pages/Register'
+import Login from './pages/Login'
+import Home from './pages/Home'
 
-function App() {
-
+export default function App() {
   return (
-    <>
-      <div className='h-screen flex items-center justify-center w-full'>
-        Bonjour !
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/register' element={<Register/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/' element={<Home/>}/>
+      </Routes>
+    </BrowserRouter>
   )
 }
-
-export default App
