@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "comments_frenzs",
+  "info": {
+    "singularName": "comments-frenz",
+    "pluralName": "comments-frenzs",
+    "displayName": "CommentsFrenz"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "commentaire": {
+      "type": "text"
+    },
+    "post_frenz": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::post-frenz.post-frenz",
+      "inversedBy": "comments_frenzs"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "comments_frenzs"
+    },
+    "sub_frenz": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::sub-frenz.sub-frenz",
+      "inversedBy": "comments_frenzs"
+    }
+  }
+}

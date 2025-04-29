@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "sub_frenzs",
+  "collectionName": "post_frenzs",
   "info": {
-    "singularName": "sub-frenz",
-    "pluralName": "sub-frenzs",
-    "displayName": "SubFrenz",
+    "singularName": "post-frenz",
+    "pluralName": "post-frenzs",
+    "displayName": "PostFrenz",
     "description": ""
   },
   "options": {
@@ -17,33 +17,26 @@
     "description": {
       "type": "text"
     },
-    "image": {
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ],
-      "type": "media",
-      "multiple": true
-    },
     "users_permissions_user": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "sub_frenzs"
+      "inversedBy": "post_frenzs"
     },
-    "post_frenzs": {
+    "sub_frenz": {
       "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::post-frenz.post-frenz",
-      "mappedBy": "sub_frenz"
+      "relation": "manyToOne",
+      "target": "api::sub-frenz.sub-frenz",
+      "inversedBy": "post_frenzs"
     },
     "comments_frenzs": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::comments-frenz.comments-frenz",
-      "mappedBy": "sub_frenz"
+      "mappedBy": "post_frenz"
+    },
+    "image": {
+      "type": "text"
     }
   }
 }
