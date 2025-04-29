@@ -35,7 +35,7 @@ const handleSubmit = async (e) => {
         });
   
         if (response.status === 200) {
-          localStorage.setItem('token', response.data.jwt); // Stockez le token JWT
+          localStorage.setItem('token', response.data.jwt); 
           navigate('/');
         }
       } catch (err) {
@@ -56,7 +56,7 @@ const handleSubmit = async (e) => {
         <h2 className='text-lg font-bold mb-4'>Connexion</h2>
         <form onSubmit={handleSubmit}>
           <div className='mb-4'>
-            <label htmlFor="identifier" className='block text-gray-700'>Identifiant</label>
+            <label htmlFor="identifier" className='block text-gray-700'>Identifiant ou Email</label>
             <input type="text" id="identifier" name="identifier" placeholder='Identifiant' className='w-full px-3 py-2 border' onChange={handleChanges} required />
             {errors.identifier && <p className='text-red-500'>{errors.identifier}</p>}
           </div>
@@ -65,7 +65,7 @@ const handleSubmit = async (e) => {
             <input type="password" id="password" name="password" placeholder='Mot de passe' className='w-full px-3 py-2 border' onChange={handleChanges} required />
             {errors.password && <p className='text-red-500'>{errors.password}</p>}
           </div>
-          <button type='submit' className='w-full bg-green-600 text-white py-2'>Valider</button>
+          <button type='submit' className='w-full bg-green-600 text-white py-2'>Se connecter</button>
         </form>
         <div className='text-center'>
           <span>Pas de compte ? </span>

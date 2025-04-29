@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import LogoutButton from '../assets/LogoutButton.jsx'
 
 function Home() {
   const navigate = useNavigate()
@@ -8,7 +9,7 @@ function Home() {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        navigate('/login'); // Redirigez si aucun token n'est trouvé
+        navigate('/login'); 
         return;
       }
   
@@ -19,12 +20,12 @@ function Home() {
       });
   
       if (response.status === 200) {
-        console.log('Utilisateur connecté :', response.data); // Affichez les données de l'utilisateur
+        console.log('Utilisateur connecté :', response.data); 
       } else {
-        navigate('/login'); // Redirigez si le statut n'est pas 200
+        navigate('/login'); 
       }
     } catch (err) {
-      navigate('/login'); // Redirigez en cas d'erreur
+      navigate('/login'); 
       console.error('Erreur lors de la récupération de l\'utilisateur :', err);
     }
   };
@@ -35,8 +36,8 @@ function Home() {
   }, [])
 
   return (
-    <div className='text-3xl text-blue-500'>
-      Home
+    <div className='h-screen flex justify-center items-center w-full'>
+      <button type='submit'><LogoutButton /></button>
     </div>
   )
 }
