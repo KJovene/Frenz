@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import LogoutButton from '../assets/LogoutButton.jsx'
 
 function Home() {
@@ -38,6 +38,7 @@ function Home() {
   return (
     <div className='h-screen flex justify-center items-center w-full'>
       <button type='submit'><LogoutButton /></button>
+      <Link to="/addpost" className='bg-blue-500 text-white px-4 py-2'>Créer un post</Link>
     </div>
   )
 }

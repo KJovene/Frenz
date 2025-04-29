@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     port: 3030,
     proxy: {
-      '/api': 'http://localhost:1337', // tout ce qui commence par /api est redirigé vers Strapi
+      '/api': 'http://localhost:1337', 
     },
   },
   hmr: {
