@@ -18,6 +18,12 @@ const AddPost = ({ onPostCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Veuillez vous authentifier.');
+      return;
+    }
+
     try {
       let base64Image = null;
 
@@ -29,15 +35,20 @@ const AddPost = ({ onPostCreated }) => {
         data: {
           title,
           description,
-          image: base64Image, 
+          image: base64Image,
         },
       };
+
+      console.log('Post Data:', postData);
 
       const response = await axios.post('http://localhost:1337/api/post-frenzs', postData, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       });
+
+      console.log('Réponse du serveur :', response.data);
 
       setTitle('');
       setDescription('');
