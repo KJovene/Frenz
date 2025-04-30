@@ -47,7 +47,7 @@
 /* Styles personnalisés */
 @layer base {
   body {
-    @apply font-sans; /* Utilisez la police importée */
+    @apply font-sans bg-[#171717]; /* Couleur de fond par défaut */
     font-family: 'Baloo 2', sans-serif; /* Fallback direct en cas de problème avec Tailwind */
   }
   
@@ -70,6 +70,50 @@
            text-sm font-medium rounded-md shadow-sm 
            focus:outline-none focus:ring-2 focus:ring-offset-2;
   }
+  
+  /* Styles spécifiques pour Frenz */
+  .btn-accent {
+    @apply w-full bg-[#CCDF5E] text-black py-3 rounded-full font-bold text-lg hover:bg-opacity-90 transition duration-300 font-baloo;
+  }
+  
+  /* Style pour les inputs */
+  .input-dark {
+    @apply w-full px-4 py-3 rounded-lg bg-black text-white border-none focus:outline-none focus:ring-2 focus:ring-[#CCDF5E] font-baloo;
+  }
+  
+  /* Style pour les conteneurs */
+  .auth-container {
+    @apply flex justify-center items-center h-screen bg-[#171717];
+  }
+  
+  .auth-card {
+    @apply flex w-full max-w-5xl overflow-hidden rounded-xl;
+  }
+  
+  .image-section {
+    @apply relative w-1/2 hidden md:block;
+  }
+  
+  .form-section {
+    @apply w-full md:w-1/2 bg-[#272626] p-12 flex flex-col items-center justify-center rounded-r-xl;
+  }
+  
+  /* Style pour le champ téléphone */
+  .phone-input {
+    @apply flex;
+  }
+  
+  .phone-prefix {
+    @apply flex items-center justify-center bg-black text-white px-3 py-3 rounded-l-lg font-baloo;
+  }
+}
+
+/* Style pour les champs de saisie */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"] {
+  @apply bg-black text-white rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-[#CCDF5E] font-baloo;
 }
 
 /* Utilitaires supplémentaires */
