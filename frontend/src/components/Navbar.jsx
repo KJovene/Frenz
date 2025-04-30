@@ -13,15 +13,6 @@ const Navbar = ({ user, onLogout, darkMode, setDarkMode }) => {
             <span className="text-purple-500 mr-1">F</span>
             <span className={darkMode ? 'text-white' : 'text-gray-800'}>renz</span>
           </a>
-          
-          <div className={`relative ${isSearchOpen ? 'flex' : 'hidden md:flex'} items-center`}>
-            <input 
-              type="text" 
-              placeholder="Rechercher..." 
-              className={`px-4 py-2 pl-10 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 ${darkMode ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-800'} w-full`}
-            />
-            <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
-          </div>
         </div>
         
         {/* Right side actions */}

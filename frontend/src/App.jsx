@@ -13,8 +13,8 @@ import Homepage from "./components/features/Homepage";
 import SubredditPage from "./components/features/SubredditPage";
 import PostDetailPage from "./components/features/PostDetailPage";
 import CreatePostPage from "./components/features/CreatePostPage";
-import LoginPage from "./components/features/LoginPage";
-import RegisterPage from "./components/features/RegisterPage";
+import Login from "./pages/Login.jsx"
+import Register from "./pages/Register.jsx";
 import ProfilePage from "./components/features/ProfilePage";
 import SearchResultsPage from "./components/features/SearchResultsPage";
 import NotFoundPage from "./components/features/NotFoundPage";
@@ -103,8 +103,8 @@ function App() {
         
         <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/" element={<Homepage />} />
+            <Route path="/homeBD" element={<Home />} />
+            <Route path="/home" element={<Homepage />} />
             <Route path="/r/:subredditName" element={<SubredditPage />} />
             <Route path="/post/:postId" element={<PostDetailPage />} />
             
@@ -112,9 +112,9 @@ function App() {
             <Route 
               path="/create-post" 
               element={
-                <ProtectedRoute>
+                // <ProtectedRoute>
                   <CreatePostPage user={user} />
-                </ProtectedRoute>
+                // </ProtectedRoute>
               } 
             />
             <Route 
@@ -129,11 +129,11 @@ function App() {
             {/* Routes d'authentification */}
             <Route 
               path="/login" 
-              element={<LoginPage setUser={handleLogin} />} 
+              element={<Login />} 
             />
             <Route 
               path="/register" 
-              element={<RegisterPage setUser={handleLogin} />} 
+              element={<Register />} 
             />
 
             <Route path="/search" element={<SearchResultsPage />} />

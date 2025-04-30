@@ -87,7 +87,7 @@ const Homepage = () => {
     <div className="flex gap-6 max-w-7xl mx-auto px-4 py-8">
       {/* Left Sidebar */}
       <LeftSideBar />
-
+  
       {/* Main Content */}
       <div className="flex-1 max-w-2xl mx-auto w-full space-y-6 pb-20 md:pb-0">
         {/* Create Post Box */}
@@ -109,7 +109,7 @@ const Homepage = () => {
             </button>
           </div>
         </div>
-
+  
         {/* Posts Feed */}
         {posts.length === 0 ? (
           <div className="text-center p-10 bg-gray-800 rounded-xl border border-gray-700">
@@ -158,42 +158,11 @@ const Homepage = () => {
           </div>
         )}
       </div>
-
+  
       {/* Right Sidebar */}
       <RightSideBar />
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Accueil</h1>
-
-      {posts.length === 0 ? (
-        <div className="text-center text-gray-600">
-          Aucun post disponible
-        </div>
-      ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {posts.map((post) => (
-            <div 
-              key={post.id} 
-              className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow"
-            >
-              <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-              <p className="text-gray-600 line-clamp-3">{post.content}</p>
-              <div className="mt-2 flex justify-between items-center">
-                <span className="text-sm text-gray-500">
-                  {post.subreddit || 'Non classé'}
-                </span>
-                <a 
-                  href={`/post/${post.id}`} 
-                  className="text-orange-500 hover:underline"
-                >
-                  Lire plus
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
-};
+}
 
 export default Homepage;
