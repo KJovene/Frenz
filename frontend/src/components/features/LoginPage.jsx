@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import AuthLayout from "../layout/AuthLayout";
 
 const LoginPage = ({ setUser }) => {
   const navigate = useNavigate();

@@ -18,6 +18,8 @@ import RegisterPage from "./components/features/RegisterPage";
 import ProfilePage from "./components/features/ProfilePage";
 import SearchResultsPage from "./components/features/SearchResultsPage";
 import NotFoundPage from "./components/features/NotFoundPage";
+import Home from "../src/pages/Home.jsx";
+
 
 // Configuration d'Axios pour inclure le token
 const setupAxiosInterceptors = (token) => {
@@ -51,6 +53,7 @@ function App() {
         }
       } catch (error) {
         // Token invalide, déconnexion
+        console.error("Token invalide ou expiré", error.response?.data || error.message);
         handleLogout();
       } finally {
         setLoading(false);
@@ -88,6 +91,7 @@ function App() {
   };
 
   return (
+
     <Router
       future={{
         v7_startTransition: true,
@@ -99,6 +103,7 @@ function App() {
         
         <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <Routes>
+            <Route path="/home" element={<Home />} />
             <Route path="/" element={<Homepage />} />
             <Route path="/r/:subredditName" element={<SubredditPage />} />
             <Route path="/post/:postId" element={<PostDetailPage />} />
@@ -139,7 +144,6 @@ function App() {
         <footer className="footer p-10 bg-base-200 text-base-content">
           <div>
             <span className="footer-title">© {new Date().getFullYear()} CloneReddit</span>
-            <p>Projet éducatif</p>
           </div>
         </footer>
       </div>
@@ -148,3 +152,4 @@ function App() {
 }
 
 export default App;
+

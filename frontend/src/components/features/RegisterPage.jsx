@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AuthLayout from "../layout/AuthLayout";
 
 const RegisterPage = ({ setUser }) => {
   const navigate = useNavigate();
@@ -24,7 +25,6 @@ const RegisterPage = ({ setUser }) => {
       setError("Les mots de passe ne correspondent pas");
       return;
     }
-    
     if (password.length < 6) {
       setError("Le mot de passe doit contenir au moins 6 caractères");
       return;

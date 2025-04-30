@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LeftSideBar from '../../components/LeftSideBar';
 import RightSideBar from '../../components/RightSidebar'; 
 import { Heart, MessageCircle, Share2, Bookmark } from 'lucide-react';
+import axios from 'axios';
 
 const Homepage = () => {
   const [posts, setPosts] = useState([]);
@@ -69,6 +70,7 @@ const Homepage = () => {
       <div className="flex gap-6 max-w-7xl mx-auto px-4 py-8 bg-gray-900">
 
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+
       </div>
     );
   }
@@ -159,6 +161,37 @@ const Homepage = () => {
 
       {/* Right Sidebar */}
       <RightSideBar />
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-6">Accueil</h1>
+
+      {posts.length === 0 ? (
+        <div className="text-center text-gray-600">
+          Aucun post disponible
+        </div>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((post) => (
+            <div 
+              key={post.id} 
+              className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow"
+            >
+              <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
+              <p className="text-gray-600 line-clamp-3">{post.content}</p>
+              <div className="mt-2 flex justify-between items-center">
+                <span className="text-sm text-gray-500">
+                  {post.subreddit || 'Non classé'}
+                </span>
+                <a 
+                  href={`/post/${post.id}`} 
+                  className="text-orange-500 hover:underline"
+                >
+                  Lire plus
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

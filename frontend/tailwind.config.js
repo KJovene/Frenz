@@ -4,20 +4,20 @@ import daisyui from 'daisyui'
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {
       colors: {
-        'brand-primary': '#6B46C1',
+        'brand-primary': '#6B46C1', // Exemple de couleur personnalisée
         'brand-secondary': '#ED64A6',
         'brand-background': '#F7FAFC',
       }
-    },
+    }
   },
-  plugins: [daisyui],
+  plugins: [require("daisyui")],
   daisyui: {
-    themes: ["dark"],      // فقط تم تاریک فعال است
+    themes: ["light", "dark"],
     darkTheme: "dark",
     base: true,
     styled: true,
@@ -26,3 +26,4 @@ export default {
     rtl: false,
   },
 }
+

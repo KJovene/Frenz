@@ -1,11 +1,54 @@
+@plugin "daisyui";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Importation des polices Baloo 2 */
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('./assets/fonts/Baloo2-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('./assets/fonts/Baloo2-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('./assets/fonts/Baloo2-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('./assets/fonts/Baloo2-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('./assets/fonts/Baloo2-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* Styles personnalisés */
 @layer base {
   body {
     @apply font-sans; /* Utilisez la police importée */
+    font-family: 'Baloo 2', sans-serif; /* Fallback direct en cas de problème avec Tailwind */
   }
   
   h1 {
@@ -35,4 +78,9 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Classe de secours pour la police Baloo 2 */
+.font-baloo {
+  font-family: 'Baloo 2', sans-serif !important;
 }
