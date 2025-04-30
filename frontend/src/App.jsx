@@ -20,6 +20,7 @@ import SearchResultsPage from "./components/features/SearchResultsPage";
 import NotFoundPage from "./components/features/NotFoundPage";
 import Home from "../src/pages/Home.jsx";
 
+
 // Configuration d'Axios pour inclure le token
 const setupAxiosInterceptors = (token) => {
   axios.interceptors.request.use(
@@ -151,3 +152,4 @@ function App() {
 }
 
 export default App;
+

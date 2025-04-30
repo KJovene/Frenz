@@ -14,7 +14,6 @@
     "@liveblocks/client": "^2.1.0",
     "@liveblocks/react": "^2.1.0",
     "lucide-react": "^0.503.0",
-
     "axios": "^1.9.0",
     "dotenv": "^16.5.0",
     "react": "^19.0.0",
