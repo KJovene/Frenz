@@ -18,8 +18,6 @@ import Register from "./pages/Register.jsx";
 import ProfilePage from "./components/features/ProfilePage";
 import SearchResultsPage from "./components/features/SearchResultsPage";
 import NotFoundPage from "./components/features/NotFoundPage";
-import Home from "../src/pages/Home.jsx";
-
 
 // Configuration d'Axios pour inclure le token
 const setupAxiosInterceptors = (token) => {
@@ -103,8 +101,7 @@ function App() {
         
         <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <Routes>
-            <Route path="/homeBD" element={<Home />} />
-            <Route path="/home" element={<Homepage />} />
+            <Route path="/" element={<Homepage />} />
             <Route path="/r/:subredditName" element={<SubredditPage />} />
             <Route path="/post/:postId" element={<PostDetailPage />} />
             
