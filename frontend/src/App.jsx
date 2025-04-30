@@ -109,9 +109,7 @@ function App() {
             <Route 
               path="/create-post" 
               element={
-                // <ProtectedRoute>
                   <CreatePostPage user={user} />
-                // </ProtectedRoute>
               } 
             />
             <Route 
