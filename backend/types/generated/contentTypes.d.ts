@@ -406,9 +406,104 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCommentsFrenzCommentsFrenz
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'comments_frenzs';
+  info: {
+    displayName: 'CommentsFrenz';
+    pluralName: 'comments-frenzs';
+    singularName: 'comments-frenz';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    commentaire: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::comments-frenz.comments-frenz'
+    > &
+      Schema.Attribute.Private;
+    post_frenz: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::post-frenz.post-frenz'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    strapi_assignee: Schema.Attribute.Relation<'oneToOne', 'admin::user'>;
+    strapi_stage: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::review-workflows.workflow-stage'
+    >;
+    sub_frenz: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::sub-frenz.sub-frenz'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
+export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
+  collectionName: 'post_frenzs';
+  info: {
+    description: '';
+    displayName: 'PostFrenz';
+    pluralName: 'post-frenzs';
+    singularName: 'post-frenz';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    comments_frenzs: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::comments-frenz.comments-frenz'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    image: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::post-frenz.post-frenz'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    strapi_assignee: Schema.Attribute.Relation<'oneToOne', 'admin::user'>;
+    strapi_stage: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::review-workflows.workflow-stage'
+    >;
+    sub_frenz: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::sub-frenz.sub-frenz'
+    >;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiSubFrenzSubFrenz extends Struct.CollectionTypeSchema {
   collectionName: 'sub_frenzs';
   info: {
+    description: '';
     displayName: 'SubFrenz';
     pluralName: 'sub-frenzs';
     singularName: 'sub-frenz';
@@ -417,15 +512,28 @@ export interface ApiSubFrenzSubFrenz extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    comments_frenzs: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::comments-frenz.comments-frenz'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::sub-frenz.sub-frenz'
     > &
       Schema.Attribute.Private;
+    post_frenzs: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::post-frenz.post-frenz'
+    >;
     publishedAt: Schema.Attribute.DateTime;
     strapi_assignee: Schema.Attribute.Relation<'oneToOne', 'admin::user'>;
     strapi_stage: Schema.Attribute.Relation<
@@ -436,6 +544,10 @@ export interface ApiSubFrenzSubFrenz extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -898,6 +1010,10 @@ export interface PluginUsersPermissionsUser
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    comments_frenzs: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::comments-frenz.comments-frenz'
+    >;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
@@ -919,6 +1035,10 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    post_frenzs: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::post-frenz.post-frenz'
+    >;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
@@ -930,6 +1050,10 @@ export interface PluginUsersPermissionsUser
     strapi_stage: Schema.Attribute.Relation<
       'oneToOne',
       'plugin::review-workflows.workflow-stage'
+    >;
+    sub_frenzs: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::sub-frenz.sub-frenz'
     >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -954,6 +1078,8 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::comments-frenz.comments-frenz': ApiCommentsFrenzCommentsFrenz;
+      'api::post-frenz.post-frenz': ApiPostFrenzPostFrenz;
       'api::sub-frenz.sub-frenz': ApiSubFrenzSubFrenz;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

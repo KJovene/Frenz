@@ -87,7 +87,9 @@ function App() {
     return user ? children : <Navigate to="/login" replace />;
   };
 
+export default function App() {
   return (
+
     <Router
       future={{
         v7_startTransition: true,
