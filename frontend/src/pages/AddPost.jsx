@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AddPost = ({ onPostCreated }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
+  const navigate = useNavigate();
 
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -32,7 +34,7 @@ const AddPost = ({ onPostCreated }) => {
           image: base64Image, 
         },
       };
-
+      navigate('/')
       const response = await axios.post('http://localhost:1337/api/post-frenzs', postData, {
         headers: {
           'Content-Type': 'application/json',

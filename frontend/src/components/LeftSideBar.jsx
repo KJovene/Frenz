@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Bell, MessageSquare, User, Settings, LogOut } from 'lucide-react';
+import { Home, Bell, MessageSquare, User, Settings} from 'lucide-react';
 
 const LeftSidebar = () => {
   const menuItems = [
@@ -30,16 +30,6 @@ const LeftSidebar = () => {
                 </span>
               </a>
             ))}
-            <div className="mt-6 border-t border-gray-700 pt-4 w-full">
-              <button className="flex items-center gap-3 p-3 rounded-lg transition-all hover:bg-red-600 w-full group">
-                <div className="text-gray-400 group-hover:text-white">
-                  <LogOut size={22} />
-                </div>
-                <span className="hidden lg:block text-gray-200 group-hover:text-white font-medium">
-                  Déconnexion
-                </span>
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -48,11 +38,7 @@ const LeftSidebar = () => {
       <div className="fixed bottom-0 left-0 right-0 md:hidden bg-gray-800 border-t border-gray-700 z-40">
         <div className="flex justify-around py-2">
           {menuItems.slice(0, 5).map((item, index) => (
-            <a 
-              key={index} 
-              href={item.to} 
-              className="p-3 text-gray-400 hover:text-purple-500"
-            >
+            <a key={index} href={item.to} className="p-3 text-gray-400 hover:text-purple-500">
               {item.icon}
             </a>
           ))}

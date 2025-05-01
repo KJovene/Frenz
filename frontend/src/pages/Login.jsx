@@ -5,8 +5,6 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Validation from '../assets/LoginValidation.jsx'
 
-const API_TOKEN = import.meta.env.VITE_API_TOKEN;
-
 function Login() {
   const [values, setValues] = useState({
     identifier: '',

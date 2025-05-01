@@ -1,9 +1,10 @@
 import React from 'react'
-
+import { useNavigate } from 'react-router-dom';
 function LogoutButton() {
+  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem('token'); 
-    window.location.href = '/login'; 
+    navigate('/login'); 
   };
   return (
     <>

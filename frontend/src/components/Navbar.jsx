@@ -1,43 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
+import React from 'react';
 import LogoutButton from './LogoutButton';
-import { useUser } from '../assets/UserContext';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ darkMode, setDarkMode }) => {
-  const { user, setUser } = useUser(); // Utilisez le contexte utilisateur
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token && !user) {
-      // Simulez une requête pour récupérer les informations utilisateur
-      setUser({
-        name: 'John Doe',
-        avatar: 'https://via.placeholder.com/150',
-      });
-    }
-  }, [user, setUser]);
+  
 
   return (
     <div className={`sticky top-0 z-50 ${darkMode ? 'bg-gray-800' : 'bg-white'} border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} px-4 py-2 backdrop-blur bg-opacity-90`}>
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
-          <a href="/" className="font-bold text-xl mr-4 flex items-center">
+          <Link to="/" className="font-bold text-xl mr-4 flex items-center">
             <span className="text-purple-500 mr-1">F</span>
             <span className={darkMode ? 'text-white' : 'text-gray-800'}>renz</span>
-          </a>
+          </Link>
         </div>
 
         {/* Right side actions */}
-        <div className="flex items-center space-x-2">
-          {/* Mobile search toggle */}
-          <button
-            onClick={() => setIsSearchOpen(!isSearchOpen)}
-            className="md:hidden btn btn-circle btn-ghost"
-          >
-            <Search size={20} />
-          </button>
+        <div className="flex items-center space-x-2">          
 
           {/* Theme toggle button */}
           <button
@@ -55,8 +36,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             )}
           </button>
 
-          {/* User profile or login buttons */}
-          {user ? (
+         
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -64,7 +44,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                 className="btn btn-ghost btn-circle avatar ring-2 ring-purple-500 ring-offset-2 ring-offset-base-100"
               >
                 <div className="w-10 rounded-full">
-                  <img alt="Avatar utilisateur" src={user.avatar} />
+                  <img alt="Avatar utilisateur" src="" />
                 </div>
               </div>
               <ul
@@ -82,28 +62,13 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                   </a>
                 </li>
                 <li>
-                  <button className="text-red-500">
+                  <div>
                     <LogoutButton />
-                  </button>
+                  </div>
                 </li>
               </ul>
             </div>
-          ) : (
-            <div className="flex gap-2">
-              <a
-                href="/login"
-                className={`btn btn-sm btn-outline ${darkMode ? 'text-white border-white hover:bg-gray-700' : 'text-gray-800 border-gray-800 hover:bg-gray-100'}`}
-              >
-                Connexion
-              </a>
-              <a
-                href="/register"
-                className="btn btn-sm bg-purple-600 hover:bg-purple-700 border-none text-white"
-              >
-                Inscription
-              </a>
-            </div>
-          )}
+          
         </div>
       </div>
     </div>
