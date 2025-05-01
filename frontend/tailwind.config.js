@@ -9,9 +9,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        'brand-primary': '#6B46C1', // Exemple de couleur personnalisée
+        // Couleurs existantes
+        'brand-primary': '#6B46C1',
         'brand-secondary': '#ED64A6',
         'brand-background': '#F7FAFC',
+        
+        // Couleurs pour Frenz
+        'accent': '#CCDF5E',
+        'bg-dark': '#171717',
+        'container-dark': '#272626',
+        'text-light': '#FFFFFF',
+      },
+      fontFamily: {
+        'baloo': ['Baloo 2', 'sans-serif'],
+      },
+      borderRadius: {
+        'xl': '0.75rem',
       }
     }
   },
@@ -26,4 +39,3 @@ export default {
     rtl: false,
   },
 }
-
