@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 import LeftSideBar from '../../components/LeftSideBar';
 import RightSideBar from '../../components/RightSidebar';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import Comments from '../../components/Comments.jsx';
 
 const Homepage = () => {

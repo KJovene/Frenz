@@ -11,6 +11,7 @@ import Footer from "./components/Footer.jsx";
 function App() {
   const location = useLocation();
   const hideNavbar = location.pathname === "/login" || location.pathname === "/register";
+  const hideFooter = location.pathname === "/login" || location.pathname === "/register";
 
   return (
     <div className="min-h-screen bg-base-100">
@@ -25,7 +26,7 @@ function App() {
         </Routes>
       </main>
       <footer>
-        <Footer />
+        {!hideFooter && <Footer />}
       </footer>
     </div>
   );
