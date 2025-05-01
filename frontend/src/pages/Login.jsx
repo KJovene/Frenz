@@ -5,8 +5,6 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Validation from '../assets/LoginValidation.jsx'
 
-const API_TOKEN = import.meta.env.VITE_API_TOKEN;
-
 function Login() {
   const [values, setValues] = useState({
     identifier: '',
@@ -36,7 +34,7 @@ const handleSubmit = async (e) => {
   
         if (response.status === 200) {
           localStorage.setItem('token', response.data.jwt); 
-          navigate('/home');
+          navigate('/');
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {

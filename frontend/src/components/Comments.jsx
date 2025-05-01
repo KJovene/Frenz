@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-function Comments({id}) {
+function Comments({id, onCommentAdded}) {
   const [commentaire, setCommentaire] = useState("");
 
   const handleSubmit = async (e) => {
@@ -33,7 +33,9 @@ function Comments({id}) {
       console.log('Réponse du serveur :', response.data);
 
       setCommentaire('');
-
+      if (onCommentAdded) {
+        onCommentAdded(response.data.data);
+      }
     } catch (error) {
       console.error('Erreur lors de la création du commentaire :', error.response?.data || error.message);
     }

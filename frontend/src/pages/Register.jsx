@@ -33,8 +33,9 @@ function Register() {
           email: values.email,
           password: values.password
         })
-        if(response.status === 201) {
-          navigate('/login')
+        if (response.status === 200) {
+          localStorage.setItem('token', response.data.jwt); 
+          navigate('/');
         }
       } catch (err) {
         if (err.response && err.response.status === 409) {
@@ -175,7 +176,7 @@ function Register() {
                 onClick={handleSubmit}
                 className="w-full py-3 bg-[#CCDF5E] text-black font-medium rounded-full hover:bg-opacity-90 transition-colors font-baloo"
               >
-                Sign Up
+                S'inscrire
               </button>
             </div>
           </div>
