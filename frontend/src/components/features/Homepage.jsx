@@ -82,10 +82,6 @@ const Homepage = () => {
       <LeftSideBar />
 
       <div className='h-screen flex flex-col items-center w-full'>
-      <button type='submit' className='mb-4'>
-        <LogoutButton />
-      </button>
-      <Link to="/addpost" className='bg-blue-500 text-white px-4 py-2'>Créer un post</Link>
       <h1 className='text-2xl font-bold mb-4'>Liste des Posts</h1>
       <div className='w-3/4'>
         {posts.length > 0 ? (

@@ -36,7 +36,7 @@ const handleSubmit = async (e) => {
   
         if (response.status === 200) {
           localStorage.setItem('token', response.data.jwt); 
-          navigate('/home');
+          navigate('/');
         }
       } catch (err) {
         if (err.response && err.response.status === 400) {
