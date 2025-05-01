@@ -47,14 +47,15 @@ function Register() {
   }
 
   return (
-    <div className='flex justify-center items-center h-screen bg-[#171717]'>
-      <div className='flex w-full max-w-5xl overflow-hidden rounded-xl'>
+    <div className='fixed inset-0 flex justify-center items-center bg-[#171717] overflow-hidden'>
+      <div className='fixed inset-0 bg-[#171717]'></div>
+      <div className='flex w-11/12 md:w-10/12 lg:w-9/12 xl:w-8/12 max-w-5xl rounded-xl shadow-2xl relative z-10'>
         {/* Image Section */}
         <div className='relative w-1/2 hidden md:block'>
           <img 
             src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&q=80&w=2073" 
             alt="Nature explorer" 
-            className='h-full w-full object-cover'
+            className='h-full w-full object-cover rounded-l-xl'
           />
           <div className='absolute bottom-0 left-0 p-12 text-white'>
             <h2 className='text-5xl font-bold mb-2 font-baloo'>Just post it !</h2>
@@ -63,10 +64,10 @@ function Register() {
         </div>
 
         {/* Form Section */}
-        <div className='w-full md:w-1/2 bg-[#272626] p-12 flex flex-col items-center justify-center rounded-r-xl'>
-          <h1 className='text-4xl font-bold text-white mb-8 text-center font-baloo'>Frenz</h1>
+        <div className='w-full md:w-1/2 bg-[#272626] p-8 flex flex-col items-center justify-center rounded-xl md:rounded-l-none md:rounded-r-xl'>
+          <h1 className='text-4xl font-bold text-white mb-6 text-center font-baloo'>Frenz</h1>
           
-          <div className='flex justify-center mb-8 space-x-6'>
+          <div className='flex justify-center mb-6 space-x-6'>
             {/* Facebook Icon*/}
             <a href="#" className='text-white'>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,16 +93,16 @@ function Register() {
             </a>
           </div>
           
-          <p className='text-white text-center mb-8 font-baloo'>Ou alors avec ton email !</p>
+          <p className='text-white text-center mb-6 font-baloo'>Ou alors avec ton email !</p>
           
-          <div className="space-y-4 px-4 w-full">
+          <div className="space-y-3 w-full px-4">
             {Object.keys(errors).length > 0 && (
               <div className="bg-red-500 bg-opacity-10 text-red-500 p-3 rounded-lg text-sm mx-auto max-w-xs font-baloo">
                 {errors.username || errors.email || errors.password || errors.confirmPassword}
               </div>
             )}
             
-            <div className="mx-auto max-w-xs">
+            <div className="mx-auto max-w-xs w-full">
               <input 
                 type="text" 
                 id="username" 
@@ -114,7 +115,7 @@ function Register() {
               />
             </div>
             
-            <div className="mx-auto max-w-xs">
+            <div className="mx-auto max-w-xs w-full">
               <input 
                 type="email" 
                 id="email" 
@@ -127,7 +128,7 @@ function Register() {
               />
             </div>
             
-            <div className="mx-auto max-w-xs">
+            <div className="mx-auto max-w-xs w-full">
               <input 
                 type="password" 
                 id="password" 
@@ -140,7 +141,7 @@ function Register() {
               />
             </div>
             
-            <div className="mx-auto max-w-xs">
+            <div className="mx-auto max-w-xs w-full">
               <input 
                 type="password" 
                 id="confirmPassword" 
@@ -153,25 +154,7 @@ function Register() {
               />
             </div>
             
-            <div className="mx-auto max-w-xs">
-              <div className="flex w-full bg-black rounded-lg">
-                <div className="flex items-center px-4">
-                  <span className="mr-1 text-xs">🇫🇷</span>
-                  <span className="text-white font-baloo">+33</span>
-                </div>
-                <input 
-                  type="tel" 
-                  id="phone" 
-                  name="phone"
-                  value={values.phone}
-                  onChange={handleChanges}
-                  placeholder="Numéro de téléphone" 
-                  className="w-full p-3 bg-black text-white outline-none font-baloo"
-                />
-              </div>
-            </div>
-            
-            <div className="mx-auto max-w-xs">
+            <div className="mx-auto max-w-xs w-full mt-4">
               <button 
                 onClick={handleSubmit}
                 className="w-full py-3 bg-[#CCDF5E] text-black font-medium rounded-full hover:bg-opacity-90 transition-colors font-baloo"
@@ -181,7 +164,7 @@ function Register() {
             </div>
           </div>
           
-          <div className='text-center mt-8'>
+          <div className='text-center mt-6 w-full'>
             <p className='text-white font-baloo'>Compte existant?</p>
             <Link to='/login' className='text-white hover:underline mt-1 inline-block font-baloo'>
               C'est par ici !
