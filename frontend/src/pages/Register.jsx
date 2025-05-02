@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import { useState } from 'react';
 import axios from 'axios'
@@ -11,19 +11,30 @@ function Register() {
     email: '',
     password: '',
     confirmPassword: '',
-    phone: ''
   })
   const navigate = useNavigate()
-
+  const [users, setUsers] = useState([])
   const [errors, setErrors] = useState({})
 
   const handleChanges = (e) => {
     setValues ({...values, [e.target.name]: e.target.value})
   }
 
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get('http://localhost:1337/api/users');
+      const usersData = response.data; 
+      const usernames = usersData.map((user) => user.username)
+      setUsers(usernames)
+    } catch (err) {
+      console.error('Erreur lors de la récupération des utilisateurs :', err);
+    }
+  };
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const validationErrors = Validation(values)
+    const validationErrors = Validation(values,users)
     setErrors(validationErrors)
     
     if(Object.keys(validationErrors).length === 0) {
@@ -45,7 +56,9 @@ function Register() {
       }
     }
   }
-
+  useEffect(() => {
+    fetchUser();
+  })
   return (
     <div className='flex justify-center items-center h-screen bg-[#171717]'>
       <div className='flex w-full max-w-5xl overflow-hidden rounded-xl'>
