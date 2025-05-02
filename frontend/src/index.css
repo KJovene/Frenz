@@ -47,8 +47,8 @@
 /* Styles personnalisés */
 @layer base {
   body {
-    @apply font-sans bg-[#171717]; /* Couleur de fond par défaut */
-    font-family: 'Baloo 2', sans-serif; /* Fallback direct en cas de problème avec Tailwind */
+    @apply font-sans bg-[#171717]; 
+    font-family: 'Baloo 2', sans-serif; 
   }
   
   h1 {
@@ -123,7 +123,76 @@ input[type="tel"] {
   overflow: hidden;
 }
 
-
 .font-baloo {
   font-family: 'Baloo 2', sans-serif !important;
+}
+
+/* Adapté tout taille */
+.auth-fixed-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #171717;
+  overflow: hidden;
+}
+
+.auth-wrapper {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  border-radius: 0.75rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.auth-form-container {
+  width: 100%;
+  background-color: #272626;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .auth-form-container {
+    width: 50%;
+    border-radius: 0 0.75rem 0.75rem 0;
+  }
+}
+
+/* Adaptation pour différentes tailles d'écran */
+@media (min-height: 1000px) {
+  .auth-wrapper {
+    height: auto;
+    max-height: 90vh;
+  }
+}
+
+@media (max-height: 800px) {
+  .auth-form-container {
+    padding: 1.5rem;
+  }
+  
+  .space-y-4 > * + * {
+    margin-top: 0.75rem;
+  }
+  
+  .space-y-3 > * + * {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-height: 600px) {
+  .auth-form-container {
+    padding: 1rem;
+    overflow-y: auto;
+  }
 }
