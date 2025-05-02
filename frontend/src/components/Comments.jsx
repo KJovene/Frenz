@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+
 function Comments({id, onCommentAdded}) {
   const [commentaire, setCommentaire] = useState("");
 
@@ -13,7 +14,6 @@ function Comments({id, onCommentAdded}) {
     }
 
     try {
-      
 
       console.log(id)
       const postData = {

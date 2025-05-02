@@ -44,7 +44,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                 className="btn btn-ghost btn-circle avatar ring-2 ring-purple-500 ring-offset-2 ring-offset-base-100"
               >
                 <div className="w-10 rounded-full">
-                  <img alt="Avatar utilisateur" src="" />
+                  <img alt="Avatar utilisateur" />
                 </div>
               </div>
               <ul
