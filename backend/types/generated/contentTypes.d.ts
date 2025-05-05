@@ -410,6 +410,36 @@ export interface ApiCommentsFrenzCommentsFrenz
   };
 }
 
+export interface ApiImageImage extends Struct.CollectionTypeSchema {
+  collectionName: 'images';
+  info: {
+    description: '';
+    displayName: 'image';
+    pluralName: 'images';
+    singularName: 'image';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::image.image'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    titre: Schema.Attribute.Text;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
   collectionName: 'post_frenzs';
   info: {
@@ -1021,6 +1051,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::comments-frenz.comments-frenz': ApiCommentsFrenzCommentsFrenz;
+      'api::image.image': ApiImageImage;
       'api::post-frenz.post-frenz': ApiPostFrenzPostFrenz;
       'api::sub-frenz.sub-frenz': ApiSubFrenzSubFrenz;
       'plugin::content-releases.release': PluginContentReleasesRelease;
