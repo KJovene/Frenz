@@ -11,27 +11,31 @@ const AddPost = ({ onPostCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim() ) {
+    if (!title.trim()) {
       console.error('Le titre est manquant.');
       return;
     }
-
+  
     try {
       setLoading(true);
-
-      const formData = new FormData();
-      formData.append('files', image);
-
-      const imageUploadResponse = await axios.post('http://localhost:1337/api/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-
-      const uploadedImage = imageUploadResponse.data[0]; 
-      const imageId = uploadedImage?.id;
-
+  
+      let imageId = null;
+  
+      if (image) {
+        const formData = new FormData();
+        formData.append('files', image);
+  
+        const imageUploadResponse = await axios.post('http://localhost:1337/api/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+  
+        const uploadedImage = imageUploadResponse.data[0];
+        imageId = uploadedImage?.id;
+      }
+  
       const postData = {
         data: {
           title,
@@ -39,18 +43,18 @@ const AddPost = ({ onPostCreated }) => {
           image: imageId, 
         },
       };
-
+  
       const postResponse = await axios.post('http://localhost:1337/api/post-frenzs', postData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
+  
       setTitle('');
       setDescription('');
       setImage(null);
-
+  
       if (onPostCreated) {
         onPostCreated(postResponse.data);
       }

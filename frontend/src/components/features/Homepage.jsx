@@ -146,9 +146,9 @@ const Homepage = () => {
                       className="w-full h-auto mt-4 rounded-lg"
                     />
                   ))
-                ) : (
-                  <p className="text-gray-500">Aucune image disponible pour ce post.</p>
-                )}
+                ): (
+                  <></>
+                )} 
 
                 <p className='py-2'>{post.description || post.content}</p>
 
