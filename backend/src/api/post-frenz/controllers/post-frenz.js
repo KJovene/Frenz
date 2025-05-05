@@ -4,9 +4,10 @@
  * post-frenz controller
  */
 
-import { factories } from '@strapi/strapi';
 
-export default factories.createCoreController('api::post-frenz.post-frenz', ({ strapi }) => ({
+const { createCoreController } = require('@strapi/strapi').factories;
+
+module.exports = createCoreController('api::post-frenz.post-frenz', ({ strapi }) => ({
   async create(ctx) {
     if (!ctx.state.user) {
       return ctx.unauthorized('Vous n\'êtes pas connecté.');
@@ -21,8 +22,10 @@ export default factories.createCoreController('api::post-frenz.post-frenz', ({ s
     const postId = ctx.params.id; // ID du post à supprimer
 
     // Récupérer le post avec son ID
-    const post = await strapi.entityService.findOne('api::post-frenz.post-frenz', postId, { populate: '*' });
-
+    const post = await strapi.entityService.findOne('api::post-frenz.post-frenz', postId, { populate: 'author' });    
+    console.log('postId', postId)
+    console.log('userId', userId)
+    console.log('post', post)
     // Vérifier si le post existe
     if (!post) {
       return ctx.notFound('Post pas trouvé');
@@ -34,6 +37,6 @@ export default factories.createCoreController('api::post-frenz.post-frenz', ({ s
     }
 
     // Supprimer le post
-    return await super.delete(ctx);
+    return await strapi.entityService.delete('api::post-frenz.post-frenz', postId);
   }
 }));

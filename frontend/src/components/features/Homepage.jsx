@@ -68,6 +68,7 @@ const Homepage = () => {
   const handleDeletePost = async (postId) => {
     try {
       const token = localStorage.getItem('token');
+      console.log('id',postId)
       const response = await axios.delete(`http://localhost:1337/api/post-frenzs/${postId}`, {
         headers: {
           Authorization: `Bearer ${token}`,

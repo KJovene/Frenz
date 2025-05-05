@@ -31,13 +31,16 @@ const AddPost = ({ onPostCreated }) => {
         data: {
           title,
           description,
-          image: base64Image, 
+          image: base64Image,
         },
       };
+
+      const token = localStorage.getItem('token');
       navigate('/')
       const response = await axios.post('http://localhost:1337/api/post-frenzs', postData, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
         },
       });
 
