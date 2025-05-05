@@ -34,20 +34,20 @@ const Homepage = () => {
   const fetchPost = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:1337/api/post-frenzs', {
+      const response = await axios.get('http://localhost:1337/api/post-frenzs?populate=image', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (response.status === 200) {
-        setPosts(response.data.data); 
+        setPosts(response.data.data);
       }
     } catch (error) {
       console.error('Erreur lors de la récupération des posts :', error);
     }
   };
-
+  console.log('posts', posts);
   const fetchComments = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -81,13 +81,25 @@ const Homepage = () => {
       <LeftSideBar />
 
       <div className='h-screen flex flex-col items-center w-full'>
-        <h1 className='text-2xl font-bold mb-4'>Liste des Posts</h1>
         <div className='w-3/4'>
           {posts.length > 0 ? (
             [...posts].reverse().map((post) => (
               <div key={post.id} className='border p-4 mb-4 shadow'>
                 <h2 className='text-xl font-semibold'>{post.title || post.title_frenz}</h2>
                 <p>{post.description || post.content}</p>
+
+                {post.image?.length > 0 ? (
+                  post.image.map((img) => (
+                    <img
+                      key={img.id}
+                      src={`http://localhost:1337${img.url}`}
+                      alt={img.alternativeText || post.title || 'Image du post'}
+                      className="w-full h-auto mt-4 rounded-lg"
+                    />
+                  ))
+                ) : (
+                  <p className="text-gray-500">Aucune image disponible pour ce post.</p>
+                )}
 
                 <div className='mt-4'>
                   <h3 className='text-lg font-bold'>Commentaires :</h3>

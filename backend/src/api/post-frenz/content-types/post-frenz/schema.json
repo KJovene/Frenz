@@ -17,7 +17,7 @@
     "description": {
       "type": "text"
     },
-    "users_permissions_user": {
+    "author": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
@@ -35,8 +35,21 @@
       "target": "api::comments-frenz.comments-frenz",
       "mappedBy": "post_frenz"
     },
+    "images": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::image.image",
+      "mappedBy": "post_frenz"
+    },
     "image": {
-      "type": "text"
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }
