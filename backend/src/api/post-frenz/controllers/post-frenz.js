@@ -4,11 +4,12 @@
  * post-frenz controller
  */
 
-import { factories } from '@strapi/strapi';
+const { createCoreController } = require('@strapi/strapi').factories;
 
-export default factories.createCoreController('api::post-frenz.post-frenz', ({ strapi }) => ({
+module.exports = createCoreController('api::post-frenz.post-frenz', ({ strapi }) => ({
   async create(ctx) {
     if (!ctx.state.user) {
+      console.log('Utilisateur non connecté', ctx.state.user);
       return ctx.unauthorized('Vous n\'êtes pas connecté.');
     }
     const userId = ctx.state.user.id;
