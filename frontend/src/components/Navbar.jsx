@@ -35,7 +35,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             className="absolute left-0 top-full mt-4 w-80 max-h-[85vh] bg-base-100 shadow-xl rounded-xl overflow-hidden z-50 border border-base-300 animate-fadeIn"
             onMouseLeave={() => setMenuOpen(false)}
           >
-            <div className="bg-base-100 border-b border-base-300 p-4">
+            <div className="bg-base-100 border-b border-base-100 p-4">
               <h2 className="text-xl font-semibold text-base-content flex items-center gap-2">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" />
@@ -56,9 +56,9 @@ const Navbar = ({ darkMode, setDarkMode }) => {
                 <a
                   href="http://localhost:3030/login"
                   onClick={() => setMenuOpen(false)}
-                  className="btn btn-outline w-full text-lime-border border-lime-border hover:text-lime-border hover:border-lime-border hover:bg-lime-border/10 flex items-center justify-center"
+                  className="btn btn-outline w-full hover:text-lime-border hover:border-lime-border hover:bg-lime-border/10 flex items-center justify-center"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 stroke-lime-border" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
                   Logout
