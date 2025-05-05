@@ -4,7 +4,8 @@
   "info": {
     "singularName": "comments-frenz",
     "pluralName": "comments-frenzs",
-    "displayName": "CommentsFrenz"
+    "displayName": "CommentsFrenz",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -19,7 +20,7 @@
       "target": "api::post-frenz.post-frenz",
       "inversedBy": "comments_frenzs"
     },
-    "users_permissions_user": {
+    "author": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",

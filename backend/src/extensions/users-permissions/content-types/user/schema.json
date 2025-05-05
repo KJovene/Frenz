@@ -71,16 +71,16 @@
       "target": "api::sub-frenz.sub-frenz",
       "mappedBy": "users_permissions_user"
     },
-    "comments_frenzs": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::comments-frenz.comments-frenz",
-      "mappedBy": "users_permissions_user"
-    },
     "post_frenzs": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::post-frenz.post-frenz",
+      "mappedBy": "author"
+    },
+    "comments_frenzs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comments-frenz.comments-frenz",
       "mappedBy": "author"
     }
   }
