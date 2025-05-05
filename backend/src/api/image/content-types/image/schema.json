@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "images",
+  "info": {
+    "singularName": "image",
+    "pluralName": "images",
+    "displayName": "image"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "titre": {
+      "type": "text"
+    },
+    "post_frenz": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::post-frenz.post-frenz",
+      "inversedBy": "images"
+    }
+  }
+}
