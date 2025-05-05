@@ -22,10 +22,6 @@
         "audios"
       ]
     },
-      ],
-      "type": "media",
-      "multiple": true
-    },
     "titre": {
       "type": "text"
     },
