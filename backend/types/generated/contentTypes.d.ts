@@ -432,6 +432,10 @@ export interface ApiImageImage extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::image.image'> &
       Schema.Attribute.Private;
+    post_frenz: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::post-frenz.post-frenz'
+    >;
     publishedAt: Schema.Attribute.DateTime;
     titre: Schema.Attribute.Text;
     updatedAt: Schema.Attribute.DateTime;
@@ -464,7 +468,11 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
-    image: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    images: Schema.Attribute.Relation<'oneToMany', 'api::image.image'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
