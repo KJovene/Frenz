@@ -4,18 +4,24 @@
   "info": {
     "singularName": "image",
     "pluralName": "images",
-    "displayName": "image"
+    "displayName": "image",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "attributes": {
     "image": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
+      ]
+    },
       ],
       "type": "media",
       "multiple": true

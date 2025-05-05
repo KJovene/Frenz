@@ -64,6 +64,26 @@ const Homepage = () => {
       console.error('Erreur lors de la récupération des commentaires :', error);
     }
   };
+
+  const handleDeletePost = async (postId) => {
+    try {
+      const token = localStorage.getItem('token');
+      console.log('id',postId)
+      const response = await axios.delete(`http://localhost:1337/api/post-frenzs/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.status === 200) {
+        setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+        console.log('Post supprimé avec succès');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la suppression du post :', error);
+    }
+  };
+
   useEffect(() => {
     fetchUser();
     fetchPost();
@@ -85,6 +105,12 @@ const Homepage = () => {
           {posts.length > 0 ? (
             [...posts].reverse().map((post) => (
               <div key={post.id} className='border p-4 mb-4 shadow'>
+                <button
+                  onClick={() => handleDeletePost(post.id)}
+                  className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                >
+                  Supprimer
+                </button>
                 <h2 className='text-xl font-semibold'>{post.title || post.title_frenz}</h2>
                 <p>{post.description || post.content}</p>
 

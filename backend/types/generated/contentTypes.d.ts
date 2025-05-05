@@ -413,6 +413,7 @@ export interface ApiCommentsFrenzCommentsFrenz
 export interface ApiImageImage extends Struct.CollectionTypeSchema {
   collectionName: 'images';
   info: {
+    description: '';
     displayName: 'image';
     pluralName: 'images';
     singularName: 'image';
