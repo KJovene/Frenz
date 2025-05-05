@@ -6,6 +6,8 @@ import LeftSideBar from '../../components/LeftSideBar';
 import RightSideBar from '../../components/RightSidebar';
 import Comments from '../../components/Comments.jsx';
 
+import { Trash } from 'lucide-react';
+
 const Homepage = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
@@ -33,7 +35,7 @@ const Homepage = () => {
   const fetchPost = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:1337/api/post-frenzs?populate=image', {
+      const response = await axios.get('http://localhost:1337/api/post-frenzs?populate=*', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -119,15 +121,21 @@ const Homepage = () => {
         <div className="w-3/4">
           {posts.length > 0 ? (
             [...posts].reverse().map((post) => (
+
               <div key={post.id} className="border p-4 mb-4 shadow">
-                <button
-                  onClick={() => handleDeletePost(post.id)}
-                  className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                >
-                  Supprimer
-                </button>
-                <h2 className="text-xl font-semibold">{post.title || post.title_frenz}</h2>
-                <p>{post.description || post.content}</p>
+                <p className='flex justify-between'>
+                  <strong>{post.author?.username || 'Inconnu'}</strong>
+                  {new Date(post.createdAt).toLocaleDateString('fr-FR')} à {new Date(post.createdAt).toLocaleTimeString('fr-FR')}
+                </p>
+                <div className='flex justify-between items-center'>
+                  <h2 className="text-xl font-semibold">{post.title || post.title_frenz}</h2>
+                  <button
+                    onClick={() => handleDeletePost(post.id)}
+                    className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  >
+                    <Trash />
+                  </button>
+                </div>
 
                 {post.image?.length > 0 ? (
                   post.image.map((img) => (
@@ -142,6 +150,9 @@ const Homepage = () => {
                   <p className="text-gray-500">Aucune image disponible pour ce post.</p>
                 )}
 
+                <p className='py-2'>{post.description || post.content}</p>
+
+
                 <div className="mt-4">
                   <h3 className="text-lg font-bold">Commentaires :</h3>
                   {commentaires
@@ -153,7 +164,7 @@ const Homepage = () => {
                           onClick={() => handleDeleteComment(commentaire.id)}
                           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                         >
-                          Supprimer
+                          <Trash />
                         </button>
                       </div>
                     ))}
