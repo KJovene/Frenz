@@ -120,13 +120,15 @@ const Homepage = () => {
           {posts.length > 0 ? (
             [...posts].reverse().map((post) => (
               <div key={post.id} className="border p-4 mb-4 shadow">
-                <button
-                  onClick={() => handleDeletePost(post.id)}
-                  className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                >
-                  Supprimer
-                </button>
-                <h2 className="text-xl font-semibold">{post.title || post.title_frenz}</h2>
+                <div className="flex justify-between items-center">
+                  <h2 className="text-xl font-semibold">{post.title || post.title_frenz}</h2>
+                  <button
+                    onClick={() => handleDeletePost(post.id)}
+                    className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  >
+                    X
+                  </button>
+                </div>
                 <p>{post.description || post.content}</p>
 
                 {post.image?.length > 0 ? (
@@ -147,13 +149,13 @@ const Homepage = () => {
                   {commentaires
                     .filter((commentaire) => commentaire.post_frenz && commentaire.post_frenz.id === post.id)
                     .map((commentaire) => (
-                      <div key={commentaire.id} className="flex justify-between items-center">
-                        <p className="text-gray-700">{commentaire.commentaire}</p>
+                      <div key={commentaire.id} className="flex justify-between items-center py-2">
+                        <p className="text-yellow-500">{commentaire.commentaire}</p>
                         <button
                           onClick={() => handleDeleteComment(commentaire.id)}
                           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                         >
-                          Supprimer
+                          X
                         </button>
                       </div>
                     ))}
