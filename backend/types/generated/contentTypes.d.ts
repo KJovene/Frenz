@@ -373,6 +373,7 @@ export interface ApiCommentsFrenzCommentsFrenz
   extends Struct.CollectionTypeSchema {
   collectionName: 'comments_frenzs';
   info: {
+    description: '';
     displayName: 'CommentsFrenz';
     pluralName: 'comments-frenzs';
     singularName: 'comments-frenz';
@@ -381,6 +382,10 @@ export interface ApiCommentsFrenzCommentsFrenz
     draftAndPublish: true;
   };
   attributes: {
+    author: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     commentaire: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -403,10 +408,6 @@ export interface ApiCommentsFrenzCommentsFrenz
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 

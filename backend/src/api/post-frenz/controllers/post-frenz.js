@@ -10,7 +10,6 @@ const { createCoreController } = require('@strapi/strapi').factories;
 module.exports = createCoreController('api::post-frenz.post-frenz', ({ strapi }) => ({
   async create(ctx) {
     if (!ctx.state.user) {
-      console.log('Utilisateur non connecté', ctx.state.user);
       return ctx.unauthorized('Vous n\'êtes pas connecté.');
     }
     const userId = ctx.state.user.id;
@@ -24,9 +23,7 @@ module.exports = createCoreController('api::post-frenz.post-frenz', ({ strapi })
 
     // Récupérer le post avec son ID
     const post = await strapi.entityService.findOne('api::post-frenz.post-frenz', postId, { populate: 'author' });    
-    console.log('postId', postId)
-    console.log('userId', userId)
-    console.log('post', post)
+    
     // Vérifier si le post existe
     if (!post) {
       return ctx.notFound('Post pas trouvé');
