@@ -43,7 +43,7 @@ function Comments({id, onCommentAdded}) {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <input type="text" value={commentaire} onChange={(e) => setCommentaire(e.target.value)}/>
+        <input type="text" value={commentaire} onChange={(e) => setCommentaire(e.target.value)} required/>
         <button type="submit">Commenter</button>
       </form>
     </>
