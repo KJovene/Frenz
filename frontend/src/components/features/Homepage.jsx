@@ -114,7 +114,9 @@ const Homepage = () => {
   };
 
   return (
-    <div className="flex gap-6 max-w-7xl mx-auto px-4 py-8">
+    <div className="flex gap-9 max-w-1xl mx-auto py-8 pl-0 pr-4">
+
+
       <LeftSideBar />
 
       <div className="h-screen flex flex-col items-center w-full">
