@@ -178,24 +178,27 @@ const Homepage = () => {
                 </div>
                 <Link
                   to={`/post/${post.thematique}`}
-                  className={`px-4 py-1 rounded-full text-white text-sm font-semibold inline-block ${post.thematique === 'général'
-                    ? 'bg-blue-500'
-                    : post.thematique === 'game'
-                      ? 'bg-green-500'
-                      : post.thematique === 'sport'
-                        ? 'bg-red-500'
-                        : post.thematique === 'culture'
-                          ? 'bg-purple-500'
-                          : post.thematique === 'technologie'
-                            ? 'bg-yellow-500'
-                            : post.thematique === 'sante'
-                              ? 'bg-pink-500'
-                              : post.thematique === 'environnement'
-                                ? 'bg-teal-500'
-                                : post.thematique === 'education'
-                                  ? 'bg-orange-500'
-                                  : 'bg-gray-500'
-                    }`}
+                  className="px-4 py-1 rounded-full text-white text-sm font-semibold inline-block"
+                  style={{
+                    backgroundColor: post.color || // Utilise la couleur aléatoire si elle existe
+                      (post.thematique === 'général'
+                        ? '#3b82f6' // Bleu
+                        : post.thematique === 'game'
+                          ? '#22c55e' // Vert
+                          : post.thematique === 'sport'
+                            ? '#ef4444' // Rouge
+                            : post.thematique === 'culture'
+                              ? '#a855f7' // Violet
+                              : post.thematique === 'technologie'
+                                ? '#facc15' // Jaune
+                                : post.thematique === 'sante'
+                                  ? '#ec4899' // Rose
+                                  : post.thematique === 'environnement'
+                                    ? '#14b8a6' // Turquoise
+                                    : post.thematique === 'education'
+                                      ? '#f97316' // Orange
+                                      : '#6b7280'), // Gris par défaut
+                  }}
                 >
                   {post.thematique}
                 </Link>

@@ -8,6 +8,7 @@ const AddPost = ({ onPostCreated }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [thematique, setThematiques] = useState('');
+  const [customThematique, setCustomThematique] = useState(''); 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -42,7 +43,7 @@ const AddPost = ({ onPostCreated }) => {
           title,
           description,
           image: imageId, 
-          thematique,
+          thematique: thematique === 'autre' ? customThematique : thematique, 
         },
       };
   
@@ -123,8 +124,21 @@ const AddPost = ({ onPostCreated }) => {
             <option value="sante">Santé</option>
             <option value="environnement">Environnement</option>
             <option value="education">Éducation</option>
-            <potion value="autre">Autre</potion>
+            <option value="autre">Autre</option>
           </select>
+
+          {thematique === 'autre' && (
+            <div>
+              <input
+                type="text"
+                placeholder="Entrez votre thématique"
+                value={customThematique}
+                onChange={(e) => setThematiques(e.target.value)}
+                required
+                className="w-full px-4 py-3 rounded-lg bg-black text-white border-none focus:outline-none focus:ring-2 focus:ring-[#CCDF5E]"
+              />
+            </div>
+          )}
 
 
           
