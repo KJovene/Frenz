@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import LeftSideBar from '../../components/LeftSideBar';
-import RightSideBar from '../../components/RightSidebar';
-import Comments from '../../components/Comments.jsx';
+import LeftSideBar from '../components/LeftSideBar.jsx';
+import RightSideBar from '../components/RightSidebar.jsx';
+import Comments from '../components/Comments.jsx';
 
 import { Trash } from 'lucide-react';
 
-const Homepage = () => {
+const SubFrenz = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
+  const { thematique } = useParams();
   const [commentaires, setCommentaires] = useState([]);
 
   const fetchUser = async () => {
@@ -102,6 +103,10 @@ const Homepage = () => {
     }
   };
 
+  const filteredPosts = thematique
+    ? posts.filter((post) => post.thematique === thematique)
+    : posts;
+
   useEffect(() => {
     fetchUser();
     fetchPost();
@@ -121,8 +126,8 @@ const Homepage = () => {
 
       <div className="h-screen flex flex-col items-center w-full">
         <div className="w-3/4">
-          {posts.length > 0 ? (
-            [...posts].reverse().map((post) => (
+          {filteredPosts.length > 0 ? (
+            [...filteredPosts].reverse().map((post) => (
 
               <div key={post.id} className="border p-4 mb-4 shadow">
                 <p className='flex justify-between'>
@@ -213,4 +218,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default SubFrenz;

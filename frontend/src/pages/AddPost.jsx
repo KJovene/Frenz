@@ -7,6 +7,7 @@ const AddPost = ({ onPostCreated }) => {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [thematique, setThematiques] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -41,6 +42,7 @@ const AddPost = ({ onPostCreated }) => {
           title,
           description,
           image: imageId, 
+          thematique,
         },
       };
   
@@ -50,7 +52,8 @@ const AddPost = ({ onPostCreated }) => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-  
+      
+      setThematiques('');
       setTitle('');
       setDescription('');
       setImage(null);
@@ -105,6 +108,22 @@ const AddPost = ({ onPostCreated }) => {
             <p className="text-sm text-white">Ajouter une image</p>
             <p className="text-xs text-gray-400">JPG, PNG</p>
           </div>
+
+          <select name="thematique" id="thematique" 
+          onChange={(e) => setThematiques(e.target.value)}
+          value={thematique} 
+          required
+          className="w-full px-4 py-3 rounded-lg bg-black text-white border-none focus:outline-none focus:ring-2 focus:ring-[#CCDF5E]">
+            <option value="" disabled selected>Choisir une thématique</option>
+            <option value="général">Général</option>
+            <option value="game">Jeux vidéos</option>
+            <option value="sport">Sport</option>
+            <option value="culture">Culture</option>
+            <option value="technologie">Technologie</option>
+            <option value="sante">Santé</option>
+            <option value="environnement">Environnement</option>
+            <option value="education">Éducation</option>
+          </select>
           
           <button 
             type="submit" 

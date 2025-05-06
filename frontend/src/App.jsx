@@ -7,6 +7,7 @@ import Register from "./pages/Register.jsx";
 import NotFoundPage from "./components/features/NotFoundPage.jsx";
 import AddPost from "./pages/AddPost.jsx";
 import Footer from "./components/Footer.jsx";
+import SubFrenz from "./pages/SubFrenz.jsx";
 
 function App() {
   const location = useLocation();
@@ -18,6 +19,7 @@ function App() {
       {!hideNavbar && <Navbar />}
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <Routes>
+          <Route path="/post/:thematique" element={<SubFrenz />} />
           <Route path="/" element={<Homepage />} />
           <Route path="/addpost" element={<AddPost />} />
           <Route path="/login" element={<Login />} />
