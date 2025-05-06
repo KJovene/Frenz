@@ -18,15 +18,6 @@ const Homepage = () => {
   const [isEditCommentOpen, setIsEditCommentOpen] = useState(false); // Gère l'ouverture de la popup
   const [selectedComment, setSelectedComment] = useState(null); // Stocke le commentaire sélectionné
 
-  const setSpecificCommentGenerator = (commentId) => {
-    const setSpecificComment = (comment) => {
-      setCommentaires((prevCommentaires) =>
-        prevCommentaires.map((c) => (c.id === commentId ? { ...c, commentaire: comment } : c))
-      );
-      return setSpecificComment;
-    }
-  }
-
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem('token');
