@@ -5,6 +5,7 @@ import axios from 'axios';
 import LeftSideBar from '../../components/LeftSideBar';
 import RightSideBar from '../../components/RightSidebar';
 import Comments from '../../components/Comments.jsx';
+import EditComment from '../../pages/EditComment.jsx';
 
 import { Trash, PencilLine, Ellipsis } from 'lucide-react';
 
@@ -12,7 +13,19 @@ const Homepage = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [commentaires, setCommentaires] = useState([]);
-  const [edit, setEdit] = useState(false)
+  const [editPost, setEditPost] = useState(false)
+  const [editComment, setEditComment] = useState(false)
+  const [isEditCommentOpen, setIsEditCommentOpen] = useState(false); // Gère l'ouverture de la popup
+  const [selectedComment, setSelectedComment] = useState(null); // Stocke le commentaire sélectionné
+
+  const setSpecificCommentGenerator = (commentId) => {
+    const setSpecificComment = (comment) => {
+      setCommentaires((prevCommentaires) =>
+        prevCommentaires.map((c) => (c.id === commentId ? { ...c, commentaire: comment } : c))
+      );
+      return setSpecificComment;
+    }
+  }
 
   const fetchUser = async () => {
     try {
@@ -49,6 +62,7 @@ const Homepage = () => {
       console.error('Erreur lors de la récupération des posts :', error);
     }
   };
+  // console.log(selectedComment)
 
   const fetchComments = async () => {
     try {
@@ -137,17 +151,17 @@ const Homepage = () => {
                 <div className="relative">
                   {/* Bouton pour ouvrir le menu */}
                   <button
-                    onClick={() => setEdit((prev) => (prev === post.id ? null : post.id))}
+                    onClick={() => setEditPost((prev) => (prev === post.id ? null : post.id))}
                     className="btn btn-ghost btn-circle"
                   >
                     <Ellipsis />
                   </button>
 
                   {/* Menu déroulant */}
-                  {edit === post.id && (
+                  {editPost === post.id && (
                     <div
                       className="absolute left-0 top-0 mt-2 w-40 bg-white rounded-lg shadow-lg z-10"
-                      onMouseLeave={() => setEdit(false)}
+                      onMouseLeave={() => setEditPost(false)}
                     >
                       <ul className="py-2">
                         <li>
@@ -218,12 +232,66 @@ const Homepage = () => {
                     .map((commentaire) => (
                       <div key={commentaire.id} className="flex justify-between items-center">
                         <p className="text-gray-700">{commentaire.commentaire}</p>
-                        <button
-                          onClick={() => handleDeleteComment(commentaire.id)}
-                          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                        >
-                          <Trash />
-                        </button>
+                        <div className="relative">
+                          {isEditCommentOpen && (
+                            <EditComment
+                              comment={selectedComment}
+                              onClose={() => setIsEditCommentOpen(false)} // Ferme la popup
+                              onCommentUpdated={(updatedComment) => {
+                                // Met à jour le commentaire dans la liste
+                                console.log("updatedComment", updatedComment)
+                                setCommentaires((prevCommentaires) =>
+                                  prevCommentaires.map((comment) => {
+                                    if (comment.documentId === updatedComment.documentId) {
+                                      return { ...comment, commentaire: updatedComment.commentaire };
+                                    }
+                                    return comment;
+                                  }
+                                  )
+                                );
+                                setIsEditCommentOpen(false);
+                              }}
+                            />
+                          )}
+                          <button
+                            onClick={() => setEditComment((prev) => (prev === commentaire.id ? null : commentaire.id))}
+                            className="btn btn-ghost btn-circle"
+                          >
+                            <Ellipsis />
+                          </button>
+
+                          {/* Menu déroulant */}
+                          {editComment === commentaire.id && (
+                            <div
+                              className="absolute left-0 top-0 mt-2 w-40 bg-white rounded-lg shadow-lg z-10"
+                              onMouseLeave={() => setEditComment(false)}
+                            >
+                              <ul className="py-2">
+                                <li>
+                                  <button
+                                    onClick={() => handleDeleteComment(commentaire.id)}
+                                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100"
+                                  >
+                                    <Trash className="inline-block mr-2" />
+                                    Supprimer
+                                  </button>
+                                </li>
+                                <li>
+                                  <button
+                                    onClick={() => {
+                                      setSelectedComment(commentaire); // Stocke le commentaire sélectionné
+                                      setIsEditCommentOpen(true); // Ouvre la popup
+                                    }}
+                                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                  >
+                                    <PencilLine className="inline-block mr-2" />
+                                    Modifier
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     ))}
                   {commentaires.filter((commentaire) => commentaire.post_frenz && commentaire.post_frenz.id === post.id).length === 0 && (
