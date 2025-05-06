@@ -53,7 +53,6 @@ const Homepage = () => {
       console.error('Erreur lors de la récupération des posts :', error);
     }
   };
-  // console.log(selectedComment)
 
   const fetchComments = async () => {
     try {
@@ -137,7 +136,6 @@ const Homepage = () => {
                 </p>
                 <div className='flex justify-between items-center'>
                   <h2 className="text-xl font-semibold">{post.title || post.title_frenz}</h2>
-
                 </div>
                 <div className="relative">
                   {/* Bouton pour ouvrir le menu */}
