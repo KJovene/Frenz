@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-// Icons component for different notification types
 const NotificationIcon = ({ type }) => {
   switch (type) {
     case 'comment':
@@ -48,7 +47,6 @@ const NotificationIcon = ({ type }) => {
   }
 };
 
-// Time formatter
 const formatTime = (timestamp) => {
   const now = new Date();
   const date = new Date(timestamp);
@@ -67,7 +65,6 @@ const formatTime = (timestamp) => {
 };
 
 const Notifications = () => {
-  // Demo notifications (will be replaced with API data later)
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -77,7 +74,7 @@ const Notifications = () => {
         username: 'johndoe',
         avatar: 'https://i.pravatar.cc/150?img=1'
       },
-      content: 'a commenté sur votre post "Comment bien débuter avec React"',
+      content: 'a commenté sur votre post "Comment tu as fais ça ? Tu gères trop bien !"',
       timestamp: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
       read: false,
       link: '/post/1'
@@ -90,7 +87,7 @@ const Notifications = () => {
         username: 'janedoe',
         avatar: 'https://i.pravatar.cc/150?img=5'
       },
-      content: 'a aimé votre commentaire dans le post "Tailwind CSS vs Bootstrap"',
+      content: 'a aimé votre commentaire dans le post "Recette de cuisine"',
       timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
       read: false,
       link: '/post/2'
@@ -129,7 +126,7 @@ const Notifications = () => {
         username: 'mikeross',
         avatar: 'https://i.pravatar.cc/150?img=6'
       },
-      content: 'a répondu à votre commentaire sur "Les meilleurs outils de développement en 2025"',
+      content: 'a répondu à votre commentaire sur "Merci beaucoup pour ton soutien ! Je suis ravi que tu aimes mon travail."',
       timestamp: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
       read: true,
       link: '/post/5'
@@ -139,22 +136,10 @@ const Notifications = () => {
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(false);
 
-  // Fetch notifications - this will be implemented when backend is ready
   const fetchNotifications = async () => {
     try {
       setLoading(true);
-      // Later, this will be replaced with actual API call:
-      // const token = localStorage.getItem('token');
-      // const response = await axios.get('http://localhost:1337/api/notifications', {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // });
-      // setNotifications(response.data);
-      
-      // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 500));
-      // Notifications are already set in state
       
       setLoading(false);
     } catch (error) {
@@ -163,35 +148,19 @@ const Notifications = () => {
     }
   };
 
-  // Mark notification as read
+  // Notif lu
   const markAsRead = (id) => {
     setNotifications(notifications.map(notif => 
       notif.id === id ? { ...notif, read: true } : notif
     ));
-    
-    // This will be replaced with actual API call later:
-    // const token = localStorage.getItem('token');
-    // axios.put(`http://localhost:1337/api/notifications/${id}/read`, {}, {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
   };
 
-  // Mark all notifications as read
+  // Lire tout les notif
   const markAllAsRead = () => {
     setNotifications(notifications.map(notif => ({ ...notif, read: true })));
-    
-    // This will be replaced with actual API call later:
-    // const token = localStorage.getItem('token');
-    // axios.put('http://localhost:1337/api/notifications/read-all', {}, {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
   };
 
-  // Filter notifications
+  // Filtrer notif
   const filteredNotifications = () => {
     switch (filter) {
       case 'unread':
@@ -211,7 +180,6 @@ const Notifications = () => {
     }
   };
 
-  // Fetch notifications on component mount
   useEffect(() => {
     fetchNotifications();
   }, []);
