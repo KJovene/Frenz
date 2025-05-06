@@ -373,6 +373,7 @@ export interface ApiCommentsFrenzCommentsFrenz
   extends Struct.CollectionTypeSchema {
   collectionName: 'comments_frenzs';
   info: {
+    description: '';
     displayName: 'CommentsFrenz';
     pluralName: 'comments-frenzs';
     singularName: 'comments-frenz';
@@ -381,6 +382,10 @@ export interface ApiCommentsFrenzCommentsFrenz
     draftAndPublish: true;
   };
   attributes: {
+    author: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     commentaire: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -403,10 +408,40 @@ export interface ApiCommentsFrenzCommentsFrenz
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
+  };
+}
+
+export interface ApiImageImage extends Struct.CollectionTypeSchema {
+  collectionName: 'images';
+  info: {
+    description: '';
+    displayName: 'image';
+    pluralName: 'images';
+    singularName: 'image';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
     >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::image.image'> &
+      Schema.Attribute.Private;
+    post_frenz: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::post-frenz.post-frenz'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    titre: Schema.Attribute.Text;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -422,6 +457,10 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    author: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     comments_frenzs: Schema.Attribute.Relation<
       'oneToMany',
       'api::comments-frenz.comments-frenz'
@@ -430,7 +469,8 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
-    image: Schema.Attribute.Text;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos', true>;
+    images: Schema.Attribute.Relation<'oneToMany', 'api::image.image'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -446,10 +486,6 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -1021,6 +1057,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::comments-frenz.comments-frenz': ApiCommentsFrenzCommentsFrenz;
+      'api::image.image': ApiImageImage;
       'api::post-frenz.post-frenz': ApiPostFrenzPostFrenz;
       'api::sub-frenz.sub-frenz': ApiSubFrenzSubFrenz;
       'plugin::content-releases.release': PluginContentReleasesRelease;

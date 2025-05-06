@@ -75,13 +75,13 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::post-frenz.post-frenz",
-      "mappedBy": "users_permissions_user"
+      "mappedBy": "author"
     },
     "comments_frenzs": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::comments-frenz.comments-frenz",
-      "mappedBy": "users_permissions_user"
+      "mappedBy": "author"
     }
   }
 }

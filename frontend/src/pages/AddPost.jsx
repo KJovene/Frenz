@@ -6,50 +6,63 @@ const AddPost = ({ onPostCreated }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!title.trim()) {
+      console.error('Le titre est manquant.');
+      return;
+    }
+  
     try {
-      let base64Image = null;
-
+      setLoading(true);
+  
+      let imageId = null;
+  
       if (image) {
-        base64Image = await convertToBase64(image);
+        const formData = new FormData();
+        formData.append('files', image);
+  
+        const imageUploadResponse = await axios.post('http://localhost:1337/api/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+  
+        const uploadedImage = imageUploadResponse.data[0];
+        imageId = uploadedImage?.id;
       }
-
+  
       const postData = {
         data: {
           title,
           description,
-          image: base64Image, 
+          image: imageId, 
         },
       };
-      navigate('/')
-      const response = await axios.post('http://localhost:1337/api/post-frenzs', postData, {
+  
+      const postResponse = await axios.post('http://localhost:1337/api/post-frenzs', postData, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-
+  
       setTitle('');
       setDescription('');
       setImage(null);
-
+  
       if (onPostCreated) {
-        onPostCreated(response.data);
+        onPostCreated(postResponse.data);
       }
+      navigate('/');
     } catch (error) {
       console.error('Erreur lors de la création du post :', error.response?.data || error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,8 +109,9 @@ const AddPost = ({ onPostCreated }) => {
           <button 
             type="submit" 
             className="w-full bg-[#CCDF5E] text-black py-3 rounded-full font-bold text-lg hover:bg-opacity-90 transition duration-300"
+            disabled={loading}
           >
-            Publier
+            {loading ? 'Publication...' : 'Publier'}
           </button>
         </form>
       </div>
