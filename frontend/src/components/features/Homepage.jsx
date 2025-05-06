@@ -6,12 +6,13 @@ import LeftSideBar from '../../components/LeftSideBar';
 import RightSideBar from '../../components/RightSidebar';
 import Comments from '../../components/Comments.jsx';
 
-import { Trash } from 'lucide-react';
+import { Trash, PencilLine, Ellipsis } from 'lucide-react';
 
 const Homepage = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [commentaires, setCommentaires] = useState([]);
+  const [edit, setEdit] = useState(false)
 
   const fetchUser = async () => {
     try {
@@ -131,33 +132,64 @@ const Homepage = () => {
                 </p>
                 <div className='flex justify-between items-center'>
                   <h2 className="text-xl font-semibold">{post.title || post.title_frenz}</h2>
-                  <button
-                    onClick={() => handleDeletePost(post.id)}
-                    className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                  >
-                    <Trash />
-                  </button>
-                </div>
 
+                </div>
+                <div className="relative">
+                  {/* Bouton pour ouvrir le menu */}
+                  <button
+                    onClick={() => setEdit((prev) => (prev === post.id ? null : post.id))}
+                    className="btn btn-ghost btn-circle"
+                  >
+                    <Ellipsis />
+                  </button>
+
+                  {/* Menu déroulant */}
+                  {edit === post.id && (
+                    <div
+                      className="absolute left-0 top-0 mt-2 w-40 bg-white rounded-lg shadow-lg z-10"
+                      onMouseLeave={() => setEdit(false)}
+                    >
+                      <ul className="py-2">
+                        <li>
+                          <button
+                            onClick={() => handleDeletePost(post.id)}
+                            className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100"
+                          >
+                            <Trash className="inline-block mr-2" />
+                            Supprimer
+                          </button>
+                        </li>
+                        <li>
+                          <Link to={`/editpost/${post.documentId}`}
+                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          >
+                            <PencilLine className="inline-block mr-2" />
+                            Modifier
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
                 <Link
                   to={`/post/${post.thematique}`}
                   className={`px-4 py-1 rounded-full text-white text-sm font-semibold inline-block ${post.thematique === 'général'
-                      ? 'bg-blue-500'
-                      : post.thematique === 'game'
-                        ? 'bg-green-500'
-                        : post.thematique === 'sport'
-                          ? 'bg-red-500'
-                          : post.thematique === 'culture'
-                            ? 'bg-purple-500'
-                            : post.thematique === 'technologie'
-                              ? 'bg-yellow-500'
-                              : post.thematique === 'sante'
-                                ? 'bg-pink-500'
-                                : post.thematique === 'environnement'
-                                  ? 'bg-teal-500'
-                                  : post.thematique === 'education'
-                                    ? 'bg-orange-500'
-                                    : 'bg-gray-500'
+                    ? 'bg-blue-500'
+                    : post.thematique === 'game'
+                      ? 'bg-green-500'
+                      : post.thematique === 'sport'
+                        ? 'bg-red-500'
+                        : post.thematique === 'culture'
+                          ? 'bg-purple-500'
+                          : post.thematique === 'technologie'
+                            ? 'bg-yellow-500'
+                            : post.thematique === 'sante'
+                              ? 'bg-pink-500'
+                              : post.thematique === 'environnement'
+                                ? 'bg-teal-500'
+                                : post.thematique === 'education'
+                                  ? 'bg-orange-500'
+                                  : 'bg-gray-500'
                     }`}
                 >
                   {post.thematique}

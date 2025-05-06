@@ -8,6 +8,7 @@ import NotFoundPage from "./components/features/NotFoundPage.jsx";
 import AddPost from "./pages/AddPost.jsx";
 import Footer from "./components/Footer.jsx";
 import SubFrenz from "./pages/SubFrenz.jsx";
+import EditPost from "./pages/EditPost.jsx";
 
 function App() {
   const location = useLocation();
@@ -22,6 +23,7 @@ function App() {
           <Route path="/post/:thematique" element={<SubFrenz />} />
           <Route path="/" element={<Homepage />} />
           <Route path="/addpost" element={<AddPost />} />
+          <Route path="/editpost/:id" element={<EditPost />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<NotFoundPage />} />
