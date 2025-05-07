@@ -156,6 +156,10 @@ const Settings = () => {
                   <option value="français">Français</option>
                   <option value="english">English</option>
                   <option value="español">Español</option>
+                  <option value="español">Deutsch</option>
+                  <option value="español">中文</option>
+                  <option value="español">日本語</option>
+                  <option value="español">한국어</option>
                 </select>
               </div>
             </form>
