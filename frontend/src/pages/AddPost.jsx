@@ -141,6 +141,7 @@ const AddPost = ({ onPostCreated }) => {
             value={thematique}
             required
             className="w-full px-4 py-3 rounded-lg bg-[#18181b] text-[#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#9333ea]">
+
             <option value="" disabled selected>Choisir une thématique</option>
             <option value=">Général">Général</option>
             <option value="Game">Jeux vidéos</option>
@@ -174,8 +175,9 @@ const AddPost = ({ onPostCreated }) => {
             </div>
           )}
 
-          <button
-            type="submit"
+
+          <button 
+            type="submit" 
             className="w-full bg-[#6b21a8] text-[#ffffff] py-3 rounded-full font-bold text-lg hover:bg-opacity-90 transition duration-300"
             disabled={loading}
           >

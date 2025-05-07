@@ -9,7 +9,8 @@ import AddPost from "./pages/AddPost.jsx";
 import Footer from "./components/Footer.jsx";
 import SubFrenz from "./pages/SubFrenz.jsx";
 import EditPost from "./pages/EditPost.jsx";
-import Notifications from "./pages/Notifications.jsx"; // Ajoutez cette ligne
+import Notifications from "./pages/Notifications.jsx";
+import Settings from "./pages/Settings.jsx";
 
 function App() {
   const location = useLocation();
@@ -27,7 +28,8 @@ function App() {
           <Route path="/editpost/:id" element={<EditPost />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/notifications" element={<Notifications />} /> {/* Ajoutez cette ligne */}
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/settings" element={<Settings />} /> 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
