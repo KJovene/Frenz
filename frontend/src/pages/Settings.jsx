@@ -30,9 +30,7 @@ const Settings = () => {
       }
 
       setIsLoading(true);
-      
-      // Dans une implémentation réelle, vous feriez un appel API pour récupérer les préférences
-      // Simuler un chargement des préférences
+      //back 
       setTimeout(() => {
         setIsLoading(false);
       }, 1000);
@@ -306,7 +304,7 @@ const Settings = () => {
               onClick={updatePreferences}
               className="bg-[#9333ea] hover:bg-[#6b21a8] transition-colors py-3 px-6 rounded-full text-white"
             >
-              Enregistrer toutes les préférences
+              Enregistrer les modifications
             </button>
           </div>
         </div>
