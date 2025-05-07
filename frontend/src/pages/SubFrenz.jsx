@@ -183,7 +183,7 @@ const SubFrenz = () => {
                 </div>
 
                 <Link
-                  to={`/post/${post.thematique}`}
+                  to={`/f/${post.thematique}`}
                   className={`px-4 py-1 rounded-full text-white text-sm font-semibold inline-block ${post.thematique === 'général'
                       ? 'bg-blue-500'
                       : post.thematique === 'game'
