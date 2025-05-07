@@ -1,5 +1,6 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import Navbar from "./components/Navbar.jsx"
 import Homepage from "./components/features/Homepage.jsx";
