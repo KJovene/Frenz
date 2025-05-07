@@ -39,9 +39,6 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
-      <footer>
-        {!hideFooter && <Footer />}
-      </footer>
     </div>
   );
 }

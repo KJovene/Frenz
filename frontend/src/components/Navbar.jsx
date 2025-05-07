@@ -105,10 +105,12 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         )}
       </div>
 
-      {/* Frenz logo */}
+      {/* Frenz logo - Sans fond */}
       <div className="navbar-center">
-        <Link to="/" className="btn btn-ghost text-2xl">
-          <span className="text-purple-500">F</span>renz
+        <Link to="/" className="block">
+          <h1 className="text-2xl font-bold font-baloo">
+            <span className="text-[#9333ea]">F</span>renz
+          </h1>
         </Link>
       </div>
 
