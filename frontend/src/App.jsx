@@ -6,7 +6,7 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NotFoundPage from "./components/features/NotFoundPage.jsx";
 import AddPost from "./pages/AddPost.jsx";
-import Footer from "./components/Footer.jsx";
+import Messages from './components/features/Messages';
 
 function App() {
   const location = useLocation();
@@ -22,12 +22,11 @@ function App() {
           <Route path="/addpost" element={<AddPost />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/messages" element={<Messages />} /> 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
-      <footer>
-        {!hideFooter && <Footer />}
-      </footer>
+     
     </div>
   );
 }

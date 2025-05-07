@@ -28,7 +28,8 @@ const RightSideBar = () => {
       {/* Create Post Button */}
       <a 
         href="/addpost" 
-        className="bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-xl block text-center shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
+        className="bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-xl text-center shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
+
       >
         <PlusCircle size={18} />
         <span>Créer un post</span>
