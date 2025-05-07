@@ -483,7 +483,7 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
       'manyToOne',
       'api::sub-frenz.sub-frenz'
     >;
-    thematique: Schema.Attribute.String;
+    thematique: Schema.Attribute.String & Schema.Attribute.Unique;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
