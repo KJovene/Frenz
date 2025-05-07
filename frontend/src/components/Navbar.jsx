@@ -1,15 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import Fuse from "fuse.js"
+import axios from 'axios'
 const Navbar = ({ darkMode, setDarkMode }) => {
   const [showSearch, setShowSearch] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [posts, setPosts] = useState([])
+  const [query, setQuery] = useState("")
+  const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:1337/api/post-frenzs?populate=*");
+        setPosts(response.data.data);
+      } catch (error) {
+        console.log("Erreur lors de la récupération des posts :", error);
+      }
+    };
+    fetchPosts();
+  }, []);
+  
   const navigate = useNavigate();
 
   const handleNotificationsClick = () => {
     navigate('/notifications');
   };
 
+  const handleSearch = async (query) => {
+    setQuery(query);
+    if (!query) {
+      setSearchResults([]);
+      return;
+    }
+    setIsLoading(true);
+    const validPosts = posts.filter(post => post.title && post.thematique);
+    const fuse = new Fuse(validPosts, {
+      keys: ["title", "thematique"],
+      threshold: 0.3,
+    });
+    const results = fuse.search(query);
+    console.log(results)
+    setSearchResults(results.map((result) => result.item));
+    setIsLoading(false);
+  };
+
+  const highlightMatch = (text, query) => {
+    if(!text) return ""
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.replace(regex, (match) => `<span class="bg-yellow-200">${match}</span>`);
+  };
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50 py-3 px-4">
       {/* Left Side */}
@@ -36,7 +77,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         </button>
 
         {menuOpen && (
-          <div 
+          <div
             className="absolute left-0 top-full mt-4 w-80 max-h-[85vh] bg-base-100 shadow-xl rounded-xl overflow-hidden z-50 border border-base-300 animate-fadeIn"
             onMouseLeave={() => setMenuOpen(false)}
           >
@@ -74,10 +115,12 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         )}
       </div>
 
-      {/* Frenz logo */}
+      {/* Frenz logo - Sans fond */}
       <div className="navbar-center">
-        <Link to="/" className="btn btn-ghost text-2xl">
-          <span className="text-purple-500">F</span>renz
+        <Link to="/" className="block">
+          <h1 className="text-2xl font-bold font-baloo">
+            <span className="text-[#9333ea]">F</span>renz
+          </h1>
         </Link>
       </div>
 
@@ -90,13 +133,46 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             </svg>
           </button>
         ) : (
-          <input
-            type="text"
-            placeholder="Search..."
-            className="input input-bordered w-32 md:w-auto"
-            autoFocus
-            onBlur={() => setShowSearch(false)}
-          />
+          <div className="relative">
+  <input
+    type="text"
+    placeholder="Rechercher..."
+    className="input input-bordered w-32 md:w-auto"
+    value={query}
+    onChange={(e) => handleSearch(e.target.value)}
+    autoFocus
+    onBlur={() => setShowSearch(false)}
+  />
+  {/* Résultats de recherche */}
+  {query && (
+    <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50 max-h-48 overflow-y-auto">
+      {searchResults.length > 0 ? (
+        <ul>
+          {searchResults.map((post) => (
+            <li key={post.id} className="p-2 border-b hover:bg-gray-100">
+            {/* Lien vers la page PostPage pour le titre */}
+            <Link
+              to={`/post/${post.documentId}`}
+              className="font-semibold text-blue-600 hover:underline"
+              onMouseDown={(e) => e.preventDefault()}
+              dangerouslySetInnerHTML={{ __html: highlightMatch(post.title, query) }}
+            />
+            {/* Lien vers la page SubFrenz pour la thématique */}
+            <Link
+              to={`/f/${post.thematique}`}
+              className="text-sm text-gray-500 hover:underline block"
+              onMouseDown={(e) => e.preventDefault()}
+              dangerouslySetInnerHTML={{ __html: highlightMatch(post.thematique, query) }}
+            />
+          </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="p-4 text-gray-500 text-center">Aucun résultat trouvé</div>
+      )}
+    </div>
+  )}
+</div>
         )}
 
         {/* Bouton de notification modifié pour naviguer vers la page des notifications */}

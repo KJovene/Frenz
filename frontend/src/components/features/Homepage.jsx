@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import LeftSideBar from '../../components/LeftSideBar';
-import RightSideBar from '../../components/RightSidebar';
+import LeftSideBar from '../../components/LeftSideBar.jsx';
+import RightSideBar from '../../components/RightSideBar.jsx';
 import Comments from '../../components/Comments.jsx';
 import EditComment from '../../pages/EditComment.jsx';
 
@@ -135,7 +135,9 @@ const Homepage = () => {
                   {new Date(post.createdAt).toLocaleDateString('fr-FR')} à {new Date(post.createdAt).toLocaleTimeString('fr-FR')}
                 </p>
                 <div className='flex justify-between items-center'>
-                  <h2 className="text-xl font-semibold">{post.title || post.title_frenz}</h2>
+                  <Link to={`/post/${post.documentId}`}>
+                    <h2 className="text-xl font-semibold">{post.title || post.title_frenz}</h2>
+                  </Link>
                 </div>
                 <div className="relative">
                   {/* Bouton pour ouvrir le menu */}
@@ -175,28 +177,25 @@ const Homepage = () => {
                   )}
                 </div>
                 <Link
-                  to={`/post/${post.thematique}`}
-                  className="px-4 py-1 rounded-full text-white text-sm font-semibold inline-block"
-                  style={{
-                    backgroundColor: post.color || // Utilise la couleur aléatoire si elle existe
-                      (post.thematique === 'Général'
-                        ? '#3b82f6' // Bleu
-                        : post.thematique === 'Game'
-                          ? '#22c55e' // Vert
-                          : post.thematique === 'Sport'
-                            ? '#ef4444' // Rouge
-                            : post.thematique === 'Culture'
-                              ? '#a855f7' // Violet
-                              : post.thematique === 'Technologie'
-                                ? '#facc15' // Jaune
-                                : post.thematique === 'Sante'
-                                  ? '#ec4899' // Rose
-                                  : post.thematique === 'Environnement'
-                                    ? '#14b8a6' // Turquoise
-                                    : post.thematique === 'Education'
-                                      ? '#f97316' // Orange
-                                      : '#6b7280'), // Gris par défaut
-                  }}
+                  to={`/f/${post.thematique}`}
+                  className={`px-4 py-1 rounded-full text-white text-sm font-semibold inline-block ${post.thematique === 'général'
+                    ? 'bg-blue-500'
+                    : post.thematique === 'game'
+                      ? 'bg-green-500'
+                      : post.thematique === 'sport'
+                        ? 'bg-red-500'
+                        : post.thematique === 'culture'
+                          ? 'bg-purple-500'
+                          : post.thematique === 'technologie'
+                            ? 'bg-yellow-500'
+                            : post.thematique === 'sante'
+                              ? 'bg-pink-500'
+                              : post.thematique === 'environnement'
+                                ? 'bg-teal-500'
+                                : post.thematique === 'education'
+                                  ? 'bg-orange-500'
+                                  : 'bg-gray-500'
+                    }`}
                 >
                   {post.thematique}
                 </Link>

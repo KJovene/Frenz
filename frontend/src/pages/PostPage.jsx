@@ -1,142 +1,75 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import axios from 'axios';
-
-import LeftSideBar from '../components/LeftSideBar.jsx';
-import RightSideBar from '../components/RightSidebar.jsx';
-import Comments from '../components/Comments.jsx';
-import EditComment from '../pages/EditComment.jsx';
-
+import LeftSideBar from '../components/LeftSideBar.jsx'
+import RightSideBar from '../components/RightSideBar.jsx'
 import { Trash, PencilLine, Ellipsis } from 'lucide-react';
+import Comments from '../components/Comments.jsx'
+import EditComment from './EditComment.jsx'
+function PostPage() {
+    const { id } = useParams();
+    const [post, setPost] = useState({});
+    const [editPost, setEditPost] = useState(false)
+    const [editComment, setEditComment] = useState(false)
+    const [isEditCommentOpen, setIsEditCommentOpen] = useState(false); // Gère l'ouverture de la popup
+    const [selectedComment, setSelectedComment] = useState(null);
+    const [commentaires, setCommentaires] = useState([]);
 
-const SubFrenz = () => {
-  const navigate = useNavigate();
-  const [posts, setPosts] = useState([]);
-  const [editPost, setEditPost] = useState(null);
-  const [editComment, setEditComment] = useState(null);
-  const [isEditCommentOpen, setIsEditCommentOpen] = useState(false);
-  const [selectedComment, setSelectedComment] = useState(null);
-  
-  
-  const { thematique } = useParams();
-  const [commentaires, setCommentaires] = useState([]);
+    const fetchPost = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`http://localhost:1337/api/post-frenzs/${id}?populate=*`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-  const fetchUser = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-        return;
-      }
+            if (response.status === 200) {
+                setPost(response.data.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération du post :', error);
+        }
+    };
 
-      await axios.get('http://localhost:1337/api/users/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (err) {
-      navigate('/login');
-      console.error('Erreur lors de la récupération de l\'utilisateur :', err);
-    }
-  };
+    const fetchComments = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const response = await axios.get('http://localhost:1337/api/comments-frenzs?populate=post_frenz', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+    
+          if (response.status === 200) {
+            setCommentaires(response.data.data);
+          }
+        } catch (error) {
+          console.error('Erreur lors de la récupération des commentaires :', error);
+        }
+      };
 
-  const fetchPost = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:1337/api/post-frenzs?populate=*', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    const addComment = async (newComment) => {
+        setCommentaires((prevCommentaires) => [...prevCommentaires, newComment]);
+        await fetchComments();
+      };
 
-      if (response.status === 200) {
-        setPosts(response.data.data);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des posts :', error);
-    }
-  };
-
-  const fetchComments = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:1337/api/comments-frenzs?populate=post_frenz', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setCommentaires(response.data.data);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des commentaires :', error);
-    }
-  };
-
-  const handleDeletePost = async (postId) => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.delete(`http://localhost:1337/api/post-frenzs/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
-        console.log('Post supprimé avec succès');
-      }
-    } catch (error) {
-      console.error('Erreur lors de la suppression du post :', error);
-    }
-  };
-
-  const handleDeleteComment = async (commentId) => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.delete(`http://localhost:1337/api/comments-frenzs/${commentId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setCommentaires((prevCommentaires) => prevCommentaires.filter((comment) => comment.id !== commentId));
-        console.log('Commentaire supprimé avec succès');
-      }
-    } catch (error) {
-      console.error('Erreur lors de la suppression du commentaire :', error);
-    }
-  };
-
-  const filteredPosts = thematique
-    ? posts.filter((post) => post.thematique === thematique)
-    : posts;
-
-  useEffect(() => {
-    fetchUser();
-    fetchPost();
-    fetchComments();
-  }, []);
-
-  const addComment = async (newComment) => {
-    setCommentaires((prevCommentaires) => [...prevCommentaires, newComment]);
-    await fetchComments();
-  };
-
-  return (
-    <div className="flex gap-9 max-w-1xl mx-auto py-8 pl-0 pr-4">
+    useEffect(() => {
+        fetchPost();
+        fetchComments()
+    }, []);
+    
+    return (
+        <div className="flex gap-9 max-w-1xl mx-auto py-8 pl-0 pr-4">
 
 
       <LeftSideBar />
 
       <div className="h-screen flex flex-col items-center w-full">
         <div className="w-3/4">
-          {filteredPosts.length > 0 ? (
-            [...filteredPosts].reverse().map((post) => (
+         
 
-              <div key={post.id} className="border p-4 mb-4 shadow">
+              <div className="border p-4 mb-4 shadow">
                 <p className='flex justify-between'>
                   <strong>{post.author?.username || 'Inconnu'}</strong>
                   {new Date(post.createdAt).toLocaleDateString('fr-FR')} à {new Date(post.createdAt).toLocaleTimeString('fr-FR')}
@@ -183,26 +116,25 @@ const SubFrenz = () => {
                     </div>
                   )}
                 </div>
-
                 <Link
                   to={`/f/${post.thematique}`}
                   className={`px-4 py-1 rounded-full text-white text-sm font-semibold inline-block ${post.thematique === 'général'
-                      ? 'bg-blue-500'
-                      : post.thematique === 'game'
-                        ? 'bg-green-500'
-                        : post.thematique === 'sport'
-                          ? 'bg-red-500'
-                          : post.thematique === 'culture'
-                            ? 'bg-purple-500'
-                            : post.thematique === 'technologie'
-                              ? 'bg-yellow-500'
-                              : post.thematique === 'sante'
-                                ? 'bg-pink-500'
-                                : post.thematique === 'environnement'
-                                  ? 'bg-teal-500'
-                                  : post.thematique === 'education'
-                                    ? 'bg-orange-500'
-                                    : 'bg-gray-500'
+                    ? 'bg-blue-500'
+                    : post.thematique === 'game'
+                      ? 'bg-green-500'
+                      : post.thematique === 'sport'
+                        ? 'bg-red-500'
+                        : post.thematique === 'culture'
+                          ? 'bg-purple-500'
+                          : post.thematique === 'technologie'
+                            ? 'bg-yellow-500'
+                            : post.thematique === 'sante'
+                              ? 'bg-pink-500'
+                              : post.thematique === 'environnement'
+                                ? 'bg-teal-500'
+                                : post.thematique === 'education'
+                                  ? 'bg-orange-500'
+                                  : 'bg-gray-500'
                     }`}
                 >
                   {post.thematique}
@@ -300,16 +232,13 @@ const SubFrenz = () => {
 
                 <Comments id={post.documentId} onCommentAdded={addComment} />
               </div>
-            ))
-          ) : (
-            <p>Aucun post disponible.</p>
-          )}
+           
         </div>
       </div>
 
       <RightSideBar />
     </div>
-  );
-};
+    )
+}
 
-export default SubFrenz;
+export default PostPage
