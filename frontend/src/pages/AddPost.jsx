@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { SketchPicker } from 'react-color';
 
 const AddPost = ({ onPostCreated }) => {
   const [title, setTitle] = useState('');
@@ -8,8 +9,20 @@ const AddPost = ({ onPostCreated }) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [thematique, setThematiques] = useState('');
-  const [customThematique, setCustomThematique] = useState(''); 
+  const [customThematique, setCustomThematique] = useState('');
+  const [customColor, setCustomColor] = useState('#ffffff');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const fetchThematique = async () => {
+    try {
+      const response = await axios.get(`http://localhost:1337/api/post-frenzs?populate=*`);
+      return response.data.data.length > 0;
+    } catch (error) {
+      console.error('Erreur lors de la récupération de la thématique :', error);
+      return false;
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,48 +30,60 @@ const AddPost = ({ onPostCreated }) => {
       console.error('Un titre est requis pour le post.');
       return;
     }
-  
+
     try {
       setLoading(true);
-  
+      setError('');
+
+      if (thematique === 'autre') {
+        const exists = await fetchThematique(customThematique);
+        if (exists) {
+          setError('Cette thématique existe déjà. Veuillez en choisir une autre.');
+          setLoading(false);
+          return;
+        }
+      }
+
       let imageId = null;
-  
+
       if (image) {
         const formData = new FormData();
         formData.append('files', image);
-  
+
         const imageUploadResponse = await axios.post('http://localhost:1337/api/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         });
-  
+
         const uploadedImage = imageUploadResponse.data[0];
         imageId = uploadedImage?.id;
       }
-  
+
       const postData = {
         data: {
           title,
           description,
-          image: imageId, 
-          thematique: thematique === 'autre' ? customThematique : thematique, 
+          image: imageId,
+          thematique: thematique === 'autre' ? customThematique : thematique,
+          color: thematique === 'autre' ? customColor : null,
         },
       };
-  
+
       const postResponse = await axios.post('http://localhost:1337/api/post-frenzs', postData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      
+
       setThematiques('');
+      setCustomColor('#ffffff');
       setTitle('');
       setDescription('');
       setImage(null);
-  
+
       if (onPostCreated) {
         onPostCreated(postResponse.data);
       }
@@ -74,8 +99,9 @@ const AddPost = ({ onPostCreated }) => {
     <div className="flex justify-center items-center min-h-screen bg-[#18181b]">
       <div className="w-full max-w-xl px-6 py-8 bg-[#27272a] rounded-3xl">
         <h2 className="text-2xl font-bold text-[#ffffff] mb-6 text-center">Créer un nouveau post</h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
+
           <div>
             <input
               type="text"
@@ -86,7 +112,7 @@ const AddPost = ({ onPostCreated }) => {
               className="w-full px-4 py-3 rounded-lg bg-[#18181b] text-[#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#9333ea]"
             />
           </div>
-          
+
           <div>
             <textarea
               placeholder="Description"
@@ -96,7 +122,7 @@ const AddPost = ({ onPostCreated }) => {
               className="w-full px-4 py-3 rounded-lg bg-[#18181b] text-[#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#9333ea] h-32"
             />
           </div>
-          
+
           <div className="bg-[#18181b] rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer relative">
             <input
               type="file"
@@ -110,11 +136,11 @@ const AddPost = ({ onPostCreated }) => {
             <p className="text-xs text-[#a1a1aa]">JPG, PNG</p>
           </div>
 
-          <select name="thematique" id="thematique" 
-          onChange={(e) => setThematiques(e.target.value)}
-          value={thematique} 
-          required
-          className="w-full px-4 py-3 rounded-lg bg-[#18181b] text-[#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#9333ea]">
+          <select name="thematique" id="thematique"
+            onChange={(e) => setThematiques(e.target.value)}
+            value={thematique}
+            required
+            className="w-full px-4 py-3 rounded-lg bg-[#18181b] text-[#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#9333ea]">
             <option value="" disabled selected>Choisir une thématique</option>
             <option value=">Général">Général</option>
             <option value="Game">Jeux vidéos</option>
@@ -137,11 +163,19 @@ const AddPost = ({ onPostCreated }) => {
                 required
                 className="w-full px-4 py-3 rounded-lg bg-[#18181b] text-[#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#9333ea]"
               />
+                {error && <p className="text-red-500 text-center">{error}</p>}
+              <div className="flex flex-col mt-4 w-full justify-center items-center" >
+                <p className="text-sm text-[#ffffff] mb-2">Choisissez une couleur :</p>
+                <SketchPicker
+                  color={customColor}
+                  onChangeComplete={(color) => setCustomColor(color.hex)}
+                />
+              </div>
             </div>
           )}
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="w-full bg-[#6b21a8] text-[#ffffff] py-3 rounded-full font-bold text-lg hover:bg-opacity-90 transition duration-300"
             disabled={loading}
           >

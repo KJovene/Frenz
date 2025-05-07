@@ -461,6 +461,7 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    color: Schema.Attribute.String;
     comments_frenzs: Schema.Attribute.Relation<
       'oneToMany',
       'api::comments-frenz.comments-frenz'
