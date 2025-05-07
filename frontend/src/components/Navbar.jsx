@@ -133,23 +133,31 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             />
             {/* Résultats de recherche */}
             {searchResults.length > 0 && (
-              <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50">
-                <ul>
-                  {searchResults.map((post) => (
-                    <li key={post.id} className="p-2 border-b hover:bg-gray-100">
-                      {/* Lien vers la page PostPage pour le titre */}
-                      <Link to={`/post/${post.documentId}`} className="font-semibold text-blue-600 hover:underline" onMouseDown={(e) => e.preventDefault()}>
-                        {post.title}
-                      </Link>
-                      {/* Lien vers la page SubFrenz pour la thématique */}
-                      <Link to={`/f/${post.thematique}`} className="text-sm text-gray-500 hover:underline block" onMouseDown={(e) => e.preventDefault()}>
-                        {post.thematique}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+  <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50 max-h-48 overflow-y-auto">
+    <ul>
+      {searchResults.map((post) => (
+        <li key={post.id} className="p-2 border-b hover:bg-gray-100">
+          {/* Lien vers la page PostPage pour le titre */}
+          <Link
+            to={`/post/${post.documentId}`}
+            className="font-semibold text-blue-600 hover:underline"
+            onMouseDown={(e) => e.preventDefault()}
+          >
+            {post.title}
+          </Link>
+          {/* Lien vers la page SubFrenz pour la thématique */}
+          <Link
+            to={`/f/${post.thematique}`}
+            className="text-sm text-gray-500 hover:underline block"
+            onMouseDown={(e) => e.preventDefault()}
+          >
+            {post.thematique}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
           </div>
         )}
 
