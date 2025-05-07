@@ -142,7 +142,9 @@ const SubFrenz = () => {
                   {new Date(post.createdAt).toLocaleDateString('fr-FR')} à {new Date(post.createdAt).toLocaleTimeString('fr-FR')}
                 </p>
                 <div className='flex justify-between items-center'>
-                  <h2 className="text-xl font-semibold">{post.title || post.title_frenz}</h2>
+                  <Link to={`/post/${post.documentId}`}>
+                    <h2 className="text-xl font-semibold">{post.title || post.title_frenz}</h2>
+                  </Link>
                 </div>
                 <div className="relative">
                   {/* Bouton pour ouvrir le menu */}
