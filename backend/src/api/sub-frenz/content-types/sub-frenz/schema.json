@@ -4,7 +4,8 @@
   "info": {
     "singularName": "sub-frenz",
     "pluralName": "sub-frenzs",
-    "displayName": "SubFrenz"
+    "displayName": "SubFrenz",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,6 +13,37 @@
   "attributes": {
     "title": {
       "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "sub_frenzs"
+    },
+    "post_frenzs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::post-frenz.post-frenz",
+      "mappedBy": "sub_frenz"
+    },
+    "comments_frenzs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comments-frenz.comments-frenz",
+      "mappedBy": "sub_frenz"
     }
   }
 }

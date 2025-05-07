@@ -1,3 +1,198 @@
+@plugin "daisyui";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Font Baloo2 */
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('./assets/fonts/Baloo2-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('./assets/fonts/Baloo2-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('./assets/fonts/Baloo2-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('./assets/fonts/Baloo2-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Baloo 2';
+  src: url('./assets/fonts/Baloo2-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Styles personnalisés */
+@layer base {
+  body {
+    @apply font-sans bg-[#171717]; 
+    font-family: 'Baloo 2', sans-serif; 
+  }
+  
+  h1 {
+    @apply text-2xl font-bold mb-4;
+  }
+  
+  h2 {
+    @apply text-xl font-bold mb-3;
+  }
+  
+  h3 {
+    @apply text-lg font-bold mb-2;
+  }
+}
+
+@layer components {
+  .btn-custom {
+    @apply inline-flex items-center px-4 py-2 border border-transparent 
+           text-sm font-medium rounded-md shadow-sm 
+           focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  /* Frenz dsign*/
+  .btn-accent {
+    @apply w-full bg-[#CCDF5E] text-black py-3 rounded-full font-bold text-lg hover:bg-opacity-90 transition duration-300 font-baloo;
+  }
+  
+  /* Inputs */
+  .input-dark {
+    @apply w-full px-4 py-3 rounded-lg bg-black text-white border-none focus:outline-none focus:ring-2 focus:ring-[#CCDF5E] font-baloo;
+  }
+  
+  /* Conteneurs */
+  .auth-container {
+    @apply flex justify-center items-center h-screen bg-[#171717];
+  }
+  
+  .auth-card {
+    @apply flex w-full max-w-5xl overflow-hidden rounded-xl;
+  }
+  
+  .image-section {
+    @apply relative w-1/2 hidden md:block;
+  }
+  
+  .form-section {
+    @apply w-full md:w-1/2 bg-[#272626] p-12 flex flex-col items-center justify-center rounded-r-xl;
+  }
+  
+  /* Tél */
+  .phone-input {
+    @apply flex;
+  }
+  
+  .phone-prefix {
+    @apply flex items-center justify-center bg-black text-white px-3 py-3 rounded-l-lg font-baloo;
+  }
+}
+
+/* Champs de saisie */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"] {
+  @apply bg-black text-white rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-[#CCDF5E] font-baloo;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.font-baloo {
+  font-family: 'Baloo 2', sans-serif !important;
+}
+
+/* Adapté tout taille */
+.auth-fixed-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #171717;
+  overflow: hidden;
+}
+
+.auth-wrapper {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  border-radius: 0.75rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.auth-form-container {
+  width: 100%;
+  background-color: #272626;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .auth-form-container {
+    width: 50%;
+    border-radius: 0 0.75rem 0.75rem 0;
+  }
+}
+
+/* Adaptation pour différentes tailles d'écran */
+@media (min-height: 1000px) {
+  .auth-wrapper {
+    height: auto;
+    max-height: 90vh;
+  }
+}
+
+@media (max-height: 800px) {
+  .auth-form-container {
+    padding: 1.5rem;
+  }
+  
+  .space-y-4 > * + * {
+    margin-top: 0.75rem;
+  }
+  
+  .space-y-3 > * + * {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-height: 600px) {
+  .auth-form-container {
+    padding: 1rem;
+    overflow-y: auto;
+  }
+}

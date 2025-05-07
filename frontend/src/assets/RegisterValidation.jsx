@@ -1,4 +1,4 @@
-function Validation(values) {
+function Validation(values,users) {
     let error = {}
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   
@@ -25,6 +25,14 @@ function Validation(values) {
     }else if(values.confirmPassword !== values.password ){
         error.confirmPassword = "Le mot de passe doit être identique";
     }
+
+    if (Array.isArray(users) && users.some((user) => user === values.username)) {
+      error.username = "Le pseudo existe déjà";
+    }
+    if (users && values.username in users) {
+      error.username = "Le pseudo existe déjà";
+    }
+
     return error
   }
   

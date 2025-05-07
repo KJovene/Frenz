@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "post_frenzs",
+  "info": {
+    "singularName": "post-frenz",
+    "pluralName": "post-frenzs",
+    "displayName": "PostFrenz",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "post_frenzs"
+    },
+    "sub_frenz": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::sub-frenz.sub-frenz",
+      "inversedBy": "post_frenzs"
+    },
+    "comments_frenzs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comments-frenz.comments-frenz",
+      "mappedBy": "post_frenz"
+    },
+    "images": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::image.image",
+      "mappedBy": "post_frenz"
+    },
+    "image": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ]
+    },
+    "thematique": {
+      "type": "string",
+      "unique": true
+    },
+    "color": {
+      "type": "string"
+    }
+  }
+}
