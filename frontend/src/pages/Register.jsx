@@ -89,8 +89,8 @@ function Register() {
           <h1 className='text-4xl font-bold text-[#ffffff] mb-6 text-center font-baloo'>
             <span className='text-[#9333ea]'>F</span>renz
           </h1>
-          
           <div className='flex justify-center mb-6 space-x-6'>
+            
             {/* Facebook Icon*/}
             <a href="#" className='text-[#c084fc]'>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
