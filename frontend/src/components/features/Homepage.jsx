@@ -53,7 +53,6 @@ const Homepage = () => {
       console.error('Erreur lors de la récupération des posts :', error);
     }
   };
-  // console.log(selectedComment)
 
   const fetchComments = async () => {
     try {

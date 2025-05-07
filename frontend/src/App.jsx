@@ -1,7 +1,9 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import Navbar from "./components/Navbar.jsx"
 import Homepage from "./components/features/Homepage.jsx";
+import Profile from './pages/Profile.jsx' 
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NotFoundPage from "./components/features/NotFoundPage.jsx";
@@ -10,6 +12,8 @@ import Footer from "./components/Footer.jsx";
 import SubFrenz from "./pages/SubFrenz.jsx";
 import EditPost from "./pages/EditPost.jsx";
 import PostPage from "./pages/PostPage.jsx";
+import Notifications from "./pages/Notifications.jsx";
+import Settings from "./pages/Settings.jsx";
 
 function App() {
   const location = useLocation();
@@ -23,11 +27,14 @@ function App() {
         <Routes>
           <Route path="/f/:thematique" element={<SubFrenz />} />
           <Route path="/" element={<Homepage />} />
+          <Route path='/profile' element={<Profile />} />
           <Route path="/addpost" element={<AddPost />} />
           <Route path="/editpost/:id" element={<EditPost />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/post/:id" element={<PostPage/>} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/settings" element={<Settings />} /> 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

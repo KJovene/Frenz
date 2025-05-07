@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Fuse from "fuse.js"
 import axios from 'axios'
 const Navbar = ({ darkMode, setDarkMode }) => {
@@ -20,6 +20,12 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     };
     fetchPosts();
   }, []);
+  
+  const navigate = useNavigate();
+
+  const handleNotificationsClick = () => {
+    navigate('/notifications');
+  };
 
   const handleSearch = (query) => {
     setQuery(query)
@@ -37,7 +43,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
   }
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50 py-3 px-4">
-      {/* Left Sideg */}
+      {/* Left Side */}
       <div className="navbar-start relative">
         <button
           className="btn btn-ghost btn-circle hover:bg-primary/10 transition-all duration-300"
@@ -78,7 +84,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
               <ul className="menu menu-lg p-0">
                 <li><Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Home</span></Link></li>
                 <li><Link to="/messages" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Messages</span></Link></li>
-                <li><Link to="/notifications" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Notifications</span></Link></li>
+                {/* Retiré l'option Notifications du menu latéral */}
                 <li><Link to="/profile" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Profile</span></Link></li>
                 <li><Link to="/settings" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Settings</span></Link></li>
               </ul>
@@ -147,7 +153,11 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           </div>
         )}
 
-        <button className="btn btn-ghost btn-circle">
+        {/* Bouton de notification modifié pour naviguer vers la page des notifications */}
+        <button 
+          className="btn btn-ghost btn-circle"
+          onClick={handleNotificationsClick}
+        >
           <div className="indicator">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -175,7 +185,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow border border-gray-700"
           >
             <li><Link to="/profile" className="justify-between">Profile <span className="badge">New</span></Link></li>
-
           </ul>
         </div>
       </div>
