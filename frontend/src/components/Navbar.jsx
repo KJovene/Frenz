@@ -8,6 +8,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
   const [posts, setPosts] = useState([])
   const [query, setQuery] = useState("")
   const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -27,20 +28,29 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     navigate('/notifications');
   };
 
-  const handleSearch = (query) => {
-    setQuery(query)
+  const handleSearch = async (query) => {
+    setQuery(query);
     if (!query) {
-      setSearchResults([])
-      return
+      setSearchResults([]);
+      return;
     }
-    const fuse = new Fuse(posts, {
+    setIsLoading(true);
+    const validPosts = posts.filter(post => post.title && post.thematique);
+    const fuse = new Fuse(validPosts, {
       keys: ["title", "thematique"],
-      threshold: 0.3
-    })
+      threshold: 0.3,
+    });
+    const results = fuse.search(query);
+    console.log(results)
+    setSearchResults(results.map((result) => result.item));
+    setIsLoading(false);
+  };
 
-    const results = fuse.search(query)
-    setSearchResults(results.map((result) => result.item))
-  }
+  const highlightMatch = (text, query) => {
+    if(!text) return ""
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.replace(regex, (match) => `<span class="bg-yellow-200">${match}</span>`);
+  };
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50 py-3 px-4">
       {/* Left Side */}
@@ -124,35 +134,45 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           </button>
         ) : (
           <div className="relative">
-            <input
-              type="text"
-              placeholder="Rechercher..."
-              className="input input-bordered w-32 md:w-auto"
-              value={query}
-              onChange={(e) => handleSearch(e.target.value)}
-              autoFocus
-              onBlur={() => setShowSearch(false)}
+  <input
+    type="text"
+    placeholder="Rechercher..."
+    className="input input-bordered w-32 md:w-auto"
+    value={query}
+    onChange={(e) => handleSearch(e.target.value)}
+    autoFocus
+    onBlur={() => setShowSearch(false)}
+  />
+  {/* Résultats de recherche */}
+  {query && (
+    <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50 max-h-48 overflow-y-auto">
+      {searchResults.length > 0 ? (
+        <ul>
+          {searchResults.map((post) => (
+            <li key={post.id} className="p-2 border-b hover:bg-gray-100">
+            {/* Lien vers la page PostPage pour le titre */}
+            <Link
+              to={`/post/${post.documentId}`}
+              className="font-semibold text-blue-600 hover:underline"
+              onMouseDown={(e) => e.preventDefault()}
+              dangerouslySetInnerHTML={{ __html: highlightMatch(post.title, query) }}
             />
-            {/* Résultats de recherche */}
-            {searchResults.length > 0 && (
-              <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50">
-                <ul>
-                  {searchResults.map((post) => (
-                    <li key={post.id} className="p-2 border-b hover:bg-gray-100">
-                      {/* Lien vers la page PostPage pour le titre */}
-                      <Link to={`/post/${post.documentId}`} className="font-semibold text-blue-600 hover:underline" onMouseDown={(e) => e.preventDefault()}>
-                        {post.title}
-                      </Link>
-                      {/* Lien vers la page SubFrenz pour la thématique */}
-                      <Link to={`/f/${post.thematique}`} className="text-sm text-gray-500 hover:underline block" onMouseDown={(e) => e.preventDefault()}>
-                        {post.thematique}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+            {/* Lien vers la page SubFrenz pour la thématique */}
+            <Link
+              to={`/f/${post.thematique}`}
+              className="text-sm text-gray-500 hover:underline block"
+              onMouseDown={(e) => e.preventDefault()}
+              dangerouslySetInnerHTML={{ __html: highlightMatch(post.thematique, query) }}
+            />
+          </li>
+          ))}
+        </ul>
+      ) : (
+        <div className="p-4 text-gray-500 text-center">Aucun résultat trouvé</div>
+      )}
+    </div>
+  )}
+</div>
         )}
 
         {/* Bouton de notification modifié pour naviguer vers la page des notifications */}
