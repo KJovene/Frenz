@@ -1,5 +1,6 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import {  Routes, Route } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import Navbar from "./components/Navbar.jsx"
 import Homepage from "./components/features/Homepage.jsx";
@@ -13,6 +14,7 @@ import SubFrenz from "./pages/SubFrenz.jsx";
 import EditPost from "./pages/EditPost.jsx";
 import Notifications from "./pages/Notifications.jsx";
 import Settings from "./pages/Settings.jsx";
+import EditProfile from "./pages/EditProfile.jsx";
 
 function App() {
   const location = useLocation();
@@ -26,6 +28,7 @@ function App() {
         <Routes>
           <Route path="/post/:thematique" element={<SubFrenz />} />
           <Route path="/" element={<Homepage />} />
+          <Route path="/editprofile/:id" element={<EditProfile />} />
           <Route path='/profile' element={<Profile />} />
           <Route path="/addpost" element={<AddPost />} />
           <Route path="/editpost/:id" element={<EditPost />} />
