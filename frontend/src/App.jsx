@@ -1,7 +1,9 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import Navbar from "./components/Navbar.jsx"
 import Homepage from "./components/features/Homepage.jsx";
+import Profile from './pages/Profile.jsx' 
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NotFoundPage from "./components/features/NotFoundPage.jsx";
@@ -24,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/post/:thematique" element={<SubFrenz />} />
           <Route path="/" element={<Homepage />} />
+          <Route path='/profile' element={<Profile />} />
           <Route path="/addpost" element={<AddPost />} />
           <Route path="/editpost/:id" element={<EditPost />} />
           <Route path="/login" element={<Login />} />
