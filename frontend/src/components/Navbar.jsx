@@ -1,10 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import Fuse from "fuse.js"
+import axios from 'axios'
 const Navbar = ({ darkMode, setDarkMode }) => {
   const [showSearch, setShowSearch] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [posts, setPosts] = useState([])
+  const [query, setQuery] = useState("")
+  const [searchResults, setSearchResults] = useState([]);
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:1337/api/post-frenzs?populate=*");
+        setPosts(response.data.data);
+      } catch (error) {
+        console.log("Erreur lors de la récupération des posts :", error);
+      }
+    };
+    fetchPosts();
+  }, []);
+
+  const handleSearch = (query) => {
+    setQuery(query)
+    if (!query) {
+      setSearchResults([])
+      return
+    }
+    const fuse = new Fuse(posts, {
+      keys: ["title", "thematique"],
+      threshold: 0.3
+    })
+
+    const results = fuse.search(query)
+    setSearchResults(results.map((result) => result.item))
+  }
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50 py-3 px-4">
       {/* Left Sideg */}
@@ -31,7 +61,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         </button>
 
         {menuOpen && (
-          <div 
+          <div
             className="absolute left-0 top-full mt-4 w-80 max-h-[85vh] bg-base-100 shadow-xl rounded-xl overflow-hidden z-50 border border-base-300 animate-fadeIn"
             onMouseLeave={() => setMenuOpen(false)}
           >
@@ -85,13 +115,36 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             </svg>
           </button>
         ) : (
-          <input
-            type="text"
-            placeholder="Search..."
-            className="input input-bordered w-32 md:w-auto"
-            autoFocus
-            onBlur={() => setShowSearch(false)}
-          />
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Rechercher..."
+              className="input input-bordered w-32 md:w-auto"
+              value={query}
+              onChange={(e) => handleSearch(e.target.value)}
+              autoFocus
+              onBlur={() => setShowSearch(false)}
+            />
+            {/* Résultats de recherche */}
+            {searchResults.length > 0 && (
+              <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50">
+                <ul>
+                  {searchResults.map((post) => (
+                    <li key={post.id} className="p-2 border-b hover:bg-gray-100">
+                      {/* Lien vers la page PostPage pour le titre */}
+                      <Link to={`/post/${post.documentId}`} className="font-semibold text-blue-600 hover:underline" onMouseDown={(e) => e.preventDefault()}>
+                        {post.title}
+                      </Link>
+                      {/* Lien vers la page SubFrenz pour la thématique */}
+                      <Link to={`/f/${post.thematique}`} className="text-sm text-gray-500 hover:underline block" onMouseDown={(e) => e.preventDefault()}>
+                        {post.thematique}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         )}
 
         <button className="btn btn-ghost btn-circle">
@@ -122,7 +175,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow border border-gray-700"
           >
             <li><Link to="/profile" className="justify-between">Profile <span className="badge">New</span></Link></li>
-          
+
           </ul>
         </div>
       </div>

@@ -123,7 +123,7 @@ const AddPost = ({ onPostCreated }) => {
             <option value="sante">Santé</option>
             <option value="environnement">Environnement</option>
             <option value="education">Éducation</option>
-            <potion value="autre">Autre</potion>
+            <option value="autre">Autre</option>
           </select>
 
 
