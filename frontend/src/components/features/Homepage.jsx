@@ -179,21 +179,21 @@ const Homepage = () => {
                   className="px-4 py-1 rounded-full text-white text-sm font-semibold inline-block"
                   style={{
                     backgroundColor: post.color || // Utilise la couleur aléatoire si elle existe
-                      (post.thematique === 'général'
+                      (post.thematique === 'Général'
                         ? '#3b82f6' // Bleu
-                        : post.thematique === 'game'
+                        : post.thematique === 'Game'
                           ? '#22c55e' // Vert
-                          : post.thematique === 'sport'
+                          : post.thematique === 'Sport'
                             ? '#ef4444' // Rouge
-                            : post.thematique === 'culture'
+                            : post.thematique === 'Culture'
                               ? '#a855f7' // Violet
-                              : post.thematique === 'technologie'
+                              : post.thematique === 'Technologie'
                                 ? '#facc15' // Jaune
-                                : post.thematique === 'sante'
+                                : post.thematique === 'Sante'
                                   ? '#ec4899' // Rose
-                                  : post.thematique === 'environnement'
+                                  : post.thematique === 'Environnement'
                                     ? '#14b8a6' // Turquoise
-                                    : post.thematique === 'education'
+                                    : post.thematique === 'Education'
                                       ? '#f97316' // Orange
                                       : '#6b7280'), // Gris par défaut
                   }}

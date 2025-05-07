@@ -53,6 +53,9 @@
     },
     "thematique": {
       "type": "string"
+    },
+    "color": {
+      "type": "string"
     }
   }
 }
