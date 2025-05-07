@@ -116,14 +116,14 @@ const AddPost = ({ onPostCreated }) => {
           required
           className="w-full px-4 py-3 rounded-lg bg-[#18181b] text-[#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#9333ea]">
             <option value="" disabled selected>Choisir une thématique</option>
-            <option value="général">Général</option>
-            <option value="game">Jeux vidéos</option>
-            <option value="sport">Sport</option>
-            <option value="culture">Culture</option>
-            <option value="technologie">Technologie</option>
-            <option value="sante">Santé</option>
-            <option value="environnement">Environnement</option>
-            <option value="education">Éducation</option>
+            <option value=">Général">Général</option>
+            <option value="Game">Jeux vidéos</option>
+            <option value="Sport">Sport</option>
+            <option value="Culture">Culture</option>
+            <option value="Technologie">Technologie</option>
+            <option value="Sante">Santé</option>
+            <option value="Environnement">Environnement</option>
+            <option value="Education">Éducation</option>
             <option value="autre">Autre</option>
           </select>
 
@@ -133,7 +133,7 @@ const AddPost = ({ onPostCreated }) => {
                 type="text"
                 placeholder="Entrez votre thématique"
                 value={customThematique}
-                onChange={(e) => setThematiques(e.target.value)}
+                onChange={(e) => setCustomThematique(e.target.value)}
                 required
                 className="w-full px-4 py-3 rounded-lg bg-[#18181b] text-[#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#9333ea]"
               />
