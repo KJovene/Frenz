@@ -14,7 +14,7 @@ const AddPost = ({ onPostCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim()) {
-      console.error('Le titre est manquant.');
+      console.error('Un titre est requis pour le post.');
       return;
     }
   
