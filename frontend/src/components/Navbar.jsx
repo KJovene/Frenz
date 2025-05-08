@@ -9,6 +9,31 @@ const Navbar = ({ darkMode, setDarkMode }) => {
   const [query, setQuery] = useState("")
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState(null)
+
+
+  const fetchUser = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
+      const response = await axios.get('http://localhost:1337/api/users/me?populate=*', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+
+      setUser(response.data);
+      console.log(user)
+    } catch (err) {
+      navigate('/login');
+      console.error('Erreur lors de la récupération de l\'utilisateur :', err);
+    }
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -19,9 +44,11 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         console.log("Erreur lors de la récupération des posts :", error);
       }
     };
+
+    fetchUser()
     fetchPosts();
   }, []);
-  
+
   const navigate = useNavigate();
 
   const handleNotificationsClick = () => {
@@ -47,7 +74,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
   };
 
   const highlightMatch = (text, query) => {
-    if(!text) return ""
+    if (!text) return ""
     const regex = new RegExp(`(${query})`, 'gi');
     return text.replace(regex, (match) => `<span class="bg-yellow-200">${match}</span>`);
   };
@@ -134,49 +161,49 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           </button>
         ) : (
           <div className="relative">
-  <input
-    type="text"
-    placeholder="Rechercher..."
-    className="input input-bordered w-32 md:w-auto"
-    value={query}
-    onChange={(e) => handleSearch(e.target.value)}
-    autoFocus
-    onBlur={() => setShowSearch(false)}
-  />
-  {/* Résultats de recherche */}
-  {query && (
-    <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50 max-h-48 overflow-y-auto">
-      {searchResults.length > 0 ? (
-        <ul>
-          {searchResults.map((post) => (
-            <li key={post.id} className="p-2 border-b hover:bg-gray-100">
-            {/* Lien vers la page PostPage pour le titre */}
-            <Link
-              to={`/post/${post.documentId}`}
-              className="font-semibold text-blue-600 hover:underline"
-              onMouseDown={(e) => e.preventDefault()}
-              dangerouslySetInnerHTML={{ __html: highlightMatch(post.title, query) }}
+            <input
+              type="text"
+              placeholder="Rechercher..."
+              className="input input-bordered w-32 md:w-auto"
+              value={query}
+              onChange={(e) => handleSearch(e.target.value)}
+              autoFocus
+              onBlur={() => setShowSearch(false)}
             />
-            {/* Lien vers la page SubFrenz pour la thématique */}
-            <Link
-              to={`/f/${post.thematique}`}
-              className="text-sm text-gray-500 hover:underline block"
-              onMouseDown={(e) => e.preventDefault()}
-              dangerouslySetInnerHTML={{ __html: highlightMatch(post.thematique, query) }}
-            />
-          </li>
-          ))}
-        </ul>
-      ) : (
-        <div className="p-4 text-gray-500 text-center">Aucun résultat trouvé</div>
-      )}
-    </div>
-  )}
-</div>
+            {/* Résultats de recherche */}
+            {query && (
+              <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50 max-h-48 overflow-y-auto">
+                {searchResults.length > 0 ? (
+                  <ul>
+                    {searchResults.map((post) => (
+                      <li key={post.id} className="p-2 border-b hover:bg-gray-100">
+                        {/* Lien vers la page PostPage pour le titre */}
+                        <Link
+                          to={`/post/${post.documentId}`}
+                          className="font-semibold text-blue-600 hover:underline"
+                          onMouseDown={(e) => e.preventDefault()}
+                          dangerouslySetInnerHTML={{ __html: highlightMatch(post.title, query) }}
+                        />
+                        {/* Lien vers la page SubFrenz pour la thématique */}
+                        <Link
+                          to={`/f/${post.thematique}`}
+                          className="text-sm text-gray-500 hover:underline block"
+                          onMouseDown={(e) => e.preventDefault()}
+                          dangerouslySetInnerHTML={{ __html: highlightMatch(post.thematique, query) }}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="p-4 text-gray-500 text-center">Aucun résultat trouvé</div>
+                )}
+              </div>
+            )}
+          </div>
         )}
 
         {/* Bouton de notification modifié pour naviguer vers la page des notifications */}
-        <button 
+        <button
           className="btn btn-ghost btn-circle"
           onClick={handleNotificationsClick}
         >
@@ -195,12 +222,31 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             role="button"
             className="btn btn-ghost btn-circle avatar ring-2 ring-lime-border ring-offset-2 ring-offset-base-100"
           >
-            <div className="w-10 rounded-full">
+            {user && user.image ? ( // Vérifiez si user et user.image existent
               <img
-                alt="User Avatar"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                src={`http://localhost:1337${user.image.url}`}
+                alt={user.image.alternativeText || 'Photo de profil'}
+                className="w-32 h-32 rounded-full object-cover mb-4 shadow-lg"
               />
-            </div>
+            ) : (
+              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                {/* Affiche une icône ou un avatar par défaut si user est null */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-gray-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5.121 17.804A4 4 0 0112 15a4 4 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+              </div>
+            )}
           </div>
           <ul
             tabIndex={0}
