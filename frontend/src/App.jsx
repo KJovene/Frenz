@@ -15,6 +15,7 @@ import EditPost from "./pages/EditPost.jsx";
 import PostPage from "./pages/PostPage.jsx";
 import Notifications from "./pages/Notifications.jsx";
 import Settings from "./pages/Settings.jsx";
+import EditProfile from "./pages/EditProfile.jsx";
 
 function App() {
   const location = useLocation();
@@ -28,6 +29,7 @@ function App() {
         <Routes>
           <Route path="/f/:thematique" element={<SubFrenz />} />
           <Route path="/" element={<Homepage />} />
+          <Route path="/editprofile/:id" element={<EditProfile />} />
           <Route path='/profile' element={<Profile />} />
           <Route path="/addpost" element={<AddPost />} />
           <Route path="/editpost/:id" element={<EditPost />} />
@@ -39,7 +41,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
-     
+      
     </div>
   );
 }

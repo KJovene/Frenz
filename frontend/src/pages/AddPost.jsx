@@ -142,7 +142,7 @@ const AddPost = ({ onPostCreated }) => {
             <option value="" disabled selected>
               Choisir une thématique
             </option>
-            <option value=">Général">Général</option>
+            <option value="Général">Général</option>
             <option value="Game">Jeux vidéos</option>
             <option value="Sport">Sport</option>
             <option value="Culture">Culture</option>
