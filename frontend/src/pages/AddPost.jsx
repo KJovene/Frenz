@@ -42,12 +42,30 @@ const AddPost = ({ onPostCreated }) => {
         imageId = uploadedImage?.id;
       }
 
+      if (thematique === 'autre') {
+        const existingThematiqueResponse = await axios.get(
+          `http://localhost:1337/api/post-frenzs?filters[thematique][$eq]=${customThematique}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        );
+
+        if (existingThematiqueResponse.data.data.length > 0) {
+          setError('Cette thématique existe déjà, veuillez en créer une autre.');
+          setLoading(false);
+          return;
+        }
+      }
+
       const postData = {
         data: {
           title,
           description,
           image: imageId,
           thematique: thematique === 'autre' ? customThematique : thematique,
+          customThematique,
           color: thematique === 'autre' ? customColor : null,
         },
       };
@@ -71,7 +89,7 @@ const AddPost = ({ onPostCreated }) => {
       navigate('/');
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        setError('Cette thématique existe déjà, veuillez en créer une autre.');
+        setError('Erreur lors de la création du post.');
       } else {
         console.error('Erreur lors de la création du post :', error.response?.data || error.message);
       }
@@ -139,7 +157,7 @@ const AddPost = ({ onPostCreated }) => {
             required
             className="w-full px-4 py-3 rounded-lg bg-[#18181b] text-[#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#9333ea]"
           >
-            <option value="" disabled selected>
+            <option value="" disabled>
               Choisir une thématique
             </option>
             <option value="Général">Général</option>
