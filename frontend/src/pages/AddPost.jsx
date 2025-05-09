@@ -14,6 +14,17 @@ const AddPost = ({ onPostCreated }) => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const thematiqueColors = {
+    Général: '#1E90FF',
+    Game: '#32CD32',
+    Sport: '#FF4500',
+    Culture: '#8A2BE2',
+    Technologie: '#FFD700',
+    Sante: '#FF69B4',
+    Environnement: '#20B2AA',
+    Education: '#FFA500',
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim()) {
@@ -66,7 +77,7 @@ const AddPost = ({ onPostCreated }) => {
           image: imageId,
           thematique: thematique === 'autre' ? customThematique : thematique,
           customThematique,
-          color: thematique === 'autre' ? customColor : null,
+          color: thematique === 'autre' ? customColor : thematiqueColors[thematique],
         },
       };
 
