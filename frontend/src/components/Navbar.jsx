@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronDown, User, Settings, LogOut } from 'lucide-react';
 import Fuse from "fuse.js"
 import axios from 'axios'
 const Navbar = ({ darkMode, setDarkMode }) => {
@@ -52,10 +51,27 @@ const Navbar = ({ darkMode, setDarkMode }) => {
 
   const navigate = useNavigate();
 
+  const handleNotificationsClick = () => {
+    navigate('/notifications');
+  };
 
-const Navbar = ({ darkMode, setDarkMode }) => {
-  const [showSearch, setShowSearch] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const handleSearch = async (query) => {
+    setQuery(query);
+    if (!query) {
+      setSearchResults([]);
+      return;
+    }
+    setIsLoading(true);
+    const validPosts = posts.filter(post => post.title && post.thematique);
+    const fuse = new Fuse(validPosts, {
+      keys: ["title", "thematique"],
+      threshold: 0.3,
+    });
+    const results = fuse.search(query);
+    console.log(results)
+    setSearchResults(results.map((result) => result.item));
+    setIsLoading(false);
+  };
 
   const highlightMatch = (text, query) => {
     if (!text) return ""
@@ -64,7 +80,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
   };
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50 py-3 px-4">
-      {/* Left Sideg */}
+      {/* Left Side */}
       <div className="navbar-start relative">
         <button
           className="btn btn-ghost btn-circle hover:bg-primary/10 transition-all duration-300"
@@ -78,7 +94,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path 
+            <path
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
@@ -88,7 +104,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         </button>
 
         {menuOpen && (
-          <div 
+          <div
             className="absolute left-0 top-full mt-4 w-80 max-h-[85vh] bg-base-100 shadow-xl rounded-xl overflow-hidden z-50 border border-base-300 animate-fadeIn"
             onMouseLeave={() => setMenuOpen(false)}
           >
@@ -105,7 +121,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
               <ul className="menu menu-lg p-0">
                 <li><Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Home</span></Link></li>
                 <li><Link to="/messages" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Messages</span></Link></li>
-                <li><Link to="/notifications" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Notifications</span></Link></li>
+                {/* Retiré l'option Notifications du menu latéral */}
                 <li><Link to="/profile" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Profile</span></Link></li>
                 <li><Link to="/settings" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Settings</span></Link></li>
               </ul>
@@ -126,10 +142,12 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         )}
       </div>
 
-      {/* Frenz logo */}
+      {/* Frenz logo - Sans fond */}
       <div className="navbar-center">
-        <Link to="/" className="btn btn-ghost text-2xl">
-          <span className="text-purple-500">F</span>renz
+        <Link to="/" className="block">
+          <h1 className="text-2xl font-bold font-baloo">
+            <span className="text-[#9333ea]">F</span>renz
+          </h1>
         </Link>
       </div>
 
@@ -197,6 +215,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           </div>
         </button>
 
+        {/* Avatar Dropdown */}
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
