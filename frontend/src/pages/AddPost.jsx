@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Fuse from 'fuse.js';
 import { SketchPicker } from 'react-color';
 
 const AddPost = ({ onPostCreated }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [showSearch, setShowSearch] = useState(false);
+  const [query, setQuery] = useState("")
+  const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [thematique, setThematiques] = useState('');
@@ -13,6 +19,17 @@ const AddPost = ({ onPostCreated }) => {
   const [customColor, setCustomColor] = useState('#ffffff');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [selectOptions, setSelectOptions] = useState([
+    "Général",
+    "Game",
+    "Sport",
+    "Culture",
+    "Technologie",
+    "Sante",
+    "Environnement",
+    "Éducation",
+    "autre",
+  ]);
 
   const thematiqueColors = {
     Général: '#1E90FF',
@@ -23,6 +40,50 @@ const AddPost = ({ onPostCreated }) => {
     Sante: '#FF69B4',
     Environnement: '#20B2AA',
     Education: '#FFA500',
+  };
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get("http://localhost:1337/api/post-frenzs?populate=*");
+        setPosts(response.data.data);
+      } catch (error) {
+        console.log("Erreur lors de la récupération des posts :", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  const handleSearchThematique = async (query) => {
+    setQuery(query);
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    setIsLoading(true);
+
+    const validPosts = posts.filter((post) => post.thematique);
+    const fuse = new Fuse(validPosts, {
+      keys: ['thematique'],
+      threshold: 0.3,
+    });
+    const results = fuse.search(query);
+
+    const uniqueResults = Array.from(
+      new Set(results.map((result) => result.item.thematique))
+    ).map((thematique) => {
+      return results.find((result) => result.item.thematique === thematique).item;
+    });
+
+    setSearchResults(uniqueResults); 
+    setIsLoading(false);
+  };
+
+  const highlightMatch = (text, query) => {
+    if (!text) return ""
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.replace(regex, (match) => `<span class="bg-yellow-200">${match}</span>`);
   };
 
   const handleSubmit = async (e) => {
@@ -109,6 +170,12 @@ const AddPost = ({ onPostCreated }) => {
     }
   };
 
+  const handleSelectThematique = (selectedThematique) => {
+    setThematiques(selectedThematique); 
+    setQuery(''); 
+    setShowSearch(false); 
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#18181b]">
       <div className="w-full max-w-xl px-6 py-8 bg-[#27272a] rounded-3xl">
@@ -160,27 +227,68 @@ const AddPost = ({ onPostCreated }) => {
             <p className="text-xs text-[#a1a1aa]">JPG, PNG</p>
           </div>
 
-          <select
-            name="thematique"
-            id="thematique"
-            onChange={(e) => setThematiques(e.target.value)}
-            value={thematique}
-            required
-            className="w-full px-4 py-3 rounded-lg bg-[#18181b] text-[#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#9333ea]"
-          >
-            <option value="" disabled>
-              Choisir une thématique
-            </option>
-            <option value="Général">Général</option>
-            <option value="Game">Jeux vidéos</option>
-            <option value="Sport">Sport</option>
-            <option value="Culture">Culture</option>
-            <option value="Technologie">Technologie</option>
-            <option value="Sante">Santé</option>
-            <option value="Environnement">Environnement</option>
-            <option value="Education">Éducation</option>
-            <option value="autre">Autre</option>
-          </select>
+          <div className='flex items-center justify-between mb-4'>
+            <select
+              name="thematique"
+              id="thematique"
+              onChange={(e) => setThematiques(e.target.value)}
+              value={thematique}
+              required
+              className="w-full px-4 py-3 rounded-lg bg-[#18181b] text-[#ffffff] border-none focus:outline-none focus:ring-2 focus:ring-[#9333ea]"
+            >
+              <option value="" disabled>
+                Choisir une thématique
+              </option>
+              {selectOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+
+            </select>
+            {!showSearch ? (
+              <button className="btn btn-ghost btn-circle" onClick={() => setShowSearch(true)}>
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+            ) : (
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Rechercher..."
+                  className="input input-bordered w-32 md:w-auto"
+                  value={query}
+                  onChange={(e) => handleSearchThematique(e.target.value)}
+                  autoFocus
+                  onBlur={() => setShowSearch(false)}
+                />
+                {/* Résultats de recherche */}
+                {query && (
+                  <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50 max-h-48 overflow-y-auto">
+                    {searchResults.length > 0 ? (
+                      <ul>
+                        {searchResults.map((post) => (
+                          <li
+                            key={post.id}
+                            className="p-2 border-b hover:bg-gray-100 cursor-pointer"
+                            onClick={() => handleSelectThematique(post.thematique)} 
+                          >
+                            <p
+                              className="font-semibold text-blue-600 hover:underline"
+                              dangerouslySetInnerHTML={{ __html: highlightMatch(post.thematique, query) }}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div className="p-4 text-gray-500 text-center">Aucun résultat trouvé</div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
 
           {thematique === 'autre' && (
             <div>
