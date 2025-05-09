@@ -53,9 +53,12 @@
     },
     "thematique": {
       "type": "string",
-      "unique": true
+      "unique": false
     },
     "color": {
+      "type": "string"
+    },
+    "customThematique": {
       "type": "string"
     }
   }
