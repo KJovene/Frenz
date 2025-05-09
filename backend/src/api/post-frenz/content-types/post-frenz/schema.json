@@ -57,6 +57,16 @@
     },
     "color": {
       "type": "string"
+    },
+    "likes": {
+      "type": "integer",
+      "default": 0
+    },
+    "likedBy": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "postLiked"
     }
   }
 }

@@ -27,7 +27,7 @@ const Postdesign = ({
 }) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(Math.floor(Math.random() * 30));
+  const [likeCount, setLikeCount] = useState(post.likes);
   const [commentText, setCommentText] = useState('');
   const [postComments, setPostComments] = useState([]);
   const [updatedComment, setUpdatedComment] = useState('');
@@ -35,7 +35,24 @@ const Postdesign = ({
   useEffect(() => {
     const related = commentaires.filter(c => c.post_frenz?.id === post.id);
     setPostComments(related);
+
+    
   }, [commentaires, post.id]);
+
+  useEffect(() => {
+    const checkIfLiked = async () => {
+      const token = localStorage.getItem('token');
+      const userResponse = await axios.get('http://localhost:1337/api/users/me', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const userId = userResponse.data.id;
+  
+      // Vérifiez si l'utilisateur actuel a liké le post
+      const isLikedByUser = post.likedBy?.some(user => user.id === userId);
+      setIsLiked(isLikedByUser);
+    };
+    checkIfLiked();
+  } ,[post.likedBy])
 
   useEffect(() => {
     if (selectedComment && isEditCommentOpen) {
@@ -43,9 +60,57 @@ const Postdesign = ({
     }
   }, [selectedComment, isEditCommentOpen]);
 
-  const handleLike = () => {
-    setIsLiked(!isLiked);
-    setLikeCount(prev => (isLiked ? prev - 1 : prev + 1));
+
+  const handleLike = async () => {
+    try {
+      const token = localStorage.getItem('token');
+  
+      // Récupérer l'utilisateur connecté
+      const userResponse = await axios.get('http://localhost:1337/api/users/me', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const userId = userResponse.data.id;
+  
+      // Vérifiez si l'utilisateur a déjà liké le post
+      const isCurrentlyLiked = post.likedBy?.some(user => user.id === userId);
+  
+      // Préparez les données pour la mise à jour
+      const updatedLikedBy = isCurrentlyLiked
+        ? post.likedBy.filter(user => user.id !== userId).map(user => user.id) // Retirer l'utilisateur
+        : [...(post.likedBy || []).map(user => user.id), userId]; // Ajouter l'utilisateur
+  
+      const postData = {
+        data: {
+          likedBy: updatedLikedBy, // Liste des IDs des utilisateurs
+          likes: updatedLikedBy.length, // Mettre à jour le compteur de likes en fonction de la taille de `likedBy`
+        },
+      };
+  
+      // Envoyer la requête PUT pour mettre à jour le post
+      const response = await axios.put(
+        `http://localhost:1337/api/post-frenzs/${post.documentId}`,
+        postData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        // Mettre à jour l'état local
+        setIsLiked(!isCurrentlyLiked);
+        setLikeCount(response.data.data.likes); // Mettre à jour le compteur de likes depuis la réponse du backend
+  
+        // Mettre à jour localement la liste `likedBy` dans `post`
+        post.likedBy = isCurrentlyLiked
+          ? post.likedBy.filter(user => user.id !== userId) // Retirer l'utilisateur
+          : [...(post.likedBy || []), { id: userId }]; // Ajouter l'utilisateur
+      }
+    } catch (err) {
+      console.error('Erreur lors de la gestion des likes :', err.response?.data || err.message);
+    }
   };
 
   const handleAddComment = () => {
@@ -152,7 +217,8 @@ const Postdesign = ({
       <div className="flex mt-5 gap-3">
         <button
           onClick={handleLike}
-          className={`flex-1 py-2 rounded-xl font-medium transition-all ${isLiked ? 'bg-purple-800/30 text-purple-300' : 'bg-base-100 text-white hover:bg-base-200'}`}
+          className={`flex-1 py-2 rounded-xl font-medium transition-all ${isLiked ? 'bg-purple-800/30 text-purple-300' : 'bg-base-100 text-white hover:bg-base-200'
+            }`}
         >
           <Heart size={16} className="inline mr-2" /> {isLiked ? 'Aimé' : "J'aime"}
         </button>

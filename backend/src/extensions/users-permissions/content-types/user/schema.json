@@ -92,6 +92,12 @@
       ],
       "type": "media",
       "multiple": false
+    },
+    "postLiked": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::post-frenz.post-frenz",
+      "mappedBy": "likedBy"
     }
   }
 }
