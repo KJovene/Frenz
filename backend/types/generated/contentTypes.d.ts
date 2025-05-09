@@ -473,6 +473,11 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
     description: Schema.Attribute.Text;
     image: Schema.Attribute.Media<'images' | 'files' | 'videos', true>;
     images: Schema.Attribute.Relation<'oneToMany', 'api::image.image'>;
+    likedBy: Schema.Attribute.Relation<
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    likes: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1024,6 +1029,10 @@ export interface PluginUsersPermissionsUser
       }>;
     post_frenzs: Schema.Attribute.Relation<
       'oneToMany',
+      'api::post-frenz.post-frenz'
+    >;
+    postLiked: Schema.Attribute.Relation<
+      'manyToMany',
       'api::post-frenz.post-frenz'
     >;
     provider: Schema.Attribute.String;

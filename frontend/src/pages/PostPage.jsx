@@ -61,7 +61,6 @@ function PostPage() {
         });
 
         if (response.status === 200) {
-          console.log('Post supprimé avec succès');
           navigate('/'); // Navigate back to home after deletion
         }
       } catch (error) {
@@ -82,7 +81,6 @@ function PostPage() {
           setCommentaires((prevCommentaires) => 
             prevCommentaires.filter((comment) => comment.id !== commentId)
           );
-          console.log('Commentaire supprimé avec succès');
           await fetchComments(); // Refresh comments after deletion
         }
       } catch (error) {

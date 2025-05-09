@@ -28,7 +28,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
 
 
       setUser(response.data);
-      console.log(user)
     } catch (err) {
       navigate('/login');
       console.error('Erreur lors de la récupération de l\'utilisateur :', err);
@@ -41,7 +40,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         const response = await axios.get("http://localhost:1337/api/post-frenzs?populate=*");
         setPosts(response.data.data);
       } catch (error) {
-        console.log("Erreur lors de la récupération des posts :", error);
+        console.error("Erreur lors de la récupération des posts :", error);
       }
     };
 
@@ -68,7 +67,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
       threshold: 0.3,
     });
     const results = fuse.search(query);
-    console.log(results)
     setSearchResults(results.map((result) => result.item));
     setIsLoading(false);
   };

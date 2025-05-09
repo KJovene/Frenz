@@ -16,7 +16,6 @@ const RightSideBar = () => {
         category: item.categories ? item.categories[0] : 'Tech',
         pubDate: item.date_published,
       }));
-      console.log('Tendances récupérées :', trends);
       setTrendingTopics(trends);
     } catch (error) {
       console.error('Erreur lors de la récupération des tendances :', error);

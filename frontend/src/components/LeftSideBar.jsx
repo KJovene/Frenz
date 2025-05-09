@@ -43,7 +43,6 @@ const LeftSidebar = () => {
       });
 
       setUser(response.data);
-      console.log('Utilisateur récupéré :', response.data);
     } catch (err) {
       navigate('/login');
       console.error("Erreur lors de la récupération de l'utilisateur :", err);
