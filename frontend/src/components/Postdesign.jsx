@@ -183,10 +183,15 @@ const Postdesign = ({
       <Link to={`/post/${post.documentId}`}>
         <h2 className="text-xl font-bold mb-2">{post.title || post.title_frenz}</h2>
       </Link>
-      <Link to={`/f/${post.thematique}`}>
-        <p className="inline-block mb-4 px-3 py-1 text-xs font-medium bg-purple-600/20 text-purple-400 rounded-full">
-          #{post.thematique}
-        </p>
+      <Link
+        to={`/f/${post.thematique}`}
+        className={`inline-block mb-4 px-3 py-1 text-xs font-medium rounded-full`}
+        style={{
+          backgroundColor: post.color || '#808080', // Couleur par défaut : gris
+          color: '#ffffff',
+        }}
+      >
+        {post.thematique}
       </Link>
 
       {/* Images */}

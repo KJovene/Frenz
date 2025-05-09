@@ -53,11 +53,12 @@
     },
     "thematique": {
       "type": "string",
-      "unique": true
+      "unique": false
     },
     "color": {
       "type": "string"
     },
+
     "likes": {
       "type": "integer",
       "default": 0
@@ -67,6 +68,10 @@
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "postLiked"
+    },
+    "customThematique": {
+      "type": "string"
+
     }
   }
 }
