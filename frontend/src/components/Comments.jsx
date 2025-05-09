@@ -50,4 +50,4 @@ function Comments({id, onCommentAdded}) {
   )
 }
 
-export default Comments
+export default Comments;

@@ -19,7 +19,7 @@ const whoToFollow = [
   {
     name: 'Nana 🎀',
     handle: '@cxxhime',
-    avatar: 'src/assets/images/netflix.png',
+    avatar: 'src/assets/images/Snowy.jpg',
     verified: true,
   },
 ];
