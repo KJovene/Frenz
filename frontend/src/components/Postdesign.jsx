@@ -4,8 +4,9 @@ import {
   Heart, MessageCircle, Share2, Ellipsis, Trash,
   PencilLine, Send, ThumbsUp
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+
 
 const Postdesign = ({
   post,
@@ -114,10 +115,14 @@ const Postdesign = ({
       </div>
 
       {/* Title & Tag */}
-      <h2 className="text-xl font-bold mb-2">{post.title || post.title_frenz}</h2>
-      <span className="inline-block mb-4 px-3 py-1 text-xs font-medium bg-purple-600/20 text-purple-400 rounded-full">
-        #{post.thematique}
-      </span>
+      <Link to={`/post/${post.documentId}`}>
+        <h2 className="text-xl font-bold mb-2">{post.title || post.title_frenz}</h2>
+      </Link>
+      <Link to={`/f/${post.thematique}`}>
+        <p className="inline-block mb-4 px-3 py-1 text-xs font-medium bg-purple-600/20 text-purple-400 rounded-full">
+          #{post.thematique}
+        </p>
+      </Link>
 
       {/* Images */}
       {post.image?.map(media => (
