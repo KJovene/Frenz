@@ -4,10 +4,8 @@ import axios from 'axios';
 
 import LeftSideBar from '../../components/LeftSideBar.jsx';
 import RightSideBar from '../../components/RightSideBar.jsx';
-import Post from '../../components/Post.jsx';
-import Comments from '../../components/Comments.jsx';
+import Postdesign from '../../components/Postdesign.jsx';
 import EditComment from '../../pages/EditComment.jsx';
-
 
 const Homepage = () => {
   const navigate = useNavigate();
@@ -15,6 +13,9 @@ const Homepage = () => {
   const [commentaires, setCommentaires] = useState([]);
   const [editPost, setEditPost] = useState(false);
   const [visibleComments, setVisibleComments] = useState({});
+  const [isEditCommentOpen, setIsEditCommentOpen] = useState(false);
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [editComment, setEditComment] = useState(null);
 
   useEffect(() => {
     fetchUser();
@@ -70,6 +71,22 @@ const Homepage = () => {
     }
   };
 
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`http://localhost:1337/api/comments-frenzs/${commentId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCommentaires(prev => prev.filter(c => c.id !== commentId));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const toggleComments = (postId) => {
+    setVisibleComments(prev => ({ ...prev, [postId]: !prev[postId] }));
+  };
+
   const addComment = async (newComment) => {
     try {
       const token = localStorage.getItem('token');
@@ -84,11 +101,15 @@ const Homepage = () => {
     }
   };
 
-  const toggleComments = (postId) => {
-    setVisibleComments(prev => ({
-      ...prev,
-      [postId]: !prev[postId]
-    }));
+  const updateCommentInState = (updatedComment) => {
+    setCommentaires((prevCommentaires) =>
+      prevCommentaires.map((comment) =>
+        comment.documentId === updatedComment.documentId
+          ? { ...comment, commentaire: updatedComment.commentaire }
+          : comment
+      )
+    );
+    setIsEditCommentOpen(false);
   };
 
   return (
@@ -99,7 +120,7 @@ const Homepage = () => {
         <div className="w-full">
           {posts.length > 0 ? (
             [...posts].reverse().map((post) => (
-              <Post
+              <Postdesign
                 key={post.id}
                 post={post}
                 commentaires={commentaires}
@@ -109,6 +130,13 @@ const Homepage = () => {
                 addComment={addComment}
                 editPost={editPost}
                 setEditPost={setEditPost}
+                handleDeleteComment={handleDeleteComment}
+                editComment={editComment}
+                setEditComment={setEditComment}
+                isEditCommentOpen={isEditCommentOpen}
+                setIsEditCommentOpen={setIsEditCommentOpen}
+                selectedComment={selectedComment}
+                setSelectedComment={setSelectedComment}
               />
             ))
           ) : (
@@ -117,9 +145,18 @@ const Homepage = () => {
         </div>
       </div>
 
+      {isEditCommentOpen && selectedComment && (
+        <EditComment
+          comment={selectedComment}
+          onClose={() => setIsEditCommentOpen(false)}
+          onCommentUpdated={updateCommentInState}
+        />
+      )}
+
       <RightSideBar />
     </div>
   );
 };
 
 export default Homepage;
+

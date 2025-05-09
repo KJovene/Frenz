@@ -202,7 +202,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           </div>
         )}
 
-        {/* Bouton de notification modifié pour naviguer vers la page des notifications */}
+        {/* Bouton de notification */}
         <button
           className="btn btn-ghost btn-circle"
           onClick={handleNotificationsClick}
@@ -217,44 +217,59 @@ const Navbar = ({ darkMode, setDarkMode }) => {
 
         {/* Avatar Dropdown */}
         <div className="dropdown dropdown-end">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar ring-2 ring-lime-border ring-offset-2 ring-offset-base-100"
-          >
-            {user && user.image ? ( // Vérifiez si user et user.image existent
-              <img
-                src={`http://localhost:1337${user.image.url}`}
-                alt={user.image.alternativeText || 'Photo de profil'}
-                className="w-32 h-32 rounded-full object-cover mb-4 shadow-lg"
-              />
-            ) : (
-              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-                {/* Affiche une icône ou un avatar par défaut si user est null */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5.121 17.804A4 4 0 0112 15a4 4 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-              </div>
-            )}
-          </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow border border-gray-700"
-          >
-            <li><Link to="/profile" className="justify-between">Profile <span className="badge">New</span></Link></li>
-          </ul>
-        </div>
+  <div
+    tabIndex={0}
+    role="button"
+    className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 cursor-pointer transition-colors"
+  >
+    {user && user.image ? (
+      <img
+        src={`http://localhost:1337${user.image.url}`}
+        alt={user.image.alternativeText || 'Avatar'}
+        className="w-6 h-6 rounded-full object-cover"
+      />
+    ) : (
+      <div className="w-6 h-6 bg-gray-500 rounded-full flex items-center justify-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-4 w-4 text-white"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M5.121 17.804A4 4 0 0112 15a4 4 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+          />
+        </svg>
+      </div>
+    )}
+    <span className="text-white text-sm font-medium">
+      {user ? user.username || 'User' : 'Guest'}
+    </span>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-4 w-4 text-white"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+
+  <ul
+    tabIndex={0}
+    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow border border-gray-700"
+  >
+    <li><Link to="/profile">Profile</Link></li>
+    <li><Link to="/settings">Settings</Link></li>
+    <li><a onClick={() => {/* logout logic */}}>Logout</a></li>
+  </ul>
+</div>
+
       </div>
     </div>
   );
