@@ -152,7 +152,7 @@ function EditProfile() {
         <input
           type="file"
           onChange={(e) => setImage(e.target.files[0])}
-          className="w-full px-4 py-3 border border-[#3f3f46] bg-[#18181b] rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-white file:bg-[#9333ea] hover:file:bg-[#c084fc]"
+          className="w-full px-4 py-3 border border-[#3f3f46] bg-[#18181b] rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-white file:bg-[#9333ea] hover:file:bg-[#6b21a8] file:transition-colors"
         />
       </div>
 
@@ -181,7 +181,7 @@ function EditProfile() {
         />
         <button
           onClick={handlePasswordChange}
-          className="px-6 py-3 bg-[#9333ea] text-white rounded-lg hover:bg-[#c084fc] transition-colors duration-300"
+          className="bg-[#9333ea] hover:bg-[#6b21a8] transition-colors py-3 px-6 rounded-full text-white"
         >
           Modifier le mot de passe
         </button>
@@ -190,13 +190,13 @@ function EditProfile() {
       <div className="flex space-x-4 mt-6">
         <button
           onClick={handleSaveChanges}
-          className="flex-1 px-4 py-3 bg-[#9333ea] text-white rounded-lg hover:bg-[#c084fc] transition-colors duration-300 font-medium"
+          className="flex-1 bg-[#9333ea] hover:bg-[#6b21a8] transition-colors py-3 px-6 rounded-full text-white font-medium"
           disabled={loading}
         >
           {loading ? 'Enregistrement...' : 'Sauvegarder les modifications'}
         </button>
         <Link to="/profile" className="flex-1">
-          <button className="w-full px-4 py-3 bg-[#9333ea] text-white rounded-lg hover:bg-[#c084fc] transition-colors duration-300">
+          <button className="w-full bg-[#9333ea] hover:bg-[#a1a1aa] transition-colors py-3 px-6 rounded-full text-white">
             Annuler
           </button>
         </Link>
