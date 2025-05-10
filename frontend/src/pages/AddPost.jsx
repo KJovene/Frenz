@@ -76,7 +76,7 @@ const AddPost = ({ onPostCreated }) => {
       return results.find((result) => result.item.thematique === thematique).item;
     });
 
-    setSearchResults(uniqueResults); 
+    setSearchResults(uniqueResults);
     setIsLoading(false);
   };
 
@@ -138,7 +138,7 @@ const AddPost = ({ onPostCreated }) => {
           image: imageId,
           thematique: thematique === 'autre' ? customThematique : thematique,
           customThematique,
-          color: thematique === 'autre' ? customColor : thematiqueColors[thematique],
+          color: thematique !== 'Général' && thematique !== "Game" && thematique !== "Sport" && thematique !== "Culture" && thematique !== "Technologie" && thematique !== "Sante" && thematique !== "Environnement" && thematique !== "Éducation" ? customColor : thematiqueColors[thematique],
         },
       };
 
@@ -170,11 +170,14 @@ const AddPost = ({ onPostCreated }) => {
     }
   };
 
-  const handleSelectThematique = (selectedThematique) => {
-    setThematiques(selectedThematique); 
-    setQuery(''); 
-    setShowSearch(false); 
-  };
+  const handleSelectThematique = (selectedThematique, selectedColor) => {
+  setThematiques(selectedThematique); // Définir la thématique sélectionnée
+  setCustomThematique(''); // Réinitialiser la thématique personnalisée
+  setCustomColor(selectedColor || thematiqueColors[selectedThematique] || '#ffffff'); // Utiliser la couleur associée ou une couleur par défaut
+  setQuery(selectedThematique); // Mettre à jour la requête avec la thématique sélectionnée
+  setSearchResults([]); // Vider les résultats de recherche
+}
+  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#18181b]">
@@ -261,29 +264,26 @@ const AddPost = ({ onPostCreated }) => {
                   value={query}
                   onChange={(e) => handleSearchThematique(e.target.value)}
                   autoFocus
-                  onBlur={() => setShowSearch(false)}
+                // onBlur={() => setShowSearch(false)}
                 />
                 {/* Résultats de recherche */}
-                {query && (
+                {query && searchResults.length > 0 && (
                   <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50 max-h-48 overflow-y-auto">
-                    {searchResults.length > 0 ? (
-                      <ul>
-                        {searchResults.map((post) => (
-                          <li
-                            key={post.id}
-                            className="p-2 border-b hover:bg-gray-100 cursor-pointer"
-                            onClick={() => handleSelectThematique(post.thematique)} 
-                          >
-                            <p
-                              className="font-semibold text-blue-600 hover:underline"
-                              dangerouslySetInnerHTML={{ __html: highlightMatch(post.thematique, query) }}
-                            />
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <div className="p-4 text-gray-500 text-center">Aucun résultat trouvé</div>
-                    )}
+                    <ul>
+                      {searchResults.map((post) => (
+                        <li
+                          key={post.id}
+                          className="p-2 border-b hover:bg-gray-100 cursor-pointer"
+                          onClick={() => handleSelectThematique(post.thematique,post.color)}
+                          onMouseDown={(e) => e.preventDefault()}
+                        >
+                          <p
+                            className="font-semibold text-blue-600 hover:underline"
+                            dangerouslySetInnerHTML={{ __html: highlightMatch(post.thematique, query) }}
+                          />
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 )}
               </div>
