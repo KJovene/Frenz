@@ -172,6 +172,10 @@ function Profile() {
                     Actif
                   </span>
                 </div>
+                <div className="flex items-center justify-between p-3 bg-[#18181b] rounded-lg">
+                  <span className="text-[#a1a1aa]">Promo</span>
+                  <span>{user.promo ? user.promo : 'Non spécifié'}</span>
+                </div>
               </div>
             </div>
 
