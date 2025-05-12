@@ -38,7 +38,6 @@ const RightSideBar = () => {
 
   return (
     <aside className="hidden lg:block w-[568px] space-y-6 sticky top-20 self-start">
-      {/* Create Post Button */}
       <a
         href="/addpost"
         className="bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-xl block text-center shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
