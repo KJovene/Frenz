@@ -132,71 +132,75 @@ function EditProfile() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">Modifier le Profil</h1>
+    <div className="max-w-3xl mx-auto p-6 bg-[#27272a] rounded-lg shadow-md text-white mt-8">
+      <h1 className="text-3xl font-bold text-center text-white mb-8">Modifier le Profil</h1>
 
-      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+      {error && <p className="text-red-500 text-center mb-4 bg-[#3f3f46] p-3 rounded-lg">{error}</p>}
 
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700">Nom d'utilisateur</label>
+        <label className="block text-sm font-medium text-[#a1a1aa] mb-2">Nom d'utilisateur</label>
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full px-4 py-2 border rounded-lg"
+          className="w-full px-4 py-3 border border-[#3f3f46] bg-[#18181b] rounded-lg focus:outline-none focus:border-[#CCDF5E] focus:ring-1 focus:ring-[#9333ea]"
         />
       </div>
 
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700">Photo de profil</label>
+      <div className="mb-8">
+        <label className="block text-sm font-medium text-[#a1a1aa] mb-2">Photo de profil</label>
         <input
           type="file"
           onChange={(e) => setImage(e.target.files[0])}
-          className="w-full px-4 py-2 border rounded-lg"
+          className="w-full px-4 py-3 border border-[#3f3f46] bg-[#18181b] rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-white file:bg-[#9333ea] hover:file:bg-[#6b21a8] file:transition-colors"
         />
       </div>
 
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700">Changer le mot de passe</label>
+      <div className="mb-8 p-5 bg-[#27272a] border border-[#3f3f46] rounded-lg">
+        <h2 className="text-xl font-semibold text-white mb-4">Changer le mot de passe</h2>
         <input
           type="password"
           placeholder="Mot de passe actuel"
           value={currentPassword}
           onChange={(e) => setCurrentPassword(e.target.value)}
-          className="w-full px-4 py-2 border rounded-lg mb-2"
+          className="w-full px-4 py-3 border border-[#3f3f46] bg-[#18181b] rounded-lg mb-3 focus:outline-none focus:border-[#CCDF5E] focus:ring-1 focus:ring-[#9333ea]"
         />
         <input
           type="password"
           placeholder="Nouveau mot de passe"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
-          className="w-full px-4 py-2 border rounded-lg mb-2"
+          className="w-full px-4 py-3 border border-[#3f3f46] bg-[#18181b] rounded-lg mb-3 focus:outline-none focus:border-[#CCDF5E] focus:ring-1 focus:ring-[#9333ea]"
         />
         <input
           type="password"
           placeholder="Confirmer le nouveau mot de passe"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          className="w-full px-4 py-2 border rounded-lg mb-2"
+          className="w-full px-4 py-3 border border-[#3f3f46] bg-[#18181b] rounded-lg mb-4 focus:outline-none focus:border-[#CCDF5E] focus:ring-1 focus:ring-[#9333ea]"
         />
         <button
           onClick={handlePasswordChange}
-          className="px-4 py-2 bg-green-500 text-white rounded-lg"
+          className="bg-[#9333ea] hover:bg-[#6b21a8] transition-colors py-3 px-6 rounded-full text-white"
         >
           Modifier le mot de passe
         </button>
       </div>
 
-      <button
-        onClick={handleSaveChanges}
-        className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg"
-        disabled={loading}
-      >
-        {loading ? 'Enregistrement...' : 'Sauvegarder les modifications'}
-      </button>
-      <Link to="/profile" className="mt-4 inline-block text-center">
-        <button className="px-4 py-2 bg-gray-500 text-white rounded-lg">Annuler</button>
-      </Link>
+      <div className="flex space-x-4 mt-6">
+        <button
+          onClick={handleSaveChanges}
+          className="flex-1 bg-[#9333ea] hover:bg-[#6b21a8] transition-colors py-3 px-6 rounded-full text-white font-medium"
+          disabled={loading}
+        >
+          {loading ? 'Enregistrement...' : 'Sauvegarder les modifications'}
+        </button>
+        <Link to="/profile" className="flex-1">
+          <button className="w-full bg-[#9333ea] hover:bg-[#a1a1aa] transition-colors py-3 px-6 rounded-full text-white">
+            Annuler
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }
