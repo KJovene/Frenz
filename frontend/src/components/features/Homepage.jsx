@@ -110,7 +110,9 @@ const Homepage = () => {
       )
     );
     setIsEditCommentOpen(false);
+    
   };
+  
 
   return (
     <>

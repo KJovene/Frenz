@@ -26,12 +26,12 @@ const Postdesign = ({
 }) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
-  const [isPostBy, setIsPostBy] = useState(false)
   const [likeCount, setLikeCount] = useState(post.likes);
   const [commentText, setCommentText] = useState('');
   const [postComments, setPostComments] = useState([]);
   const [updatedComment, setUpdatedComment] = useState('');
   const [isSaved, setIsSaved] = useState(false);
+  const [user,SetUser] = useState({})
 
   useEffect(() => {
     const related = commentaires.filter(c => c.post_frenz?.id === post.id);
@@ -61,7 +61,7 @@ const Postdesign = ({
       headers: { Authorization: `Bearer ${token}` },
     });
     const userId = userResponse.data.id;
-
+    SetUser(userResponse.data)
     const isSavedByUser = post.savedBy?.some(user => user.id === userId);
     
     setIsSaved(isSavedByUser);
@@ -110,6 +110,8 @@ const Postdesign = ({
           },
         }
       );
+
+      console.log(post.author.image.url)
 
       if (response.status === 200) {
         setIsLiked(!isCurrentlyLiked);
