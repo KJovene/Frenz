@@ -135,11 +135,12 @@ const Postdesign = ({
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        `http://localhost:1337/api/comments-frenzs/${selectedComment.documentId}`,
+        `http://localhost:1337/api/comments-frenzs/${selectedComment.documentId}?populate=*`,
         {
           data: { commentaire: updatedComment },
         },
         { headers: { Authorization: `Bearer ${token}` } }
+
       );
       if (response.status === 200) {
         setPostComments(prev =>
@@ -330,7 +331,7 @@ const Postdesign = ({
           <div className="space-y-3">
             {postComments.map(comment => (
               <div key={comment.id} className="bg-[#2a2a2e] p-4 rounded-xl relative">
-                <p className="text-sm font-semibold text-white">{comment.user?.username || 'Anonyme'}</p>
+                <p className="text-sm font-semibold text-white">{comment.author?.username || 'Anonyme'}</p>
                 <p className="text-xs text-gray-500 mb-1">{new Date(comment.createdAt).toLocaleDateString('fr-FR')}</p>
 
                 {isEditCommentOpen && selectedComment?.id === comment.id ? (
