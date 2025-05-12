@@ -2,33 +2,27 @@ import { Users } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import netflix from '../assets/images/netflix.png';
-import adele from '../assets/images/Adele.webp';
-import snowy from '../assets/images/Snowy.jpg';
 
 const whoToFollow = [
   {
     name: 'Netflix',
     handle: '@netflix',
-    avatar: netflix,
+    avatar: 'src/assets/images/netflix.png',
     verified: true,
   },
   {
     name: 'Adele',
     handle: '@adele',
-    avatar: adele,
+    avatar: 'src/assets/images/Adele.webp',
     verified: true,
   },
   {
     name: 'Nana 🎀',
     handle: '@cxxhime',
-    avatar: snowy,
+    avatar: 'src/assets/images/Snowy.jpg',
     verified: false,
   },
 ];
-
-
-
 
 const LeftSidebar = () => {
   const [user, setUser] = useState(null);
@@ -60,7 +54,7 @@ const LeftSidebar = () => {
   }, []);
 
   return (
-    <div className="hidden md:block w-[600px] sticky top-20 self-start space-y-6 sidebar-scroll overflow-scroll max-h-screen pr-2">
+    <div className="hidden md:block w-[750px] sticky top-20 self-start space-y-6">
       {/* Profil utilisateur */}
       <div className="bg-[#1f1f23] shadow-2xl rounded-2xl overflow-hidden">
         {/* Avatar */}

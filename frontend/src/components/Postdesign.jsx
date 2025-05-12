@@ -26,12 +26,12 @@ const Postdesign = ({
 }) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
+  const [isPostBy, setIsPostBy] = useState(false)
   const [likeCount, setLikeCount] = useState(post.likes);
   const [commentText, setCommentText] = useState('');
   const [postComments, setPostComments] = useState([]);
   const [updatedComment, setUpdatedComment] = useState('');
   const [isSaved, setIsSaved] = useState(false);
-  const [user,SetUser] = useState({})
 
   useEffect(() => {
     const related = commentaires.filter(c => c.post_frenz?.id === post.id);
@@ -61,7 +61,7 @@ const Postdesign = ({
       headers: { Authorization: `Bearer ${token}` },
     });
     const userId = userResponse.data.id;
-    SetUser(userResponse.data)
+
     const isSavedByUser = post.savedBy?.some(user => user.id === userId);
     
     setIsSaved(isSavedByUser);
@@ -110,8 +110,6 @@ const Postdesign = ({
           },
         }
       );
-
-      console.log(post.author.image.url)
 
       if (response.status === 200) {
         setIsLiked(!isCurrentlyLiked);
@@ -201,11 +199,9 @@ const Postdesign = ({
   };
 
   return (
-    <div className="bg-[#1f1f23] border border-base-300 rounded-2xl shadow-2xl p-6 mb-8 w-full text-white">
+    <div className="bg-[#1f1f23] border border-base-300 rounded-2xl shadow-2xl p-6 mb-8 w-full text-white post-card">
       {/* Post Header */}
       <div className="flex justify-between mb-4">
-      
-      <Link to={post.author.id === user.id ? `/profile` : `/profile/${post.author.id}`}>
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-purple-800 text-white rounded-full flex items-center justify-center font-bold">
             {/* Image de profil de l'auteur */}
@@ -227,7 +223,6 @@ const Postdesign = ({
             </p>
           </div>
         </div>
-        </Link>
         <div className="relative">
           <button onClick={() => setEditPost(prev => (prev === post.id ? null : post.id))} className="p-2 hover:bg-gray-800 rounded-full">
             <Ellipsis size={20} className="text-gray-300" />
@@ -265,6 +260,7 @@ const Postdesign = ({
       >
         {post.thematique}
       </Link>
+
       {/* Images */}
       {post.image?.map(media => (
         <div key={media.id} className="mb-4 rounded-xl overflow-hidden">
@@ -277,7 +273,7 @@ const Postdesign = ({
       ))}
 
       {/* Description */}
-      {post.description && <p className="text-sm text-gray-300 mb-4">{post.description}</p>}
+      {post.description && <p className="text-sm text-gray-300 mb-4 post-content">{post.description}</p>}
 
       {/* Like & Comment Count */}
       <div className="flex justify-between text-xs text-gray-400 border-t pt-4">
