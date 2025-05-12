@@ -174,8 +174,8 @@ const Homepage = () => {
             <p className="text-center text-gray-500">Aucun post disponible.</p>
           )}
         </div>
-        <RightSideBar />
       </div>
+        <RightSideBar />
       {isEditCommentOpen && selectedComment && (
         <EditComment
           comment={selectedComment}
@@ -183,7 +183,7 @@ const Homepage = () => {
           onCommentUpdated={updateCommentInState}
         />
       )}
-    </>
+    </div>
   );
 };
 
