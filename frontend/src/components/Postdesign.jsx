@@ -1,7 +1,6 @@
-// ✅ Final Rewrite of Postdesign.jsx with full dark mode, animations, and comment edit logic
 import React, { useEffect, useState } from 'react';
 import {
-  Heart, MessageCircle, Share2, Ellipsis, Trash,
+  Heart, MessageCircle, Ellipsis, Trash,
   PencilLine, Send, ThumbsUp, Bookmark
 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -27,6 +26,7 @@ const Postdesign = ({
 }) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
+  const [isPostBy, setIsPostBy] = useState(false)
   const [likeCount, setLikeCount] = useState(post.likes);
   const [commentText, setCommentText] = useState('');
   const [postComments, setPostComments] = useState([]);
@@ -57,12 +57,13 @@ const Postdesign = ({
 
   const checkIfSaved = async () => {
     const token = localStorage.getItem('token');
-    const userResponse = await axios.get('http://localhost:1337/api/users/me', {
+    const userResponse = await axios.get('http://localhost:1337/api/users/me?populate=*', {
       headers: { Authorization: `Bearer ${token}` },
     });
     const userId = userResponse.data.id;
 
     const isSavedByUser = post.savedBy?.some(user => user.id === userId);
+    
     setIsSaved(isSavedByUser);
   };
 
@@ -202,8 +203,18 @@ const Postdesign = ({
       <div className="flex justify-between mb-4">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-purple-800 text-white rounded-full flex items-center justify-center font-bold">
-            {post.author?.username?.charAt(0).toUpperCase() || '?'}
-          </div>
+            {/* Image de profil de l'auteur */}
+            {post.author.image ? (
+              <img
+                src={`http://localhost:1337${post.author.image.url}`}
+                alt={post.author.username || 'Auteur'}
+                className="w-12 h-12 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-12 h-12 bg-purple-800 text-white rounded-full flex items-center justify-center font-bold">
+                {post.author?.username?.charAt(0).toUpperCase() || '?'}
+              </div>
+            )}          </div>
           <div>
             <p className="font-semibold">{post.author?.username || 'Inconnu'}</p>
             <p className="text-xs text-gray-400">

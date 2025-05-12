@@ -33,7 +33,6 @@ function PostPage() {
             console.error('Erreur lors de la récupération du post :', error);
         }
     };
-
     const fetchComments = async () => {
         try {
           const token = localStorage.getItem('token');
