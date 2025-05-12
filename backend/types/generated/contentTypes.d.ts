@@ -469,6 +469,7 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    customThematique: Schema.Attribute.String;
     description: Schema.Attribute.Text;
     image: Schema.Attribute.Media<'images' | 'files' | 'videos', true>;
     images: Schema.Attribute.Relation<'oneToMany', 'api::image.image'>;
@@ -484,11 +485,15 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    savedBy: Schema.Attribute.Relation<
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
     sub_frenz: Schema.Attribute.Relation<
       'manyToOne',
       'api::sub-frenz.sub-frenz'
     >;
-    thematique: Schema.Attribute.String & Schema.Attribute.Unique;
+    thematique: Schema.Attribute.String;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1034,6 +1039,11 @@ export interface PluginUsersPermissionsUser
       'manyToMany',
       'api::post-frenz.post-frenz'
     >;
+    postSaved: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::post-frenz.post-frenz'
+    >;
+    promo: Schema.Attribute.String;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
