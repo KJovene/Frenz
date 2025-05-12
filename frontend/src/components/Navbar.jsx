@@ -118,8 +118,8 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             <div className="p-4 bg-base-100 flex flex-col justify-between h-full">
               <ul className="menu menu-lg p-0">
                 <li><Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Home</span></Link></li>
+                <li><Link to="/savedPost" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Saved post</span></Link></li>
                 <li><Link to="/messages" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Messages</span></Link></li>
-                {/* Retiré l'option Notifications du menu latéral */}
                 <li><Link to="/profile" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Profile</span></Link></li>
                 <li><Link to="/settings" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Settings</span></Link></li>
               </ul>
