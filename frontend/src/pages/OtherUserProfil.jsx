@@ -38,14 +38,13 @@ function OtherUserProfil() {
         <div>
             <div className="min-h-screen bg-[#18181b] text-[#ffffff] py-8 px-4">
                 <div className="max-w-4xl mx-auto">
-                    <h1 className="text-4xl font-bold mb-2">Profil</h1>
-                    <p className="text-[#a1a1aa] mb-6">Consultez tous les détails de votre profil ici.</p>
+                    <h1 className="text-4xl font-bold mb-2">Profil de {user.username}</h1>
                     <hr className="border-[#3f3f46] mb-8" />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         {/* Profile utilisateur */}
-                        <div className="bg-[#27272a] rounded-3xl p-8 flex flex-col">
+                        <div className="bg-[#27272a] rounded-3xl p-8 flex flex-col justify-center items-center">
                             <div className="flex flex-col items-center mb-8">
                                 <div className="relative">
                                     {user.image ? (
@@ -61,7 +60,6 @@ function OtherUserProfil() {
                                     )}
                                 </div>
                                 <h2 className="text-2xl font-bold mt-4">{user.username}</h2>
-                                <p className="text-[#c084fc]">Utilisateur</p>
                             </div>
 
                             
@@ -75,19 +73,19 @@ function OtherUserProfil() {
                                     Détails personnels
                                 </h3>
 
-                                <div className="flex items-center justify-between p-3 bg-[#18181b] rounded-lg">
+                                <div className="flex items-center justify-between p-3 bg-[#18181b] rounded-lg my-2">
                                     <span className="text-[#a1a1aa]">Membre depuis</span>
                                     <span>{new Date(user.createdAt).toLocaleDateString('fr-FR')}</span>
                                 </div>
 
-                                <div className="flex items-center justify-between p-3 bg-[#18181b] rounded-lg">
+                                <div className="flex items-center justify-between p-3 bg-[#18181b] rounded-lg my-2">
                                     <span className="text-[#a1a1aa]">Status</span>
                                     <span className="flex items-center">
                                         <span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
                                         Actif
                                     </span>
                                 </div>
-                                <div className="flex items-center justify-between p-3 bg-[#18181b] rounded-lg">
+                                <div className="flex items-center justify-between p-3 bg-[#18181b] rounded-lg my-2">
                                     <span className="text-[#a1a1aa]">Promo</span>
                                     <span>{user.promo ? user.promo : 'Non spécifié'}</span>
                                 </div>
@@ -132,7 +130,7 @@ function OtherUserProfil() {
                 <div className="mt-8 bg-[#27272a] rounded-3xl p-6">
                     <h3 className="text-xl font-semibold mb-4 flex items-center">
                         <div className="w-2 h-2 rounded-full bg-[#c084fc] mr-2"></div>
-                        Vos posts
+                        Posts
                     </h3>
 
                     {postsLoading ? (
@@ -168,9 +166,6 @@ function OtherUserProfil() {
                     ) : (
                         <div className="text-center py-6 text-[#a1a1aa]">
                             <p>Vous n'avez pas encore publié de posts.</p>
-                            <Link to="/addPost" className="mt-4 inline-block bg-[#9333ea] hover:bg-[#6b21a8] text-white px-4 py-2 rounded-full transition-colors">
-                                Créer un post
-                            </Link>
                         </div>
                     )}
                 </div>
