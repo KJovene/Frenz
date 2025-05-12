@@ -172,6 +172,10 @@ function Profile() {
                     Actif
                   </span>
                 </div>
+                <div className="flex items-center justify-between p-3 bg-[#18181b] rounded-lg">
+                  <span className="text-[#a1a1aa]">Promo</span>
+                  <span>{user.promo ? user.promo : 'Non spécifié'}</span>
+                </div>
               </div>
             </div>
 
@@ -233,7 +237,7 @@ function Profile() {
                       <Heart size={14} className="mr-1" /> {post.likes || 0}
                     </span>
                     <span className="flex items-center">
-                      <MessageSquare size={14} className="mr-1" /> {post.comments?.length || 0}
+                      <MessageSquare size={14} className="mr-1" /> {post.comments_frenzs?.length || 0}
                     </span>
                   </div>
                 </div>

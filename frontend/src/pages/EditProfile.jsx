@@ -11,6 +11,7 @@ function EditProfile() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [promo, setPromo] = useState(''); // Valeur par défaut pour la promo
   const navigate = useNavigate();
   const { id } = useParams(); // Récupérer l'ID utilisateur depuis l'URL
 
@@ -76,12 +77,18 @@ function EditProfile() {
         imageId = await handleImageUpload(); // Télécharger l'image et récupérer son ID
       }
 
+      const postData = { 
+        username,
+        ...(imageId && { image: imageId }),
+        promo,
+      }
+
       const token = localStorage.getItem('token');
 
       // Mettre à jour les informations utilisateur avec l'image associée
       await axios.put(
         `http://localhost:1337/api/users/${id}`,
-        { username, image: imageId },
+        postData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -146,6 +153,19 @@ function EditProfile() {
           className="w-full px-4 py-3 border border-[#3f3f46] bg-[#18181b] rounded-lg focus:outline-none focus:border-[#CCDF5E] focus:ring-1 focus:ring-[#9333ea]"
         />
       </div>
+
+      <select name="promo" id="promo"
+        value={promo}
+        onChange={(e) => setPromo(e.target.value)}
+        className="w-full px-4 py-3 border border-[#3f3f46] bg-[#18181b] rounded-lg focus:outline-none focus:border-[#CCDF5E] focus:ring-1 focus:ring-[#9333ea]">
+        <option value="" disabled>Choisir une promo</option>
+        <option value="Web1">Web 1</option>
+        <option value="Data1">Data 1</option>
+        <option value="Web2">Web 2</option>
+        <option value="Data2">Data 2</option>
+        <option value="Web3">Web 3</option>
+        <option value="Data3">Data 3</option>
+      </select>
 
       <div className="mb-8">
         <label className="block text-sm font-medium text-[#a1a1aa] mb-2">Photo de profil</label>

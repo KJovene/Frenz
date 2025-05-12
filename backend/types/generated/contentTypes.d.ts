@@ -1043,6 +1043,7 @@ export interface PluginUsersPermissionsUser
       'manyToMany',
       'api::post-frenz.post-frenz'
     >;
+    promo: Schema.Attribute.String;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
