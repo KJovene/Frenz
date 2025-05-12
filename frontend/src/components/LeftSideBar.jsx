@@ -2,27 +2,33 @@ import { Users } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import netflix from '../assets/images/netflix.png';
+import adele from '../assets/images/Adele.webp';
+import snowy from '../assets/images/Snowy.jpg';
 
 const whoToFollow = [
   {
     name: 'Netflix',
     handle: '@netflix',
-    avatar: 'src/assets/images/netflix.png',
+    avatar: netflix,
     verified: true,
   },
   {
     name: 'Adele',
     handle: '@adele',
-    avatar: 'src/assets/images/Adele.webp',
+    avatar: adele,
     verified: true,
   },
   {
     name: 'Nana 🎀',
     handle: '@cxxhime',
-    avatar: 'src/assets/images/Snowy.jpg',
+    avatar: snowy,
     verified: false,
   },
 ];
+
+
+
 
 const LeftSidebar = () => {
   const [user, setUser] = useState(null);

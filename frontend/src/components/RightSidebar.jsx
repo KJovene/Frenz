@@ -40,7 +40,7 @@ const RightSideBar = () => {
     <aside className="hidden lg:block w-[568px] space-y-6 sticky top-20 self-start sidebar-scroll overflow-y-auto max-h-screen pr-2 overflow-x-hidden">
       <a
         href="/addpost"
-        className="bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-xl block text-center shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
+        className="bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-xl text-center shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
       >
         <PlusCircle size={18} />
         <span>Créer un post</span>
