@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { User, Settings, MessageSquare, Heart, Users, Award } from 'lucide-react';
 
@@ -142,17 +142,9 @@ function OtherUserProfil() {
                     ) : user.post_frenzs.length > 0 ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {user.post_frenzs.map(post => (
+                                <Link to={`/post/${post.documentId}`}>
                                 <div key={post.id} className="bg-[#18181b] rounded-lg p-4 hover:bg-[#3f3f46] transition-colors cursor-pointer">
                                     <h4 className="font-medium">{post.title || 'Sans titre'}</h4>
-                                    {post.image?.map(media => (
-                                        <div key={media.id} className="mb-4 rounded-xl overflow-hidden">
-                                            <img
-                                                src={`http://localhost:1337${media.url}`}
-                                                alt={media.alternativeText || ''}
-                                                className="w-full object-cover max-h-[500px] hover:opacity-95 transition-all duration-300"
-                                            />
-                                        </div>
-                                    ))}
                                     <p className="text-[#a1a1aa] text-sm truncate">{post.description || 'Pas de description'}</p>
                                     <div className="flex justify-between items-center mt-3 text-[#a1a1aa] text-sm">
                                         <span className="flex items-center">
@@ -163,6 +155,7 @@ function OtherUserProfil() {
                                         </span>
                                     </div>
                                 </div>
+                                </Link>
                             ))}
                         </div>
                     ) : (
