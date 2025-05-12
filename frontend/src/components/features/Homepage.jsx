@@ -39,7 +39,7 @@ const Homepage = () => {
     try {
       const token = localStorage.getItem('token');
       const res = await axios.get('http://localhost:1337/api/post-frenzs?populate=author.image&populate=image&populate=savedBy&populate=likedBy&populate=comments_frenzs', {
-        
+
         headers: { Authorization: `Bearer ${token}` },
       });
       setPosts(res.data.data);
@@ -47,11 +47,11 @@ const Homepage = () => {
       console.error(err);
     }
   };
-  
+
   const fetchComments = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=post_frenz', {
+      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=*', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCommentaires(res.data.data);
