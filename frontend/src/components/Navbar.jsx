@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { ChevronDown, User, Settings, LogOut } from 'lucide-react';
 import Fuse from "fuse.js"
 import axios from 'axios'
+
 const Navbar = ({ darkMode, setDarkMode }) => {
   const [showSearch, setShowSearch] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -92,7 +94,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path
+            <path 
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
@@ -214,12 +216,26 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         </button>
 
         {/* Avatar Dropdown */}
+      <div className="dropdown dropdown-end">
+  <div
+    tabIndex={0}
+    role="button"
+    className="flex items-center bg-[#2a2f3a] hover:bg-[#3a3f4a] text-white px-3 py-1 rounded-full cursor-pointer"
+  >
+    <img
+      alt="User Avatar"
+      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+      className="w-8 h-8 rounded-full mr-2"
+    />
+    <span className="text-sm font-medium">Yeremias NJ</span>
+    <ChevronDown className="ml-2 w-4 h-4" />
         <div className="dropdown dropdown-end">
   <div
     tabIndex={0}
     role="button"
     className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 cursor-pointer transition-colors"
   >
+  
     {user && user.image ? (
       <img
         src={`http://localhost:1337${user.image.url}`}
