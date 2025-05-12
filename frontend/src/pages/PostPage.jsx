@@ -188,7 +188,7 @@ function PostPage() {
                                     : 'bg-gray-500'
                   }`}
                 >
-                  #{post.thematique}
+                  {post.thematique}
                 </Link>
 
                 {post.image?.length > 0 ? (
