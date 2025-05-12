@@ -57,35 +57,37 @@ const RightSideBar = () => {
           <p className="text-gray-400 text-sm">Chargement des tendances...</p>
         ) : (
           <div className="space-y-6">
-            {trendingTopics.slice(0, visibleCount).map((item, idx) => (
-              <div
-                key={idx}
-                className="bg-base-100 rounded-xl border border-base-300 p-4 hover:shadow-xl transition-all duration-300 group"
-              >
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-semibold bg-purple-600/20 text-purple-400 px-2 py-1 rounded-full">
-                      {item.category}
-                    </span>
-                  </div>
-                  <p className="text-white text-sm leading-snug group-hover:text-gray-200 transition-colors line-clamp-2">
-                    {item.title}
-                  </p>
-                  <div className="flex justify-between items-center text-xs text-gray-400">
-                    <span>{new Date(item.pubDate).toLocaleDateString('fr-FR')}</span>
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-purple-400 hover:text-purple-300 transition-colors flex items-center cursor-pointer"
-                    >
-                      Lire plus
-                      <ChevronRight size={14} />
-                    </a>
+            <div className="overflow-y-auto max-h-96 pr-2 space-y-6">
+              {trendingTopics.slice(0, visibleCount).map((item, idx) => (
+                <div
+                  key={idx}
+                  className="bg-base-100 rounded-xl border border-base-300 p-4 hover:shadow-xl transition-all duration-300 group"
+                >
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs font-semibold bg-purple-600/20 text-purple-400 px-2 py-1 rounded-full">
+                        {item.category}
+                      </span>
+                    </div>
+                    <p className="text-white text-sm leading-snug group-hover:text-gray-200 transition-colors line-clamp-2">
+                      {item.title}
+                    </p>
+                    <div className="flex justify-between items-center text-xs text-gray-400">
+                      <span>{new Date(item.pubDate).toLocaleDateString('fr-FR')}</span>
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-purple-400 hover:text-purple-300 transition-colors flex items-center cursor-pointer"
+                      >
+                        Lire plus
+                        <ChevronRight size={14} />
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
 
             <div className="flex justify-between mt-4">
               {visibleCount < trendingTopics.length && (

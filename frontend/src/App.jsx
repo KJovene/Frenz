@@ -17,6 +17,7 @@ import Notifications from "./pages/Notifications.jsx";
 import Settings from "./pages/Settings.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
 import SavedPost from './pages/SavedPost.jsx';
+import OtherUserProfil from './pages/OtherUserProfil.jsx';
 
 
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/" element={<Homepage />} />
           <Route path="/editprofile/:id" element={<EditProfile />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/profile/:id' element={<OtherUserProfil />} />
           <Route path="/addpost" element={<AddPost />} />
           <Route path="/editpost/:id" element={<EditPost />} />
           <Route path="/login" element={<Login />} />

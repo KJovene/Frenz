@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Fuse from "fuse.js"
 import axios from 'axios'
+import { LogOut } from 'lucide-react';
 const Navbar = ({ darkMode, setDarkMode }) => {
   const [showSearch, setShowSearch] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -77,69 +78,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     return text.replace(regex, (match) => `<span class="bg-yellow-200">${match}</span>`);
   };
   return (
-    <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50 py-3 px-4">
-      {/* Left Side */}
-      <div className="navbar-start relative">
-        <button
-          className="btn btn-ghost btn-circle hover:bg-primary/10 transition-all duration-300"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Open menu"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 text-primary"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M4 6h16M4 12h16M4 18h7"
-            />
-          </svg>
-        </button>
-
-        {menuOpen && (
-          <div
-            className="absolute left-0 top-full mt-4 w-80 max-h-[85vh] bg-base-100 shadow-xl rounded-xl overflow-hidden z-50 border border-base-300 animate-fadeIn"
-            onMouseLeave={() => setMenuOpen(false)}
-          >
-            <div className="bg-base-100 border-b border-base-100 p-4">
-              <h2 className="text-xl font-semibold text-base-content flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" />
-                </svg>
-                Navigation
-              </h2>
-            </div>
-
-            <div className="p-4 bg-base-100 flex flex-col justify-between h-full">
-              <ul className="menu menu-lg p-0">
-                <li><Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Home</span></Link></li>
-                <li><Link to="/savedPost" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Saved post</span></Link></li>
-                <li><Link to="/messages" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Messages</span></Link></li>
-                <li><Link to="/profile" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Profile</span></Link></li>
-                <li><Link to="/settings" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 py-3 hover:bg-base-200 rounded-lg"><span>Settings</span></Link></li>
-              </ul>
-              <div className="mt-6">
-                <a
-                  href="http://localhost:3030/login"
-                  onClick={() => setMenuOpen(false)}
-                  className="btn btn-outline w-full hover:text-lime-border hover:border-lime-border hover:bg-lime-border/10 flex items-center justify-center"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                  Logout
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
+    <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50 py-3 px-4 justify-between">
       {/* Frenz logo - Sans fond */}
       <div className="navbar-center">
         <Link to="/" className="block">
@@ -215,58 +154,59 @@ const Navbar = ({ darkMode, setDarkMode }) => {
 
         {/* Avatar Dropdown */}
         <div className="dropdown dropdown-end">
-  <div
-    tabIndex={0}
-    role="button"
-    className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 cursor-pointer transition-colors"
-  >
-    {user && user.image ? (
-      <img
-        src={`http://localhost:1337${user.image.url}`}
-        alt={user.image.alternativeText || 'Avatar'}
-        className="w-6 h-6 rounded-full object-cover"
-      />
-    ) : (
-      <div className="w-6 h-6 bg-gray-500 rounded-full flex items-center justify-center">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4 text-white"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M5.121 17.804A4 4 0 0112 15a4 4 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-          />
-        </svg>
-      </div>
-    )}
-    <span className="text-white text-sm font-medium">
-      {user ? user.username || 'User' : 'Guest'}
-    </span>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-4 w-4 text-white"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-    </svg>
-  </div>
+          <div
+            tabIndex={0}
+            role="button"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-800 hover:bg-gray-700 cursor-pointer transition-colors"
+          >
+            {user && user.image ? (
+              <img
+                src={`http://localhost:1337${user.image.url}`}
+                alt={user.image.alternativeText || 'Avatar'}
+                className="w-6 h-6 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-6 h-6 bg-gray-500 rounded-full flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5.121 17.804A4 4 0 0112 15a4 4 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+              </div>
+            )}
+            <span className="text-white text-sm font-medium">
+              {user ? user.username || 'User' : 'Guest'}
+            </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
 
-  <ul
-    tabIndex={0}
-    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow border border-gray-700"
-  >
-    <li><Link to="/profile">Profile</Link></li>
-    <li><Link to="/settings">Settings</Link></li>
-    <li><a onClick={() => {/* logout logic */}}>Logout</a></li>
-  </ul>
-</div>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow border border-gray-700"
+          >
+            <li><Link to="/profile">Profil</Link></li>
+            <li><Link to="/settings">Paramètres</Link></li>
+            <li><Link to='/savedPost'>Enregistrement</Link></li>
+            <li><Link to='/login'>Déconnexion</Link></li>
+          </ul>
+        </div>
 
       </div>
     </div>
