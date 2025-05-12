@@ -1,7 +1,6 @@
-// ✅ Final Rewrite of Postdesign.jsx with full dark mode, animations, and comment edit logic
 import React, { useEffect, useState } from 'react';
 import {
-  Heart, MessageCircle, Share2, Ellipsis, Trash,
+  Heart, MessageCircle, Ellipsis, Trash,
   PencilLine, Send, ThumbsUp, Bookmark
 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -27,11 +26,13 @@ const Postdesign = ({
 }) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
+  const [isPostBy, setIsPostBy] = useState(false)
   const [likeCount, setLikeCount] = useState(post.likes);
   const [commentText, setCommentText] = useState('');
   const [postComments, setPostComments] = useState([]);
   const [updatedComment, setUpdatedComment] = useState('');
   const [isSaved, setIsSaved] = useState(false);
+  const [user,SetUser] = useState({})
 
   useEffect(() => {
     const related = commentaires.filter(c => c.post_frenz?.id === post.id);
@@ -57,12 +58,13 @@ const Postdesign = ({
 
   const checkIfSaved = async () => {
     const token = localStorage.getItem('token');
-    const userResponse = await axios.get('http://localhost:1337/api/users/me', {
+    const userResponse = await axios.get('http://localhost:1337/api/users/me?populate=*', {
       headers: { Authorization: `Bearer ${token}` },
     });
     const userId = userResponse.data.id;
-
+    SetUser(userResponse.data)
     const isSavedByUser = post.savedBy?.some(user => user.id === userId);
+    
     setIsSaved(isSavedByUser);
   };
 
@@ -134,11 +136,12 @@ const Postdesign = ({
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        `http://localhost:1337/api/comments-frenzs/${selectedComment.documentId}`,
+        `http://localhost:1337/api/comments-frenzs/${selectedComment.documentId}?populate=*`,
         {
           data: { commentaire: updatedComment },
         },
         { headers: { Authorization: `Bearer ${token}` } }
+
       );
       if (response.status === 200) {
         setPostComments(prev =>
@@ -200,10 +203,22 @@ const Postdesign = ({
     <div className="bg-[#1f1f23] border border-base-300 rounded-2xl shadow-2xl p-6 mb-8 w-full text-white">
       {/* Post Header */}
       <div className="flex justify-between mb-4">
+      
+      <Link to={post.author.id === user.id ? `/profile` : `/profile/${post.author.id}`}>
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-purple-800 text-white rounded-full flex items-center justify-center font-bold">
-            {post.author?.username?.charAt(0).toUpperCase() || '?'}
-          </div>
+            {/* Image de profil de l'auteur */}
+            {post.author.image ? (
+              <img
+                src={`http://localhost:1337${post.author.image.url}`}
+                alt={post.author.username || 'Auteur'}
+                className="w-12 h-12 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-12 h-12 bg-purple-800 text-white rounded-full flex items-center justify-center font-bold">
+                {post.author?.username?.charAt(0).toUpperCase() || '?'}
+              </div>
+            )}          </div>
           <div>
             <p className="font-semibold">{post.author?.username || 'Inconnu'}</p>
             <p className="text-xs text-gray-400">
@@ -211,6 +226,7 @@ const Postdesign = ({
             </p>
           </div>
         </div>
+        </Link>
         <div className="relative">
           <button onClick={() => setEditPost(prev => (prev === post.id ? null : post.id))} className="p-2 hover:bg-gray-800 rounded-full">
             <Ellipsis size={20} className="text-gray-300" />
@@ -248,7 +264,6 @@ const Postdesign = ({
       >
         {post.thematique}
       </Link>
-
       {/* Images */}
       {post.image?.map(media => (
         <div key={media.id} className="mb-4 rounded-xl overflow-hidden">
@@ -319,7 +334,7 @@ const Postdesign = ({
           <div className="space-y-3">
             {postComments.map(comment => (
               <div key={comment.id} className="bg-[#2a2a2e] p-4 rounded-xl relative">
-                <p className="text-sm font-semibold text-white">{comment.user?.username || 'Anonyme'}</p>
+                <p className="text-sm font-semibold text-white">{comment.author?.username || 'Anonyme'}</p>
                 <p className="text-xs text-gray-500 mb-1">{new Date(comment.createdAt).toLocaleDateString('fr-FR')}</p>
 
                 {isEditCommentOpen && selectedComment?.id === comment.id ? (

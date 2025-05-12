@@ -27,7 +27,7 @@ export default {
         'hover-dark': '#3f3f46',
         'border-dark': '#3f3f46',
 
-        // ✅ Custom light-green border color
+        // Custom light-green border color
         'lime-border': '#CCDF5E',
       },
       fontFamily: {
