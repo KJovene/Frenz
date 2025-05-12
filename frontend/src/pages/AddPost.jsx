@@ -178,7 +178,13 @@ const AddPost = ({ onPostCreated }) => {
   setSearchResults([]); // Vider les résultats de recherche
 }
   
-
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-[#18181b]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9333ea]"></div>
+      </div>
+    );
+  }
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#18181b]">
       <div className="w-full max-w-xl px-6 py-8 bg-[#27272a] rounded-3xl">
@@ -321,7 +327,7 @@ const AddPost = ({ onPostCreated }) => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default AddPost;
