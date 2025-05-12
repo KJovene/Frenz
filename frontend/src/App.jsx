@@ -9,7 +9,6 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NotFoundPage from "./components/features/NotFoundPage.jsx";
 import AddPost from "./pages/AddPost.jsx";
-import Messages from './components/features/Messages';
 import Footer from "./components/Footer.jsx";
 import SubFrenz from "./pages/SubFrenz.jsx";
 import EditPost from "./pages/EditPost.jsx";
@@ -36,13 +35,13 @@ function App() {
           <Route path="/editpost/:id" element={<EditPost />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/messages" element={<Messages />} /> 
           <Route path="/post/:id" element={<PostPage/>} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/settings" element={<Settings />} /> 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
+      
     </div>
   );
 }
