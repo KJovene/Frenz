@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import LeftSideBar from '../../components/LeftSideBar.jsx';
-import RightSideBar from '../../components/RightSideBar.jsx';
+import RightSideBar from '../../components/RightSidebar.jsx';
 import Postdesign from '../../components/Postdesign.jsx';
 import EditComment from '../../pages/EditComment.jsx';
 
@@ -38,7 +38,7 @@ const Homepage = () => {
   const fetchPost = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:1337/api/post-frenzs?populate=*', {
+      const res = await axios.get('http://localhost:1337/api/post-frenzs?populate=author.image&populate=image&populate=savedBy&populate=likedBy&populate=comments_frenzs', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPosts(res.data.data);
@@ -50,7 +50,7 @@ const Homepage = () => {
   const fetchComments = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=post_frenz', {
+      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=*', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCommentaires(res.data.data);
@@ -113,38 +113,40 @@ const Homepage = () => {
   };
 
   return (
-    <div className="flex gap-9 max-w-1xl mx-auto py-8 pl-0 pr-4">
-      <LeftSideBar />
-
-      <div className="flex flex-col items-center w-full">
-        <div className="w-full">
-          {posts.length > 0 ? (
-            [...posts].reverse().map((post) => (
-              <Postdesign
-                key={post.id}
-                post={post}
-                commentaires={commentaires}
-                handleDeletePost={handleDeletePost}
-                toggleComments={toggleComments}
-                visibleComments={visibleComments}
-                addComment={addComment}
-                editPost={editPost}
-                setEditPost={setEditPost}
-                handleDeleteComment={handleDeleteComment}
-                editComment={editComment}
-                setEditComment={setEditComment}
-                isEditCommentOpen={isEditCommentOpen}
-                setIsEditCommentOpen={setIsEditCommentOpen}
-                selectedComment={selectedComment}
-                setSelectedComment={setSelectedComment}
-              />
-            ))
-          ) : (
-            <p className="text-center text-gray-500">Aucun post disponible.</p>
-          )}
+    <>
+      <div className="max-w-[1800px] mx-auto flex gap-6 px-1">
+        <LeftSideBar />
+        {/* Contenu principal: Les posts */}
+        <div className="flex flex-col items-center w-full">
+          <div className="w-full h-[calc(100vh-10rem)] overflow-y-auto overflow-x-hidden">
+            {posts.length > 0 ? (
+              [...posts].reverse().map((post) => (
+                <Postdesign
+                  key={post.id}
+                  post={post}
+                  commentaires={commentaires}
+                  handleDeletePost={handleDeletePost}
+                  toggleComments={toggleComments}
+                  visibleComments={visibleComments}
+                  addComment={addComment}
+                  editPost={editPost}
+                  setEditPost={setEditPost}
+                  handleDeleteComment={handleDeleteComment}
+                  editComment={editComment}
+                  setEditComment={setEditComment}
+                  isEditCommentOpen={isEditCommentOpen}
+                  setIsEditCommentOpen={setIsEditCommentOpen}
+                  selectedComment={selectedComment}
+                  setSelectedComment={setSelectedComment}
+                />
+              ))
+            ) : (
+              <p className="text-center text-gray-500">Aucun post disponible.</p>
+            )}
+          </div>
         </div>
+        <RightSideBar />
       </div>
-
       {isEditCommentOpen && selectedComment && (
         <EditComment
           comment={selectedComment}
@@ -152,11 +154,8 @@ const Homepage = () => {
           onCommentUpdated={updateCommentInState}
         />
       )}
-
-      <RightSideBar />
-    </div>
+    </>
   );
 };
 
 export default Homepage;
-

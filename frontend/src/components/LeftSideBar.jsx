@@ -54,7 +54,7 @@ const LeftSidebar = () => {
   }, []);
 
   return (
-    <div className="hidden md:block w-[600px] sticky top-20 self-start space-y-6">
+    <div className="hidden md:block w-[600px] sticky top-20 self-start space-y-6 sidebar-scroll overflow-scroll max-h-screen pr-2">
       {/* Profil utilisateur */}
       <div className="bg-[#1f1f23] shadow-2xl rounded-2xl overflow-hidden">
         {/* Avatar */}
