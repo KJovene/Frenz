@@ -233,7 +233,7 @@ function Profile() {
                       <Heart size={14} className="mr-1" /> {post.likes || 0}
                     </span>
                     <span className="flex items-center">
-                      <MessageSquare size={14} className="mr-1" /> {post.comments?.length || 0}
+                      <MessageSquare size={14} className="mr-1" /> {post.comments_frenzs?.length || 0}
                     </span>
                   </div>
                 </div>
