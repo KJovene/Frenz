@@ -26,7 +26,6 @@ const Postdesign = ({
 }) => {
   const navigate = useNavigate();
   const [isLiked, setIsLiked] = useState(false);
-  const [isPostBy, setIsPostBy] = useState(false)
   const [likeCount, setLikeCount] = useState(post.likes);
   const [commentText, setCommentText] = useState('');
   const [postComments, setPostComments] = useState([]);
@@ -111,6 +110,8 @@ const Postdesign = ({
           },
         }
       );
+
+      console.log(post.author.image.url)
 
       if (response.status === 200) {
         setIsLiked(!isCurrentlyLiked);
