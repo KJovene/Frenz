@@ -37,7 +37,7 @@ const RightSideBar = () => {
   }, []);
 
   return (
-    <aside className="hidden lg:block w-[568px] space-y-6 sticky top-20 self-start">
+    <aside className="hidden lg:block w-[568px] space-y-6 sticky top-20 self-start sidebar-scroll overflow-y-auto max-h-screen pr-2 overflow-x-hidden">
       <a
         href="/addpost"
         className="bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-xl text-center shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
@@ -57,37 +57,35 @@ const RightSideBar = () => {
           <p className="text-gray-400 text-sm">Chargement des tendances...</p>
         ) : (
           <div className="space-y-6">
-            <div className="overflow-y-auto max-h-96 pr-2 space-y-6">
-              {trendingTopics.slice(0, visibleCount).map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-base-100 rounded-xl border border-base-300 p-4 hover:shadow-xl transition-all duration-300 group"
-                >
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs font-semibold bg-purple-600/20 text-purple-400 px-2 py-1 rounded-full">
-                        {item.category}
-                      </span>
-                    </div>
-                    <p className="text-white text-sm leading-snug group-hover:text-gray-200 transition-colors line-clamp-2">
-                      {item.title}
-                    </p>
-                    <div className="flex justify-between items-center text-xs text-gray-400">
-                      <span>{new Date(item.pubDate).toLocaleDateString('fr-FR')}</span>
-                      <a
-                        href={item.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-purple-400 hover:text-purple-300 transition-colors flex items-center cursor-pointer"
-                      >
-                        Lire plus
-                        <ChevronRight size={14} />
-                      </a>
-                    </div>
+            {trendingTopics.slice(0, visibleCount).map((item, idx) => (
+              <div
+                key={idx}
+                className="bg-base-100 rounded-xl border border-base-300 p-4 hover:shadow-xl transition-all duration-300 group"
+              >
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-semibold bg-purple-600/20 text-purple-400 px-2 py-1 rounded-full">
+                      {item.category}
+                    </span>
+                  </div>
+                  <p className="text-white text-sm leading-snug group-hover:text-gray-200 transition-colors line-clamp-2">
+                    {item.title}
+                  </p>
+                  <div className="flex justify-between items-center text-xs text-gray-400">
+                    <span>{new Date(item.pubDate).toLocaleDateString('fr-FR')}</span>
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-purple-400 hover:text-purple-300 transition-colors flex items-center cursor-pointer"
+                    >
+                      Lire plus
+                      <ChevronRight size={14} />
+                    </a>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
 
             <div className="flex justify-between mt-4">
               {visibleCount < trendingTopics.length && (
@@ -115,11 +113,11 @@ const RightSideBar = () => {
         <p className="text-gray-400 text-sm mb-4">
           Inscrivez-vous pour recevoir les dernières tendances directement dans votre boîte de réception.
         </p>
-        <div className="flex gap-2">
+        <div className="flex flex-col gap-2">
           <input
             type="email"
             placeholder="Votre email"
-            className="flex-1 input input-bordered input-sm bg-base-100 text-white border-base-700 focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
+            className="w-full input input-bordered input-sm bg-base-100 text-white border-base-700 focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
           />
           <button className="btn btn-sm bg-purple-600 hover:bg-purple-700 border-none text-white">
             S'inscrire

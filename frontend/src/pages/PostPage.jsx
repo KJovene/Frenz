@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios';
-
-
-import LeftSideBar from '../components/LeftSideBar.jsx';
-import RightSideBar from '../components/RightSideBar.jsx';
+import LeftSideBar from '../components/LeftSideBar.jsx'
+import RightSideBar from '../components/RightSidebar.jsx'
+import { Trash, PencilLine, Ellipsis } from 'lucide-react';
+import Comments from '../components/Comments.jsx'
+import EditComment from './EditComment.jsx'
 import Postdesign from '../components/Postdesign.jsx';
-import Comments from '../components/Comments.jsx';
-import EditComment from './EditComment.jsx';
-
 
 function PostPage() {
     const { id } = useParams();

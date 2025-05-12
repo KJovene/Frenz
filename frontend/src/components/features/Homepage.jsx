@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import LeftSideBar from '../../components/LeftSideBar.jsx';
-import RightSideBar from '../../components/RightSideBar.jsx';
+import RightSideBar from '../../components/RightSidebar.jsx';
 import Postdesign from '../../components/Postdesign.jsx';
 import EditComment from '../../pages/EditComment.jsx';
 
@@ -60,7 +60,7 @@ const Homepage = () => {
   const fetchComments = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=post_frenz', {
+      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=*', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCommentaires(res.data.data);
@@ -174,8 +174,8 @@ const Homepage = () => {
             <p className="text-center text-gray-500">Aucun post disponible.</p>
           )}
         </div>
+        <RightSideBar />
       </div>
-
       {isEditCommentOpen && selectedComment && (
         <EditComment
           comment={selectedComment}
@@ -183,11 +183,8 @@ const Homepage = () => {
           onCommentUpdated={updateCommentInState}
         />
       )}
-
-      <RightSideBar />
-    </div>
+    </>
   );
 };
 
 export default Homepage;
-
