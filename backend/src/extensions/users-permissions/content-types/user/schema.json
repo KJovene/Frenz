@@ -9,7 +9,7 @@
     "displayName": "User"
   },
   "options": {
-    "timestamps": true
+    "draftAndPublish": false
   },
   "attributes": {
     "username": {
@@ -82,6 +82,22 @@
       "relation": "oneToMany",
       "target": "api::comments-frenz.comments-frenz",
       "mappedBy": "author"
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "postLiked": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::post-frenz.post-frenz",
+      "mappedBy": "likedBy"
     }
   }
 }

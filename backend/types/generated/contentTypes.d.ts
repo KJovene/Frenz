@@ -461,6 +461,7 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    color: Schema.Attribute.String;
     comments_frenzs: Schema.Attribute.Relation<
       'oneToMany',
       'api::comments-frenz.comments-frenz'
@@ -468,9 +469,15 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    customThematique: Schema.Attribute.String;
     description: Schema.Attribute.Text;
     image: Schema.Attribute.Media<'images' | 'files' | 'videos', true>;
     images: Schema.Attribute.Relation<'oneToMany', 'api::image.image'>;
+    likedBy: Schema.Attribute.Relation<
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    likes: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -482,6 +489,7 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
       'manyToOne',
       'api::sub-frenz.sub-frenz'
     >;
+    thematique: Schema.Attribute.String;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -990,7 +998,6 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
@@ -1008,6 +1015,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1021,6 +1029,10 @@ export interface PluginUsersPermissionsUser
       }>;
     post_frenzs: Schema.Attribute.Relation<
       'oneToMany',
+      'api::post-frenz.post-frenz'
+    >;
+    postLiked: Schema.Attribute.Relation<
+      'manyToMany',
       'api::post-frenz.post-frenz'
     >;
     provider: Schema.Attribute.String;

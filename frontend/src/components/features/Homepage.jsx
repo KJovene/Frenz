@@ -2,105 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import LeftSideBar from '../../components/LeftSideBar';
-import RightSideBar from '../../components/RightSidebar';
-import Comments from '../../components/Comments.jsx';
-
-import { Trash } from 'lucide-react';
+import LeftSideBar from '../../components/LeftSideBar.jsx';
+import RightSideBar from '../../components/RightSideBar.jsx';
+import Postdesign from '../../components/Postdesign.jsx';
+import EditComment from '../../pages/EditComment.jsx';
 
 const Homepage = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [commentaires, setCommentaires] = useState([]);
-
-  const fetchUser = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-        return;
-      }
-
-      await axios.get('http://localhost:1337/api/users/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (err) {
-      navigate('/login');
-      console.error('Erreur lors de la récupération de l\'utilisateur :', err);
-    }
-  };
-
-  const fetchPost = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:1337/api/post-frenzs?populate=*', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setPosts(response.data.data);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des posts :', error);
-    }
-  };
-
-  const fetchComments = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:1337/api/comments-frenzs?populate=post_frenz', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setCommentaires(response.data.data);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération des commentaires :', error);
-    }
-  };
-
-  const handleDeletePost = async (postId) => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.delete(`http://localhost:1337/api/post-frenzs/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
-        console.log('Post supprimé avec succès');
-      }
-    } catch (error) {
-      console.error('Erreur lors de la suppression du post :', error);
-    }
-  };
-
-  const handleDeleteComment = async (commentId) => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.delete(`http://localhost:1337/api/comments-frenzs/${commentId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 200) {
-        setCommentaires((prevCommentaires) => prevCommentaires.filter((comment) => comment.id !== commentId));
-        console.log('Commentaire supprimé avec succès');
-      }
-    } catch (error) {
-      console.error('Erreur lors de la suppression du commentaire :', error);
-    }
-  };
+  const [editPost, setEditPost] = useState(false);
+  const [visibleComments, setVisibleComments] = useState({});
+  const [isEditCommentOpen, setIsEditCommentOpen] = useState(false);
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [editComment, setEditComment] = useState(null);
 
   useEffect(() => {
     fetchUser();
@@ -108,81 +23,135 @@ const Homepage = () => {
     fetchComments();
   }, []);
 
+  const fetchUser = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return navigate('/login');
+      await axios.get('http://localhost:1337/api/users/me', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    } catch {
+      navigate('/login');
+    }
+  };
+
+  const fetchPost = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.get('http://localhost:1337/api/post-frenzs?populate=*', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setPosts(res.data.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=post_frenz', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCommentaires(res.data.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeletePost = async (postId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`http://localhost:1337/api/post-frenzs/${postId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setPosts(prev => prev.filter(p => p.id !== postId));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`http://localhost:1337/api/comments-frenzs/${commentId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCommentaires(prev => prev.filter(c => c.id !== commentId));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const toggleComments = (postId) => {
+    setVisibleComments(prev => ({ ...prev, [postId]: !prev[postId] }));
+  };
+
   const addComment = async (newComment) => {
-    setCommentaires((prevCommentaires) => [...prevCommentaires, newComment]);
-    await fetchComments();
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(`http://localhost:1337/api/comments-frenzs`, {
+        data: newComment
+      }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchComments();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const updateCommentInState = (updatedComment) => {
+    setCommentaires((prevCommentaires) =>
+      prevCommentaires.map((comment) =>
+        comment.documentId === updatedComment.documentId
+          ? { ...comment, commentaire: updatedComment.commentaire }
+          : comment
+      )
+    );
+    setIsEditCommentOpen(false);
   };
 
   return (
     <div className="flex gap-9 max-w-1xl mx-auto py-8 pl-0 pr-4">
-
-
       <LeftSideBar />
 
-      <div className="h-screen flex flex-col items-center w-full">
-        <div className="w-3/4">
+      <div className="flex flex-col items-center w-full">
+        <div className="w-full">
           {posts.length > 0 ? (
             [...posts].reverse().map((post) => (
-
-              <div key={post.id} className="border p-4 mb-4 shadow">
-                <p className='flex justify-between'>
-                  <strong>{post.author?.username || 'Inconnu'}</strong>
-                  {new Date(post.createdAt).toLocaleDateString('fr-FR')} à {new Date(post.createdAt).toLocaleTimeString('fr-FR')}
-                </p>
-                <div className='flex justify-between items-center'>
-                  <h2 className="text-xl font-semibold">{post.title || post.title_frenz}</h2>
-                  <button
-                    onClick={() => handleDeletePost(post.id)}
-                    className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                  >
-                    <Trash />
-                  </button>
-                </div>
-
-                {post.image?.length > 0 ? (
-                  post.image.map((img) => (
-                    <img
-                      key={img.id}
-                      src={`http://localhost:1337${img.url}`}
-                      alt={img.alternativeText || post.title || 'Image du post'}
-                      className="w-full h-auto mt-4 rounded-lg"
-                    />
-                  ))
-                ): (
-                  <></>
-                )} 
-
-                <p className='py-2'>{post.description || post.content}</p>
-
-
-                <div className="mt-4">
-                  <h3 className="text-lg font-bold">Commentaires :</h3>
-                  {commentaires
-                    .filter((commentaire) => commentaire.post_frenz && commentaire.post_frenz.id === post.id)
-                    .map((commentaire) => (
-                      <div key={commentaire.id} className="flex justify-between items-center">
-                        <p className="text-gray-700">{commentaire.commentaire}</p>
-                        <button
-                          onClick={() => handleDeleteComment(commentaire.id)}
-                          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-                        >
-                          <Trash />
-                        </button>
-                      </div>
-                    ))}
-                  {commentaires.filter((commentaire) => commentaire.post_frenz && commentaire.post_frenz.id === post.id).length === 0 && (
-                    <p className="text-gray-500">Aucun commentaire sur ce post.</p>
-                  )}
-                </div>
-
-                <Comments id={post.documentId} onCommentAdded={addComment} />
-              </div>
+              <Postdesign
+                key={post.id}
+                post={post}
+                commentaires={commentaires}
+                handleDeletePost={handleDeletePost}
+                toggleComments={toggleComments}
+                visibleComments={visibleComments}
+                addComment={addComment}
+                editPost={editPost}
+                setEditPost={setEditPost}
+                handleDeleteComment={handleDeleteComment}
+                editComment={editComment}
+                setEditComment={setEditComment}
+                isEditCommentOpen={isEditCommentOpen}
+                setIsEditCommentOpen={setIsEditCommentOpen}
+                selectedComment={selectedComment}
+                setSelectedComment={setSelectedComment}
+              />
             ))
           ) : (
-            <p>Aucun post disponible.</p>
+            <p className="text-center text-gray-500">Aucun post disponible.</p>
           )}
         </div>
       </div>
+
+      {isEditCommentOpen && selectedComment && (
+        <EditComment
+          comment={selectedComment}
+          onClose={() => setIsEditCommentOpen(false)}
+          onCommentUpdated={updateCommentInState}
+        />
+      )}
 
       <RightSideBar />
     </div>
@@ -190,3 +159,4 @@ const Homepage = () => {
 };
 
 export default Homepage;
+
