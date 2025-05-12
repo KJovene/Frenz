@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Heart, MessageCircle, Share2, Ellipsis, Trash,
-  PencilLine, Send, ThumbsUp
+  PencilLine, Send, ThumbsUp, Bookmark
 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -31,28 +31,19 @@ const Postdesign = ({
   const [commentText, setCommentText] = useState('');
   const [postComments, setPostComments] = useState([]);
   const [updatedComment, setUpdatedComment] = useState('');
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     const related = commentaires.filter(c => c.post_frenz?.id === post.id);
     setPostComments(related);
 
-    
+
   }, [commentaires, post.id]);
 
   useEffect(() => {
-    const checkIfLiked = async () => {
-      const token = localStorage.getItem('token');
-      const userResponse = await axios.get('http://localhost:1337/api/users/me', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const userId = userResponse.data.id;
-  
-      // Vérifiez si l'utilisateur actuel a liké le post
-      const isLikedByUser = post.likedBy?.some(user => user.id === userId);
-      setIsLiked(isLikedByUser);
-    };
+
     checkIfLiked();
-  } ,[post.likedBy])
+  }, [post.likedBy])
 
   useEffect(() => {
     if (selectedComment && isEditCommentOpen) {
@@ -60,33 +51,54 @@ const Postdesign = ({
     }
   }, [selectedComment, isEditCommentOpen]);
 
+  useEffect(() => {
+    checkIfSaved();
+  }, [post.savedBy]);
+
+  const checkIfSaved = async () => {
+    const token = localStorage.getItem('token');
+    const userResponse = await axios.get('http://localhost:1337/api/users/me', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const userId = userResponse.data.id;
+
+    const isSavedByUser = post.savedBy?.some(user => user.id === userId);
+    setIsSaved(isSavedByUser);
+  };
+
+  const checkIfLiked = async () => {
+    const token = localStorage.getItem('token');
+    const userResponse = await axios.get('http://localhost:1337/api/users/me', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const userId = userResponse.data.id;
+
+    const isLikedByUser = post.likedBy?.some(user => user.id === userId);
+    setIsLiked(isLikedByUser);
+  };
 
   const handleLike = async () => {
     try {
       const token = localStorage.getItem('token');
-  
-      // Récupérer l'utilisateur connecté
+
       const userResponse = await axios.get('http://localhost:1337/api/users/me', {
         headers: { Authorization: `Bearer ${token}` },
       });
       const userId = userResponse.data.id;
-  
-      // Vérifiez si l'utilisateur a déjà liké le post
+
       const isCurrentlyLiked = post.likedBy?.some(user => user.id === userId);
-  
-      // Préparez les données pour la mise à jour
+
       const updatedLikedBy = isCurrentlyLiked
-        ? post.likedBy.filter(user => user.id !== userId).map(user => user.id) // Retirer l'utilisateur
-        : [...(post.likedBy || []).map(user => user.id), userId]; // Ajouter l'utilisateur
-  
+        ? post.likedBy.filter(user => user.id !== userId).map(user => user.id)
+        : [...(post.likedBy || []).map(user => user.id), userId];
+
       const postData = {
         data: {
-          likedBy: updatedLikedBy, // Liste des IDs des utilisateurs
-          likes: updatedLikedBy.length, // Mettre à jour le compteur de likes en fonction de la taille de `likedBy`
+          likedBy: updatedLikedBy,
+          likes: updatedLikedBy.length,
         },
       };
-  
-      // Envoyer la requête PUT pour mettre à jour le post
+
       const response = await axios.put(
         `http://localhost:1337/api/post-frenzs/${post.documentId}`,
         postData,
@@ -97,16 +109,14 @@ const Postdesign = ({
           },
         }
       );
-  
+
       if (response.status === 200) {
-        // Mettre à jour l'état local
         setIsLiked(!isCurrentlyLiked);
-        setLikeCount(response.data.data.likes); // Mettre à jour le compteur de likes depuis la réponse du backend
-  
-        // Mettre à jour localement la liste `likedBy` dans `post`
+        setLikeCount(response.data.data.likes);
+
         post.likedBy = isCurrentlyLiked
-          ? post.likedBy.filter(user => user.id !== userId) // Retirer l'utilisateur
-          : [...(post.likedBy || []), { id: userId }]; // Ajouter l'utilisateur
+          ? post.likedBy.filter(user => user.id !== userId)
+          : [...(post.likedBy || []), { id: userId }];
       }
     } catch (err) {
       console.error('Erreur lors de la gestion des likes :', err.response?.data || err.message);
@@ -138,6 +148,51 @@ const Postdesign = ({
       }
     } catch (err) {
       console.error('Erreur update commentaire', err);
+    }
+  };
+
+  const handleSavePost = async () => {
+    try {
+      const token = localStorage.getItem('token');
+
+      const userResponse = await axios.get('http://localhost:1337/api/users/me', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const userId = userResponse.data.id;
+
+      const isCurrentlySaved = post.savedBy?.some(user => user.id === userId);
+
+      const updatedSavedBy = isCurrentlySaved
+        ? post.savedBy.filter(user => user.id !== userId).map(user => user.id)
+        : [...(post.savedBy || []).map(user => user.id), userId];
+
+      const postData = {
+        data: {
+          savedBy: updatedSavedBy,
+        },
+      };
+
+      const response = await axios.put(
+        `http://localhost:1337/api/post-frenzs/${post.documentId}`,
+        postData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+
+        setIsSaved(!isCurrentlySaved);
+
+        post.savedBy = isCurrentlySaved
+          ? post.savedBy.filter(user => user.id !== userId)
+          : [...(post.savedBy || []), { id: userId }];
+      }
+    } catch (err) {
+      console.error('Erreur lors de la gestion des likes :', err.response?.data || err.message);
     }
   };
 
@@ -187,7 +242,7 @@ const Postdesign = ({
         to={`/f/${post.thematique}`}
         className={`inline-block mb-4 px-3 py-1 text-xs font-medium rounded-full`}
         style={{
-          backgroundColor: post.color || '#808080', // Couleur par défaut : gris
+          backgroundColor: post.color || '#808080',
           color: '#ffffff',
         }}
       >
@@ -234,10 +289,10 @@ const Postdesign = ({
           <MessageCircle size={16} className="inline mr-2" /> Commenter
         </button>
         <button
-          onClick={() => alert("Fonction de partage à venir")}
-          className="flex-1 py-2 rounded-xl bg-base-100 text-white hover:bg-base-200"
-        >
-          <Share2 size={16} className="inline mr-2" /> Partager
+          onClick={handleSavePost}
+          className={`flex-1 py-2 rounded-xl font-medium transition-all ${isSaved ? 'bg-purple-800/30 text-purple-300' : 'bg-base-100 text-white hover:bg-base-200'
+            }`}        >
+          <Bookmark size={16} className="inline mr-2" /> Enregistrer
         </button>
       </div>
 

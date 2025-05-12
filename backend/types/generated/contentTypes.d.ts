@@ -485,6 +485,10 @@ export interface ApiPostFrenzPostFrenz extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    savedBy: Schema.Attribute.Relation<
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
     sub_frenz: Schema.Attribute.Relation<
       'manyToOne',
       'api::sub-frenz.sub-frenz'
@@ -1032,6 +1036,10 @@ export interface PluginUsersPermissionsUser
       'api::post-frenz.post-frenz'
     >;
     postLiked: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::post-frenz.post-frenz'
+    >;
+    postSaved: Schema.Attribute.Relation<
       'manyToMany',
       'api::post-frenz.post-frenz'
     >;

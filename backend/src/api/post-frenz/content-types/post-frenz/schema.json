@@ -58,7 +58,6 @@
     "color": {
       "type": "string"
     },
-
     "likes": {
       "type": "integer",
       "default": 0
@@ -71,7 +70,12 @@
     },
     "customThematique": {
       "type": "string"
-
+    },
+    "savedBy": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "postSaved"
     }
   }
 }

@@ -16,11 +16,11 @@ import PostPage from "./pages/PostPage.jsx";
 import Notifications from "./pages/Notifications.jsx";
 import Settings from "./pages/Settings.jsx";
 import EditProfile from "./pages/EditProfile.jsx";
+import SavedPost from './pages/SavedPost.jsx';
 
 function App() {
   const location = useLocation();
   const hideNavbar = location.pathname === "/login" || location.pathname === "/register";
-  const hideFooter = location.pathname === "/login" || location.pathname === "/register";
 
   return (
     <div className="min-h-screen bg-base-100">
@@ -38,6 +38,7 @@ function App() {
           <Route path="/post/:id" element={<PostPage/>} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/settings" element={<Settings />} /> 
+          <Route path="/savedPost" element={<SavedPost />} /> 
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

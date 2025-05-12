@@ -98,6 +98,12 @@
       "relation": "manyToMany",
       "target": "api::post-frenz.post-frenz",
       "mappedBy": "likedBy"
+    },
+    "postSaved": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::post-frenz.post-frenz",
+      "mappedBy": "savedBy"
     }
   }
 }
