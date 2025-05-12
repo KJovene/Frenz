@@ -19,6 +19,8 @@ import EditProfile from "./pages/EditProfile.jsx";
 import SavedPost from './pages/SavedPost.jsx';
 import OtherUserProfil from './pages/OtherUserProfil.jsx';
 
+
+
 function App() {
   const location = useLocation();
   const hideNavbar = location.pathname === "/login" || location.pathname === "/register";
@@ -42,6 +44,8 @@ function App() {
           <Route path="/settings" element={<Settings />} /> 
           <Route path="/savedPost" element={<SavedPost />} /> 
           <Route path="*" element={<NotFoundPage />} />
+
+
         </Routes>
       </main>
       

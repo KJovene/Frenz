@@ -264,7 +264,6 @@ const Postdesign = ({
       >
         {post.thematique}
       </Link>
-
       {/* Images */}
       {post.image?.map(media => (
         <div key={media.id} className="mb-4 rounded-xl overflow-hidden">
