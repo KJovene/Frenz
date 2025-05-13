@@ -6,7 +6,7 @@ import LeftSideBar from '../components/LeftSideBar.jsx';
 import RightSideBar from '../components/RightSideBar.jsx';
 import Postdesign from '../components/Postdesign.jsx';
 import EditComment from '../pages/EditComment.jsx';
-
+import { API_URL } from '../config.js';
 function PostPage() {
   const navigate = useNavigate();
   const { id } = useParams(); 
@@ -27,7 +27,7 @@ function PostPage() {
     try {
       const token = localStorage.getItem('token');
       if (!token) return navigate('/login');
-      const res = await axios.get(`http://localhost:1337/api/post-frenzs/${id}?populate=author.image&populate=image&populate=savedBy&populate=likedBy&populate=comments_frenzs`, {
+      const res = await axios.get(`${API_URL}/post-frenzs/${id}?populate=author.image&populate=image&populate=savedBy&populate=likedBy&populate=comments_frenzs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPost(res.data.data);
@@ -40,7 +40,7 @@ function PostPage() {
   const fetchComments = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=*', {
+      const res = await axios.get(`${API_URL}/comments-frenzs?populate=*`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCommentaires(res.data.data);
@@ -52,7 +52,7 @@ function PostPage() {
   const handleDeletePost = async (postId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:1337/api/post-frenzs/${postId}`, {
+      await axios.delete(`${API_URL}/post-frenzs/${postId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate('/');
@@ -64,7 +64,7 @@ function PostPage() {
   const handleDeleteComment = async (commentId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:1337/api/comments-frenzs/${commentId}`, {
+      await axios.delete(`${API_URL}/comments-frenzs/${commentId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCommentaires(prev => prev.filter(c => c.id !== commentId));
@@ -76,7 +76,7 @@ function PostPage() {
   const addComment = async (newComment) => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.post(`http://localhost:1337/api/comments-frenzs?populate=*`, {
+      const res = await axios.post(`${API_URL}/comments-frenzs?populate=*`, {
         data: newComment
       }, {
         headers: { Authorization: `Bearer ${token}` },

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { API_URL } from '../config';
 const Settings = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({
@@ -32,7 +32,7 @@ const Settings = () => {
       }
 
       setIsLoading(true);
-      const response = await axios.get('http://localhost:1337/api/users/me', {
+      const response = await axios.get(`${API_URL}/users/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -74,7 +74,7 @@ const Settings = () => {
       setIsLoading(true);
       const token = localStorage.getItem('token');
       
-      await axios.put('http://localhost:1337/api/users/me', {
+      await axios.put(`${API_URL}/users/me`, {
         username: userData.username,
         email: userData.email
       }, {
@@ -110,7 +110,7 @@ const Settings = () => {
       setIsLoading(true);
       const token = localStorage.getItem('token');
       
-      await axios.post('http://localhost:1337/api/auth/change-password', {
+      await axios.post(`${API_URL}/auth/change-password`, {
         currentPassword: userData.currentPassword,
         password: userData.newPassword,
         passwordConfirmation: userData.confirmPassword
@@ -165,7 +165,7 @@ const Settings = () => {
         setIsLoading(true);
         const token = localStorage.getItem('token');
         
-        await axios.delete('http://localhost:1337/api/users/me', {
+        await axios.delete(`${API_URL}/users/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

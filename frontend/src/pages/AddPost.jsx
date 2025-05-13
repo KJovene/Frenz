@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Fuse from 'fuse.js';
 import { SketchPicker } from 'react-color';
-
+import { API_URL } from '../config';
 const AddPost = ({ onPostCreated }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -45,7 +45,7 @@ const AddPost = ({ onPostCreated }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("http://localhost:1337/api/post-frenzs?populate=*");
+        const response = await axios.get(`${API_URL}/post-frenzs?populate=*`);
         setPosts(response.data.data);
       } catch (error) {
         console.log("Erreur lors de la récupération des posts :", error);
@@ -103,7 +103,7 @@ const AddPost = ({ onPostCreated }) => {
         const formData = new FormData();
         formData.append('files', image);
 
-        const imageUploadResponse = await axios.post('http://localhost:1337/api/upload', formData, {
+        const imageUploadResponse = await axios.post(`${API_URL}/upload`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -116,7 +116,7 @@ const AddPost = ({ onPostCreated }) => {
 
       if (thematique === 'autre') {
         const existingThematiqueResponse = await axios.get(
-          `http://localhost:1337/api/post-frenzs?filters[thematique][$eq]=${customThematique}`,
+          `${API_URL}/post-frenzs?filters[thematique][$eq]=${customThematique}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -142,7 +142,7 @@ const AddPost = ({ onPostCreated }) => {
         },
       };
 
-      const postResponse = await axios.post('http://localhost:1337/api/post-frenzs', postData, {
+      const postResponse = await axios.post(`${API_URL}/post-frenzs`, postData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,

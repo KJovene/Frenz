@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-
+import { API_URL } from '../config';
 function Comments({id, onCommentAdded}) {
   const [commentaire, setCommentaire] = useState("");
 
@@ -23,7 +23,7 @@ function Comments({id, onCommentAdded}) {
         },
       };
 
-      const response = await axios.post('http://localhost:1337/api/comments-frenzs', postData, {
+      const response = await axios.post(`${API_URL}/comments-frenzs`, postData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

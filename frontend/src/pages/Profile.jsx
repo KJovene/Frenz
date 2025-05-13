@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { User, Settings, MessageSquare, Heart, Users, Award } from 'lucide-react';
-
+import { API_URL } from '../config';
 function Profile() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ function Profile() {
         return;
       }
 
-      const response = await axios.get('http://localhost:1337/api/users/me?populate=*', {
+      const response = await axios.get(`${API_URL}/users/me?populate=*`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -39,7 +39,7 @@ function Profile() {
   const fetchPost = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://localhost:1337/api/post-frenzs?populate=*`, {
+      const res = await axios.get(`${API_URL}/post-frenzs?populate=*`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -93,7 +93,7 @@ function Profile() {
               <div className="relative">
                 {user.image ? (
                   <img
-                    src={`http://localhost:1337${user.image.url}`}
+                    src={`${user.image.url}`}
                     alt={user.image.alternativeText || 'Photo de profil'}
                     className="w-40 h-40 rounded-full object-cover border-4 border-[#6b21a8]"
                   />

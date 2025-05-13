@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 import axios from 'axios';
-
+import { API_URL } from '../config';
 function EditProfile() {
   const [username, setUsername] = useState('');
   const [profileImage, setProfileImage] = useState(null);
@@ -19,7 +19,7 @@ function EditProfile() {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:1337/api/users/${id}`, {
+        const response = await axios.get(`${API_URL}/users/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -46,7 +46,7 @@ function EditProfile() {
       formData.append('files', image);
 
       const token = localStorage.getItem('token');
-      const imageUploadResponse = await axios.post('http://localhost:1337/api/upload', formData, {
+      const imageUploadResponse = await axios.post(`${API_URL}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ function EditProfile() {
 
       // Mettre à jour les informations utilisateur avec l'image associée
       await axios.put(
-        `http://localhost:1337/api/users/${id}`,
+        `${API_URL}/users/${id}`,
         postData,
         {
           headers: {
@@ -114,7 +114,7 @@ function EditProfile() {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        'http://localhost:1337/api/auth/change-password',
+        `${API_URL}/auth/change-password`,
         {
           currentPassword,
           password: newPassword,

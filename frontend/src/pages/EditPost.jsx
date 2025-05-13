@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { API_URL } from '../config';
 function EditPost() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function EditPost() {
   const fetchPost = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:1337/api/post-frenzs/${id}`, {
+      const response = await axios.get(`${API_URL}/post-frenzs/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -47,7 +47,7 @@ function EditPost() {
         },
       };
 
-      await axios.put(`http://localhost:1337/api/post-frenzs/${id}`, postData, {
+      await axios.put(`${API_URL}/post-frenzs/${id}`, postData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,

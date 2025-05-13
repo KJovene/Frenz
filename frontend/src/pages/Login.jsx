@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Validation from '../assets/LoginValidation.jsx'
-
+import { API_URL } from '../config.js';
 function Login() {
   const [values, setValues] = useState({
     identifier: '',
@@ -25,7 +25,7 @@ function Login() {
   
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const response = await axios.post('http://localhost:1337/api/auth/local', {
+        const response = await axios.post(`${API_URL}/auth/local`, {
           identifier: values.identifier,
           password: values.password,
         });

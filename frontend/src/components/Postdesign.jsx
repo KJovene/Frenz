@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-
+import { API_URL } from '../config';
 
 const Postdesign = ({
   post,
@@ -57,7 +57,7 @@ const Postdesign = ({
 
   const checkIfSaved = async () => {
     const token = localStorage.getItem('token');
-    const userResponse = await axios.get('http://localhost:1337/api/users/me?populate=*', {
+    const userResponse = await axios.get(`${API_URL}/users/me?populate=*`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const userId = userResponse.data.id;
@@ -69,7 +69,7 @@ const Postdesign = ({
 
   const checkIfLiked = async () => {
     const token = localStorage.getItem('token');
-    const userResponse = await axios.get('http://localhost:1337/api/users/me', {
+    const userResponse = await axios.get(`${API_URL}/users/me`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const userId = userResponse.data.id;
@@ -82,7 +82,7 @@ const Postdesign = ({
     try {
       const token = localStorage.getItem('token');
 
-      const userResponse = await axios.get('http://localhost:1337/api/users/me', {
+      const userResponse = await axios.get(`${API_URL}/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const userId = userResponse.data.id;
@@ -101,7 +101,7 @@ const Postdesign = ({
       };
 
       const response = await axios.put(
-        `http://localhost:1337/api/post-frenzs/${post.documentId}`,
+        `${API_URL}/post-frenzs/${post.documentId}`,
         postData,
         {
           headers: {
@@ -136,7 +136,7 @@ const Postdesign = ({
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        `http://localhost:1337/api/comments-frenzs/${selectedComment.documentId}?populate=*`,
+        `${API_URL}/comments-frenzs/${selectedComment.documentId}?populate=*`,
         {
           data: { commentaire: updatedComment },
         },
@@ -158,7 +158,7 @@ const Postdesign = ({
     try {
       const token = localStorage.getItem('token');
 
-      const userResponse = await axios.get('http://localhost:1337/api/users/me', {
+      const userResponse = await axios.get(`${API_URL}/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const userId = userResponse.data.id;
@@ -176,7 +176,7 @@ const Postdesign = ({
       };
 
       const response = await axios.put(
-        `http://localhost:1337/api/post-frenzs/${post.documentId}`,
+        `${API_URL}/post-frenzs/${post.documentId}`,
         postData,
         {
           headers: {
@@ -208,7 +208,7 @@ const Postdesign = ({
               {/* Image de profil de l'auteur */}
               {post.author.image ? (
                 <img
-                  src={`http://localhost:1337${post.author.image.url}`}
+                  src={`${post.author.image.url}`}
                   alt={post.author.username || 'Auteur'}
                   className="w-12 h-12 rounded-full object-cover"
                 />
@@ -272,7 +272,7 @@ const Postdesign = ({
       {post.image?.map(media => (
         <div key={media.id} className="mb-4 rounded-xl overflow-hidden">
           <img
-            src={`http://localhost:1337${media.url}`}
+            src={`${media.url}`}
             alt={media.alternativeText || ''}
             className="w-full object-cover max-h-[500px] hover:opacity-95 transition-all duration-300"
           />
