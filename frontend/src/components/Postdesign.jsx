@@ -31,7 +31,7 @@ const Postdesign = ({
   const [postComments, setPostComments] = useState([]);
   const [updatedComment, setUpdatedComment] = useState('');
   const [isSaved, setIsSaved] = useState(false);
-  const [user,SetUser] = useState({})
+  const [user, SetUser] = useState({})
 
   useEffect(() => {
     const related = commentaires.filter(c => c.post_frenz?.id === post.id);
@@ -63,7 +63,7 @@ const Postdesign = ({
     const userId = userResponse.data.id;
     SetUser(userResponse.data)
     const isSavedByUser = post.savedBy?.some(user => user.id === userId);
-    
+
     setIsSaved(isSavedByUser);
   };
 
@@ -198,37 +198,42 @@ const Postdesign = ({
       console.error('Erreur lors de la gestion des likes :', err.response?.data || err.message);
     }
   };
-
   return (
     <div className="bg-[#1f1f23] border border-base-300 rounded-2xl shadow-2xl p-6 mb-8 w-full text-white post-card">
       {/* Post Header */}
       <div className="flex justify-between mb-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-purple-800 text-white rounded-full flex items-center justify-center font-bold">
-            {/* Image de profil de l'auteur */}
-            {post.author.image ? (
-              <img
-                src={`http://localhost:1337${post.author.image.url}`}
-                alt={post.author.username || 'Auteur'}
-                className="w-12 h-12 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-12 h-12 bg-purple-800 text-white rounded-full flex items-center justify-center font-bold">
-                {post.author?.username?.charAt(0).toUpperCase() || '?'}
-              </div>
-            )}          </div>
-          <div>
-            <p className="font-semibold">{post.author?.username || 'Inconnu'}</p>
-            <p className="text-xs text-gray-400">
-              {new Date(post.createdAt).toLocaleDateString('fr-FR')} à {new Date(post.createdAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
-            </p>
+        <Link to={post.author.id === user.id ? `/profile` : `/profile/${post.author.id}`}>
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-purple-800 text-white rounded-full flex items-center justify-center font-bold">
+              {/* Image de profil de l'auteur */}
+              {post.author.image ? (
+                <img
+                  src={`http://localhost:1337${post.author.image.url}`}
+                  alt={post.author.username || 'Auteur'}
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-12 h-12 bg-purple-800 text-white rounded-full flex items-center justify-center font-bold">
+                  {post.author?.username?.charAt(0).toUpperCase() || '?'}
+                </div>
+              )}
+            </div>
+            <div>
+              <p className="font-semibold">{post.author?.username || 'Inconnu'}</p>
+              <p className="text-xs text-gray-400">
+                {new Date(post.createdAt).toLocaleDateString('fr-FR')} à {new Date(post.createdAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+              </p>
+            </div>
           </div>
-        </div>
+        </Link>
         <div className="relative">
+
           <button onClick={() => setEditPost(prev => (prev === post.id ? null : post.id))} className="p-2 hover:bg-gray-800 rounded-full">
             <Ellipsis size={20} className="text-gray-300" />
           </button>
           {editPost === post.id && (
+            <>
+            <div onClick={() => setEditPost(null)} className='fixed top-0 left-0 h-screen w-screen z-[1000]'></div>
             <div className="absolute right-0 mt-2 w-44 bg-[#2a2a2e] border border-gray-700 rounded-xl shadow-lg z-20 transition-all duration-200 transform scale-95 hover:scale-100">
               <button
                 onClick={() => navigate(`/editpost/${post.documentId}`)}
@@ -243,6 +248,7 @@ const Postdesign = ({
                 <Trash size={16} /> Supprimer
               </button>
             </div>
+            </>
           )}
         </div>
       </div>
@@ -364,24 +370,24 @@ const Postdesign = ({
                   </button>
                   {editComment === comment.id && (
                     <>
-                    <div onClick={() => setEditComment(null)} className='fixed top-0 left-0 h-screen w-screen opacity-10 bg-red-600 z-[1000]'></div>
-                    <div className="absolute right-0 mt-2 w-44 bg-[#2a2a2e] border border-gray-700 rounded-xl shadow-lg z-20 transition-all duration-200 transform scale-95 hover:scale-100">
-                      <button
-                        onClick={() => handleDeleteComment(comment.id)}
-                        className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-900/20 hover:text-red-300"
-                      >
-                        Supprimer
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSelectedComment(comment);
-                          setIsEditCommentOpen(true);
-                        }}
-                        className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-800 hover:text-purple-400"
-                      >
-                        Modifier
-                      </button>
-                    </div>
+                      <div onClick={() => setEditComment(null)} className='fixed top-0 left-0 h-screen w-screen z-[1000]'></div>
+                      <div className="absolute right-0 mt-2 w-44 bg-[#2a2a2e] border border-gray-700 rounded-xl shadow-lg z-20 transition-all duration-200 transform scale-95 hover:scale-100">
+                        <button
+                          onClick={() => handleDeleteComment(comment.id)}
+                          className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-900/20 hover:text-red-300"
+                        >
+                          Supprimer
+                        </button>
+                        <button
+                          onClick={() => {
+                            setSelectedComment(comment);
+                            setIsEditCommentOpen(true);
+                          }}
+                          className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-800 hover:text-purple-400"
+                        >
+                          Modifier
+                        </button>
+                      </div>
                     </>
                   )}
                 </div>

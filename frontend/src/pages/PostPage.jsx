@@ -27,13 +27,13 @@ function PostPage() {
     try {
       const token = localStorage.getItem('token');
       if (!token) return navigate('/login');
-      const res = await axios.get(`http://localhost:1337/api/post-frenzs/${id}?populate=*`, {
+      const res = await axios.get(`http://localhost:1337/api/post-frenzs/${id}?populate=author.image&populate=image&populate=savedBy&populate=likedBy&populate=comments_frenzs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPost(res.data.data);
     } catch (err) {
       console.error(err);
-      navigate('/');
+      navigate('/404');
     }
   };
 
@@ -103,7 +103,6 @@ function PostPage() {
     setVisibleComments(prev => !prev);
   };
 
-  // TODO: redirect to 404
   if (!post) {
     return (
       <div className="flex justify-center items-center h-screen bg-[#18181b]">
