@@ -4,7 +4,7 @@ import axios from 'axios';
 import LeftSidebar from '../components/LeftSideBar.jsx'
 import Postdesign from '../components/Postdesign.jsx'
 import EditComment from './EditComment.jsx'
-import RightSideBar from '../components/RightSideBar.jsx'
+import RightSideBar from '../components/RightSideBar.jsx';
 
 function SavedPost() {
 
