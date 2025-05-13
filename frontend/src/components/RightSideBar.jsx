@@ -3,7 +3,7 @@ import { TrendingUp, ChevronRight, PlusCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Users } from 'lucide-react';
-
+import { API_URL } from '../config';
 const RightSideBar = () => {
   const [trendingTopics, setTrendingTopics] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -67,7 +67,7 @@ const RightSideBar = () => {
         return;
       }
 
-      const response = await axios.get('http://localhost:1337/api/users/me?populate=*', {
+      const response = await axios.get(`${API_URL}/users/me?populate=*`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
