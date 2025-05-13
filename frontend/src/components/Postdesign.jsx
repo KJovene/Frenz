@@ -233,7 +233,6 @@ const Postdesign = ({
           </button>
           {editPost === post.id && (
             <>
-            <div onClick={() => setEditPost(null)} className='fixed top-0 left-0 h-screen w-screen z-[1000]'></div>
             <div className="absolute right-0 mt-2 w-44 bg-[#2a2a2e] border border-gray-700 rounded-xl shadow-lg z-20 transition-all duration-200 transform scale-95 hover:scale-100">
               <button
                 onClick={() => navigate(`/editpost/${post.documentId}`)}
@@ -370,7 +369,6 @@ const Postdesign = ({
                   </button>
                   {editComment === comment.id && (
                     <>
-                      <div onClick={() => setEditComment(null)} className='fixed top-0 left-0 h-screen w-screen z-[1000]'></div>
                       <div className="absolute right-0 mt-2 w-44 bg-[#2a2a2e] border border-gray-700 rounded-xl shadow-lg z-20 transition-all duration-200 transform scale-95 hover:scale-100">
                         <button
                           onClick={() => handleDeleteComment(comment.id)}
