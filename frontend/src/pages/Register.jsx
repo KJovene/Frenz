@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import Validation from '../assets/RegisterValidation.jsx'
-
+import { API_URL } from '../config.js';
 function Register() {
   const [values, setValues] = useState({
     username: '',
@@ -22,7 +22,7 @@ function Register() {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get('http://localhost:1337/api/users');
+      const response = await axios.get(`${API_URL}/users`);
       const usersData = response.data; 
       const usernames = usersData.map((user) => user.username)
       setUsers(usernames)
@@ -38,7 +38,7 @@ function Register() {
     
     if(Object.keys(validationErrors).length === 0) {
       try {
-        const response = await axios.post('http://localhost:1337/api/auth/local/register', {
+        const response = await axios.post(`${API_URL}/auth/local/register`, {
           username: values.username,
           email: values.email,
           password: values.password

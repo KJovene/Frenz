@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { API_URL } from '../config';
 const EditComment = ({ comment, onClose, onCommentUpdated }) => {
   const [updatedComment, setUpdatedComment] = useState(comment.commentaire);
 
@@ -8,7 +8,7 @@ const EditComment = ({ comment, onClose, onCommentUpdated }) => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        `http://localhost:1337/api/comments-frenzs/${comment.documentId}`,
+        `${API_URL}/comments-frenzs/${comment.documentId}`,
         {
           data: {
             commentaire: updatedComment,

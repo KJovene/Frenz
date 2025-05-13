@@ -1,0 +1,1 @@
+export const API_URL = 'https://productive-dream-5184962e6e.strapiapp.com/api';

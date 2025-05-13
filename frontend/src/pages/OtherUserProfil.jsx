@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { User, Settings, MessageSquare, Heart, Users, Award } from 'lucide-react';
-
+import { API_URL } from '../config';
 function OtherUserProfil() {
     const { id } = useParams()
     const [user, setUser] = useState({})
@@ -15,7 +15,7 @@ function OtherUserProfil() {
         try {
 
             const token = localStorage.getItem('token')
-            const response = await axios.get(`http://localhost:1337/api/users/${id}?populate=post_frenzs.image&populate=post_frenzs.comments_frenzs&populate=image`, {
+            const response = await axios.get(`${API_URL}/users/${id}?populate=post_frenzs.image&populate=post_frenzs.comments_frenzs&populate=image`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -49,7 +49,7 @@ function OtherUserProfil() {
                                 <div className="relative">
                                     {user.image ? (
                                         <img
-                                            src={`http://localhost:1337${user.image.url}`}
+                                            src={`${user.image.url}`}
                                             alt={user.image.alternativeText || 'Photo de profil'}
                                             className="w-40 h-40 rounded-full object-cover border-4 border-[#6b21a8]"
                                         />

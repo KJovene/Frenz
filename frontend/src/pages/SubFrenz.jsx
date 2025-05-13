@@ -6,7 +6,7 @@ import LeftSideBar from '../components/LeftSideBar.jsx';
 import RightSideBar from '../components/RightSideBar.jsx';
 import Postdesign from '../components/Postdesign.jsx';
 import EditComment from '../pages/EditComment.jsx';
-
+import { API_URL } from '../config.js';
 const SubFrenz = () => {
   const navigate = useNavigate();
   const { thematique } = useParams();
@@ -23,7 +23,7 @@ const SubFrenz = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return navigate('/login');
-      await axios.get('http://localhost:1337/api/users/me', {
+      await axios.get(`${API_URL}/users/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch {
@@ -34,7 +34,7 @@ const SubFrenz = () => {
   const fetchPost = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`http://localhost:1337/api/post-frenzs?populate=author.image&populate=image&populate=savedBy&populate=likedBy&populate=comments_frenzs`, {
+      const res = await axios.get(`${API_URL}/post-frenzs?populate=author.image&populate=image&populate=savedBy&populate=likedBy&populate=comments_frenzs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPosts(res.data.data);
@@ -46,7 +46,7 @@ const SubFrenz = () => {
   const fetchComments = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=*', {
+      const res = await axios.get(`${API_URL}/comments-frenzs?populate=*`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCommentaires(res.data.data);
@@ -58,7 +58,7 @@ const SubFrenz = () => {
   const handleDeletePost = async (postId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:1337/api/post-frenzs/${postId}`, {
+      await axios.delete(`${API_URL}/post-frenzs/${postId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPosts(prev => prev.filter(p => p.id !== postId));
@@ -70,7 +70,7 @@ const SubFrenz = () => {
   const handleDeleteComment = async (commentId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:1337/api/comments-frenzs/${commentId}`, {
+      await axios.delete(`${API_URL}/comments-frenzs/${commentId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCommentaires(prev => prev.filter(c => c.id !== commentId));
@@ -82,7 +82,7 @@ const SubFrenz = () => {
   const addComment = async (newComment) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:1337/api/comments-frenzs`, {
+      await axios.post(`${API_URL}/comments-frenzs`, {
         data: newComment
       }, {
         headers: { Authorization: `Bearer ${token}` },

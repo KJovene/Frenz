@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Fuse from "fuse.js"
 import axios from 'axios'
 import { LogOut } from 'lucide-react';
+import { API_URL } from '../config';
 const Navbar = ({ darkMode, setDarkMode }) => {
   const [showSearch, setShowSearch] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,7 +22,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         return;
       }
 
-      const response = await axios.get('http://localhost:1337/api/users/me?populate=*', {
+      const response = await axios.get(`${API_URL}/users/me?populate=*`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -38,7 +39,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get("http://localhost:1337/api/post-frenzs?populate=*");
+        const response = await axios.get(`${API_URL}/post-frenzs?populate=*`);
         setPosts(response.data.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des posts :", error);
@@ -167,7 +168,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           >
             {user && user.image ? (
               <img
-                src={`http://localhost:1337${user.image.url}`}
+                src={`${user.image.url}`}
                 alt={user.image.alternativeText || 'Avatar'}
                 className="w-6 h-6 rounded-full object-cover"
               />

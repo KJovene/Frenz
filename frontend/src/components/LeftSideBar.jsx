@@ -2,7 +2,7 @@ import { Users } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { API_URL } from '../config';
 const whoToFollow = [
   {
     name: 'Netflix',
@@ -36,7 +36,7 @@ const LeftSidebar = () => {
         return;
       }
 
-      const response = await axios.get('http://localhost:1337/api/users/me?populate=*', {
+      const response = await axios.get(`${API_URL}/users/me?populate=*`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -61,7 +61,7 @@ const LeftSidebar = () => {
         <div className="relative flex justify-center items-center mt-4">
           {user && user.image ? (
             <img
-              src={`http://localhost:1337${user.image.url}`}
+              src={`${user.image.url}`}
               alt={user.image.alternativeText || 'Photo de profil'}
               className="w-32 h-32 rounded-full object-cover mb-2 shadow-lg"
             />
