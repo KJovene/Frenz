@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import LeftSideBar from '../components/LeftSideBar.jsx';
-import RightSideBar from '../components/RightSidebar.jsx';
+import RightSideBar from '../components/RightSideBar.jsx';
 import Postdesign from '../components/Postdesign.jsx';
 import EditComment from '../pages/EditComment.jsx';
 
