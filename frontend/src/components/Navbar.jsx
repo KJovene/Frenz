@@ -77,6 +77,12 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     const regex = new RegExp(`(${query})`, 'gi');
     return text.replace(regex, (match) => `<span class="bg-yellow-200">${match}</span>`);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+  }
+
+
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50 py-3 px-4 justify-between">
       {/* Frenz logo - Sans fond */}
@@ -204,7 +210,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
             <li><Link to="/profile">Profil</Link></li>
             <li><Link to="/settings">Paramètres</Link></li>
             <li><Link to='/savedPost'>Enregistrement</Link></li>
-            <li><Link to='/login'>Déconnexion</Link></li>
+            <li><Link to='/login' onClick={handleLogout}>Déconnexion</Link></li>
           </ul>
         </div>
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TrendingUp, ChevronRight, PlusCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const RightSideBar = () => {
   const [trendingTopics, setTrendingTopics] = useState([]);
@@ -38,13 +39,13 @@ const RightSideBar = () => {
 
   return (
     <aside className="hidden lg:block w-[750px] space-y-6 sticky top-20 self-start sidebar-scroll">
-      <a
-        href="/addpost"
+      <Link
+        to="/addpost"
         className="bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-xl block text-center shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
       >
         <PlusCircle size={18} />
         <span>Créer un post</span>
-      </a>
+      </Link>
       <div className="bg-[#1f1f23] p-6 rounded-2xl shadow-2xl border border-base-300">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-semibold text-white flex items-center gap-2">

@@ -11,12 +11,14 @@ const Homepage = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [commentaires, setCommentaires] = useState([]);
-  const [editPost, setEditPost] = useState(false);
+  const [editPost, setEditPost] = useState(null);
   const [visibleComments, setVisibleComments] = useState({});
   const [isEditCommentOpen, setIsEditCommentOpen] = useState(false);
   const [selectedComment, setSelectedComment] = useState(null);
   const [editComment, setEditComment] = useState(null);
-
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  
   useEffect(() => {
     fetchUser();
     fetchPost();
@@ -38,10 +40,18 @@ const Homepage = () => {
   const fetchPost = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:1337/api/post-frenzs?populate=author.image&populate=image&populate=savedBy&populate=likedBy&populate=comments_frenzs', {
+      const res = await axios.get(`http://localhost:1337/api/post-frenzs?populate=author.image&populate=image&populate=savedBy&populate=likedBy&populate=comments_frenzs&pagination[page]=${page}&pagination[pageSize]=5&sort=createdAt:desc`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setPosts(res.data.data);
+
+      const newPosts = res.data.data;
+
+      setPosts((prevPosts) => {
+        const postIds = prevPosts.map((post) => post.id);
+        const filteredNewPosts = newPosts.filter((post) => !postIds.includes(post.id));
+        return [...prevPosts, ...filteredNewPosts];
+      });
+      setHasMore(newPosts.length === 5);
     } catch (err) {
       console.error(err);
     }
@@ -113,6 +123,27 @@ const Homepage = () => {
     
   };
   
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop >=
+          document.documentElement.offsetHeight - 100 &&
+        hasMore
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll); 
+  }, [hasMore]);
+
+  useEffect(() => {
+    if (page > 1) {
+      fetchPost();
+    }
+  }, [page]);
+
 
   return (
     <>
@@ -120,9 +151,9 @@ const Homepage = () => {
         <LeftSideBar />
         {/* Contenu principal: Les posts */}
         <div className="flex flex-col items-center w-full">
-          <div className="w-full h-[calc(100vh-10rem)] overflow-y-auto overflow-x-hidden">
+          <div className="w-full h-full overflow-y-auto overflow-x-hidden">
             {posts.length > 0 ? (
-              [...posts].reverse().map((post) => (
+              [...posts].map((post) => (
                 <Postdesign
                   key={post.id}
                   post={post}
