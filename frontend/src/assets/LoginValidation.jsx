@@ -1,7 +1,5 @@
 function Validation(values) {
     let error = {}
-    const regex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
-    // const passwordRegex = /^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{8,}$/; 
   
     if(!values.identifier) {
       error.identifier = "L'identifiant est requis"
