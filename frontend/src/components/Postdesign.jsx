@@ -111,7 +111,6 @@ const Postdesign = ({
         }
       );
 
-      console.log(post.author.image.url)
 
       if (response.status === 200) {
         setIsLiked(!isCurrentlyLiked);
@@ -311,7 +310,7 @@ const Postdesign = ({
       </div>
 
       {/* Comments */}
-      {visibleComments[post.id] && (
+      {visibleComments && (
         <div className="mt-6">
           <div className="flex items-center gap-3 mb-4">
             <input
@@ -364,6 +363,8 @@ const Postdesign = ({
                     <Ellipsis size={16} />
                   </button>
                   {editComment === comment.id && (
+                    <>
+                    <div onClick={() => setEditComment(null)} className='fixed top-0 left-0 h-screen w-screen opacity-10 bg-red-600 z-[1000]'></div>
                     <div className="absolute right-0 mt-2 w-44 bg-[#2a2a2e] border border-gray-700 rounded-xl shadow-lg z-20 transition-all duration-200 transform scale-95 hover:scale-100">
                       <button
                         onClick={() => handleDeleteComment(comment.id)}
@@ -381,6 +382,7 @@ const Postdesign = ({
                         Modifier
                       </button>
                     </div>
+                    </>
                   )}
                 </div>
               </div>

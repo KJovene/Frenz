@@ -129,7 +129,7 @@ const Homepage = () => {
                   commentaires={commentaires}
                   handleDeletePost={handleDeletePost}
                   toggleComments={toggleComments}
-                  visibleComments={visibleComments}
+                  visibleComments={visibleComments[post.id]}
                   addComment={addComment}
                   editPost={editPost}
                   setEditPost={setEditPost}

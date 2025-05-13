@@ -13,11 +13,11 @@ const SubFrenz = () => {
 
   const [posts, setPosts] = useState([]);
   const [commentaires, setCommentaires] = useState([]);
+  const [editPost, setEditPost] = useState(false);
   const [visibleComments, setVisibleComments] = useState({});
-  const [editPost, setEditPost] = useState(null);
-  const [editComment, setEditComment] = useState(null);
   const [isEditCommentOpen, setIsEditCommentOpen] = useState(false);
   const [selectedComment, setSelectedComment] = useState(null);
+  const [editComment, setEditComment] = useState(null);
 
   const fetchUser = async () => {
     try {
@@ -46,7 +46,7 @@ const SubFrenz = () => {
   const fetchComments = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=post_frenz,user', {
+      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=*', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCommentaires(res.data.data);
@@ -80,10 +80,31 @@ const SubFrenz = () => {
   };
 
   const addComment = async (newComment) => {
-    setCommentaires((prev) => [...prev, newComment]);
-    await fetchComments();
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(`http://localhost:1337/api/comments-frenzs`, {
+        data: newComment
+      }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchComments();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
+  const updateCommentInState = (updatedComment) => {
+    setCommentaires((prevCommentaires) =>
+      prevCommentaires.map((comment) =>
+        comment.documentId === updatedComment.documentId
+          ? { ...comment, commentaire: updatedComment.commentaire }
+          : comment
+      )
+    );
+    setIsEditCommentOpen(false);
+    
+  };
+  
   const toggleComments = (postId) => {
     setVisibleComments(prev => ({ ...prev, [postId]: !prev[postId] }));
   };
@@ -99,34 +120,43 @@ const SubFrenz = () => {
   }, []);
 
   return (
-    <div className="flex gap-9 max-w-1xl mx-auto py-8 pl-0 pr-4">
-      <LeftSideBar />
-      <div className="flex flex-col items-center w-full">
-        <div className="w-full">
-          {[...filteredPosts].reverse().map((post) => (
-            <Postdesign
-              key={post.id}
-              post={post}
-              commentaires={commentaires}
-              handleDeletePost={handleDeletePost}
-              toggleComments={toggleComments}
-              visibleComments={visibleComments}
-              addComment={addComment}
-              editPost={editPost}
-              setEditPost={setEditPost}
-              handleDeleteComment={handleDeleteComment}
-              editComment={editComment}
-              setEditComment={setEditComment}
-              isEditCommentOpen={isEditCommentOpen}
-              setIsEditCommentOpen={setIsEditCommentOpen}
-              selectedComment={selectedComment}
-              setSelectedComment={setSelectedComment}
-            />
-          ))}
+    <>
+      <div className="flex gap-9 max-w-1xl mx-auto py-8 pl-0 pr-4">
+        <LeftSideBar />
+        <div className="flex flex-col items-center w-full">
+          <div className="w-full">
+            {[...filteredPosts].reverse().map((post) => (
+              <Postdesign
+                key={post.id}
+                post={post}
+                commentaires={commentaires}
+                handleDeletePost={handleDeletePost}
+                toggleComments={toggleComments}
+                visibleComments={visibleComments}
+                addComment={addComment}
+                editPost={editPost}
+                setEditPost={setEditPost}
+                handleDeleteComment={handleDeleteComment}
+                editComment={editComment}
+                setEditComment={setEditComment}
+                isEditCommentOpen={isEditCommentOpen}
+                setIsEditCommentOpen={setIsEditCommentOpen}
+                selectedComment={selectedComment}
+                setSelectedComment={setSelectedComment}
+              />
+            ))}
+          </div>
         </div>
+        <RightSideBar />
       </div>
-      <RightSideBar />
-    </div>
+      {isEditCommentOpen && selectedComment && (
+        <EditComment
+          comment={selectedComment}
+          onClose={() => setIsEditCommentOpen(false)}
+          onCommentUpdated={updateCommentInState}
+        />
+      )}
+    </>
   );
 };
 

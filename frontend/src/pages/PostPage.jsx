@@ -1,131 +1,153 @@
-import React, { useEffect, useState } from 'react';
-import { TrendingUp, ChevronRight, PlusCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
-const RightSideBar = () => {
-  const [trendingTopics, setTrendingTopics] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(3);
+import LeftSideBar from '../components/LeftSideBar.jsx';
+import RightSideBar from '../components/RightSidebar.jsx';
+import Postdesign from '../components/Postdesign.jsx';
+import EditComment from '../pages/EditComment.jsx';
 
-  const fetchTrendingTopics = async () => {
+function PostPage() {
+  const navigate = useNavigate();
+  const { id } = useParams(); 
+  const [post, setPost] = useState(null);
+  const [commentaires, setCommentaires] = useState([]);
+  const [editPost, setEditPost] = useState(false);
+  const [visibleComments, setVisibleComments] = useState(false);
+  const [isEditCommentOpen, setIsEditCommentOpen] = useState(false);
+  const [selectedComment, setSelectedComment] = useState(null);
+  const [editComment, setEditComment] = useState(null);
+
+  useEffect(() => {
+    fetchPost();
+    fetchComments();
+  }, [id]);
+
+  const fetchPost = async () => {
     try {
-      const response = await fetch('https://rss.app/feeds/v1.1/tO0XAXevvzTShx7z.json');
-      const data = await response.json();
-      const trends = data.items.map((item) => ({
-        title: item.title,
-        link: item.url,
-        category: item.categories ? item.categories[0] : 'Tech',
-        pubDate: item.date_published,
-      }));
-      setTrendingTopics(trends);
-    } catch (error) {
-      console.error('Erreur lors de la récupération des tendances :', error);
-    } finally {
-      setLoading(false);
+      const token = localStorage.getItem('token');
+      if (!token) return navigate('/login');
+      const res = await axios.get(`http://localhost:1337/api/post-frenzs/${id}?populate=*`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setPost(res.data.data);
+    } catch (err) {
+      console.error(err);
+      navigate('/');
     }
   };
 
-  const handleShowMore = () => {
-    setVisibleCount((prevCount) => prevCount + 3);
+  const fetchComments = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.get('http://localhost:1337/api/comments-frenzs?populate=*', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCommentaires(res.data.data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handleShowLess = () => {
-    setVisibleCount((prevCount) => Math.max(prevCount - 3, 3)); 
+  const handleDeletePost = async (postId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`http://localhost:1337/api/post-frenzs/${postId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  useEffect(() => {
-    fetchTrendingTopics();
-  }, []);
+  const handleDeleteComment = async (commentId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`http://localhost:1337/api/comments-frenzs/${commentId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setCommentaires(prev => prev.filter(c => c.id !== commentId));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const addComment = async (newComment) => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.post(`http://localhost:1337/api/comments-frenzs?populate=*`, {
+        data: newComment
+      }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      setCommentaires([...commentaires, res.data.data])
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const updateCommentInState = (updatedComment) => {
+    setCommentaires((prevCommentaires) =>
+      prevCommentaires.map((comment) =>
+        comment.documentId === updatedComment.documentId
+          ? { ...comment, commentaire: updatedComment.commentaire }
+          : comment
+      )
+    );
+    setIsEditCommentOpen(false);
+  };
+
+  const toggleComments = (postId) => {
+    setVisibleComments(prev => !prev);
+  };
+
+  // TODO: redirect to 404
+  if (!post) {
+    return (
+      <div className="flex justify-center items-center h-screen bg-[#18181b]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#9333ea]"></div>
+      </div>
+    );
+  }
 
   return (
-    <aside className="hidden lg:block w-[750px] space-y-6 sticky top-20 self-start sidebar-scroll">
-      <a
-        href="/addpost"
-        className="bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-xl block text-center shadow-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium"
-      >
-        <PlusCircle size={18} />
-        <span>Créer un post</span>
-      </a>
-      <div className="bg-[#1f1f23] p-6 rounded-2xl shadow-2xl border border-base-300">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-            <TrendingUp size={20} className="text-purple-500" />
-            <span>Tendances Tech</span>
-          </h2>
-        </div>
-
-        {loading ? (
-          <p className="text-gray-400 text-sm">Chargement des tendances...</p>
-        ) : (
-          <div className="space-y-6">
-            {trendingTopics.slice(0, visibleCount).map((item, idx) => (
-              <div
-                key={idx}
-                className="bg-base-100 rounded-xl border border-base-300 p-4 hover:shadow-xl transition-all duration-300 group"
-              >
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-semibold bg-purple-600/20 text-purple-400 px-2 py-1 rounded-full">
-                      {item.category}
-                    </span>
-                  </div>
-                  <p className="text-white text-sm leading-snug group-hover:text-gray-200 transition-colors line-clamp-2">
-                    {item.title}
-                  </p>
-                  <div className="flex justify-between items-center text-xs text-gray-400">
-                    <span>{new Date(item.pubDate).toLocaleDateString('fr-FR')}</span>
-                    <a
-                      href={item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-purple-400 hover:text-purple-300 transition-colors flex items-center cursor-pointer"
-                    >
-                      Lire plus
-                      <ChevronRight size={14} />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            <div className="flex justify-between mt-4">
-              {visibleCount < trendingTopics.length && (
-                <button
-                  onClick={handleShowMore}
-                  className="text-purple-400 hover:text-purple-300 transition-colors text-sm font-semibold"
-                >
-                  Afficher plus de tendances
-                </button>
-              )}
-              {visibleCount > 3 && (
-                <button
-                  onClick={handleShowLess}
-                  className="text-purple-400 hover:text-purple-300 transition-colors text-sm font-semibold"
-                >
-                  Afficher moins de tendances
-                </button>
-              )}
-            </div>
+    <>
+      <div className="flex gap-9 max-w-1xl mx-auto py-8 pl-0 pr-4">
+        <LeftSideBar />
+        <div className="flex flex-col items-center w-full">
+          <div className="w-full">
+            <Postdesign
+              post={post}
+              commentaires={commentaires}
+              handleDeletePost={handleDeletePost}
+              toggleComments={toggleComments}
+              visibleComments={visibleComments}
+              addComment={addComment}
+              editPost={editPost}
+              setEditPost={setEditPost}
+              handleDeleteComment={handleDeleteComment}
+              editComment={editComment}
+              setEditComment={setEditComment}
+              isEditCommentOpen={isEditCommentOpen}
+              setIsEditCommentOpen={setIsEditCommentOpen}
+              selectedComment={selectedComment}
+              setSelectedComment={setSelectedComment}
+            />
           </div>
-        )}
-      </div>
-      <div className="bg-[#1f1f23] p-6 rounded-2xl shadow-2xl border border-base-300">
-        <h3 className="text-white font-semibold mb-3">Restez informé</h3>
-        <p className="text-gray-400 text-sm mb-4">
-          Inscrivez-vous pour recevoir les dernières tendances directement dans votre boîte de réception.
-        </p>
-        <div className="flex flex-col gap-2">
-          <input
-            type="email"
-            placeholder="Votre email"
-            className="w-full input input-bordered input-sm bg-base-100 text-white border-base-700 focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
-          />
-          <button className="btn btn-sm bg-purple-600 hover:bg-purple-700 border-none text-white">
-            S'inscrire
-          </button>
         </div>
+        <RightSideBar />
       </div>
-    </aside>
+      {isEditCommentOpen && selectedComment && (
+        <EditComment
+          comment={selectedComment}
+          onClose={() => setIsEditCommentOpen(false)}
+          onCommentUpdated={updateCommentInState}
+        />
+      )}
+    </>
   );
-};
+}
 
-export default RightSideBar;
+export default PostPage;
