@@ -10,7 +10,6 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import NotFoundPage from "./components/features/NotFoundPage.jsx";
 import AddPost from "./pages/AddPost.jsx";
-import Footer from "./components/Footer.jsx";
 import SubFrenz from "./pages/SubFrenz.jsx";
 import EditPost from "./pages/EditPost.jsx";
 import PostPage from "./pages/PostPage.jsx";
