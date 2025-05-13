@@ -2,7 +2,7 @@ import { Users } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { API_URL } from '../config';
 const LeftSidebar = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
