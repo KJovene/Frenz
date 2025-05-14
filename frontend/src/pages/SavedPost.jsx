@@ -33,7 +33,7 @@ function SavedPost() {
       });
       const userId = userResponse.data.id;
 
-      const postsResponse = await axios.get(`${API_URL}/post-frenzs?populate=*`, {
+      const postsResponse = await axios.get(`${API_URL}/post-frenzs?populate=author.image&populate=image&populate=savedBy&populate=likedBy&populate=comments_frenzs`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
