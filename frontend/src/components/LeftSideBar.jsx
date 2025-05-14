@@ -108,7 +108,7 @@ const LeftSidebar = () => {
 
         <Link to="/profile" className="btn btn-primary btn-sm w-full">
           My Profile
-        </a>
+        </Link>
       </div>
 
       {/* Suggestions */}
