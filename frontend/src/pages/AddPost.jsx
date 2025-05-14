@@ -18,6 +18,7 @@ const AddPost = ({ onPostCreated }) => {
   const [customThematique, setCustomThematique] = useState('');
   const [customColor, setCustomColor] = useState('#ffffff');
   const [error, setError] = useState('');
+  const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
   const [selectOptions, setSelectOptions] = useState([
     "Général",
@@ -86,6 +87,20 @@ const AddPost = ({ onPostCreated }) => {
     return text.replace(regex, (match) => `<span class="bg-yellow-200">${match}</span>`);
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result); 
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setImagePreview(null); 
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim()) {
@@ -149,6 +164,8 @@ const AddPost = ({ onPostCreated }) => {
         },
       });
 
+      
+
       setThematiques('');
       setCustomColor('#ffffff');
       setTitle('');
@@ -171,13 +188,13 @@ const AddPost = ({ onPostCreated }) => {
   };
 
   const handleSelectThematique = (selectedThematique, selectedColor) => {
-  setThematiques(selectedThematique); 
-  setCustomThematique(''); 
-  setCustomColor(selectedColor || thematiqueColors[selectedThematique] || '#ffffff'); 
-  setQuery(selectedThematique); 
-  setSearchResults([]); 
-}
-  
+    setThematiques(selectedThematique);
+    setCustomThematique('');
+    setCustomColor(selectedColor || thematiqueColors[selectedThematique] || '#ffffff');
+    setQuery(selectedThematique);
+    setSearchResults([]);
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen bg-[#18181b]">
@@ -215,7 +232,7 @@ const AddPost = ({ onPostCreated }) => {
           <div className="bg-[#18181b] rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer relative">
             <input
               type="file"
-              onChange={(e) => setImage(e.target.files[0])}
+              onChange={handleImageChange}
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
             />
             <svg
@@ -234,6 +251,15 @@ const AddPost = ({ onPostCreated }) => {
             </svg>
             <p className="text-sm text-[#ffffff]">Ajouter une image</p>
             <p className="text-xs text-[#a1a1aa]">JPG, PNG</p>
+            {imagePreview && (
+              <div className="mt-4">
+                <img
+                  src={imagePreview}
+                  alt="Prévisualisation"
+                  className="w-32 h-32 object-cover rounded-lg"
+                />
+              </div>
+            )}
           </div>
 
           <div className='flex items-center justify-between mb-4'>
@@ -278,7 +304,7 @@ const AddPost = ({ onPostCreated }) => {
                         <li
                           key={post.id}
                           className="p-2 border-b hover:bg-gray-100 cursor-pointer"
-                          onClick={() => handleSelectThematique(post.thematique,post.color)}
+                          onClick={() => handleSelectThematique(post.thematique, post.color)}
                           onMouseDown={(e) => e.preventDefault()}
                         >
                           <p
