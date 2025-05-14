@@ -11,7 +11,7 @@ const RightSideBar = () => {
 
   const fetchTrendingTopics = async () => {
     try {
-      const response = await fetch('https://rss.app/feeds/v1.1/tO0XAXevvzTShx7z.json');
+      const response = await fetch('https://rss.app/feeds/v1.1/t9H6tDp61GWFjYk1.json');
       const data = await response.json();
       const trends = data.items.map((item) => ({
         title: item.title,
