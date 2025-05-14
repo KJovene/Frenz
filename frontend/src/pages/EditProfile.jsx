@@ -5,15 +5,15 @@ import { API_URL } from '../config';
 function EditProfile() {
   const [username, setUsername] = useState('');
   const [profileImage, setProfileImage] = useState(null);
-  const [image, setImage] = useState(null); // Pour gérer l'image sélectionnée
+  const [image, setImage] = useState(null); 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [promo, setPromo] = useState(''); // Valeur par défaut pour la promo
+  const [promo, setPromo] = useState(''); 
   const navigate = useNavigate();
-  const { id } = useParams(); // Récupérer l'ID utilisateur depuis l'URL
+  const { id } = useParams(); 
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -59,7 +59,7 @@ function EditProfile() {
       }
 
       console.log('Image téléchargée avec succès :', uploadedImage);
-      return uploadedImage.id; // Retourne l'ID de l'image téléchargée
+      return uploadedImage.id; 
     } catch (err) {
       console.error('Erreur lors du téléchargement de l\'image :', err);
       throw err;
@@ -71,10 +71,10 @@ function EditProfile() {
       setLoading(true);
       setError('');
 
-      let imageId = profileImage; // Conserver l'image actuelle si aucune nouvelle image n'est téléchargée
+      let imageId = profileImage;
 
       if (image) {
-        imageId = await handleImageUpload(); // Télécharger l'image et récupérer son ID
+        imageId = await handleImageUpload(); 
       }
 
       const postData = { 
@@ -85,7 +85,6 @@ function EditProfile() {
 
       const token = localStorage.getItem('token');
 
-      // Mettre à jour les informations utilisateur avec l'image associée
       await axios.put(
         `${API_URL}/users/${id}`,
         postData,
@@ -96,7 +95,7 @@ function EditProfile() {
         }
       );
 
-      navigate('/profile'); // Rediriger vers la page de profil après la sauvegarde
+      navigate('/profile'); 
     } catch (err) {
       console.error('Erreur lors de la mise à jour du profil :', err);
       setError('Erreur lors de la mise à jour du profil.');

@@ -171,11 +171,11 @@ const AddPost = ({ onPostCreated }) => {
   };
 
   const handleSelectThematique = (selectedThematique, selectedColor) => {
-  setThematiques(selectedThematique); // Définir la thématique sélectionnée
-  setCustomThematique(''); // Réinitialiser la thématique personnalisée
-  setCustomColor(selectedColor || thematiqueColors[selectedThematique] || '#ffffff'); // Utiliser la couleur associée ou une couleur par défaut
-  setQuery(selectedThematique); // Mettre à jour la requête avec la thématique sélectionnée
-  setSearchResults([]); // Vider les résultats de recherche
+  setThematiques(selectedThematique); 
+  setCustomThematique(''); 
+  setCustomColor(selectedColor || thematiqueColors[selectedThematique] || '#ffffff'); 
+  setQuery(selectedThematique); 
+  setSearchResults([]); 
 }
   
   if (loading) {
@@ -270,9 +270,7 @@ const AddPost = ({ onPostCreated }) => {
                   value={query}
                   onChange={(e) => handleSearchThematique(e.target.value)}
                   autoFocus
-                // onBlur={() => setShowSearch(false)}
                 />
-                {/* Résultats de recherche */}
                 {query && searchResults.length > 0 && (
                   <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50 max-h-48 overflow-y-auto">
                     <ul>

@@ -149,7 +149,6 @@ const Homepage = () => {
     <>
       <div className="max-w-[1800px] mx-auto flex gap-6 px-1">
         <LeftSideBar />
-        {/* Contenu principal: Les posts */}
         <div className="flex flex-col items-center w-full">
           <div className="w-full h-full overflow-y-auto overflow-x-hidden">
             {posts.length > 0 ? (

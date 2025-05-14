@@ -55,10 +55,8 @@ const LeftSidebar = () => {
   }, []);
 
   return (
-    <div className="hidden lg:block w-[750px] space-y-6 sticky top-20 self-start sidebar-scroll">
-      {/* Profil utilisateur */}
+    <div className="hidden md:block w-[750px] sticky top-20 self-start space-y-6">
       <div className="bg-[#1f1f23] shadow-2xl rounded-2xl overflow-hidden">
-        {/* Avatar */}
         <div className="relative flex justify-center items-center mt-4">
           {user && user.image ? (
             <img
@@ -86,7 +84,6 @@ const LeftSidebar = () => {
           )}
         </div>
 
-        {/* Profil */}
         <div className="pt-10 pb-4 px-6 text-center">
           {user && user.username ? (
             <>
@@ -98,7 +95,6 @@ const LeftSidebar = () => {
           )}
         </div>
 
-        {/* Statistiques */}
         <div className="grid grid-cols-2 gap-4 border-t border-b border-base-700 py-4 mb-4">
           <div className="text-center">
             <div className="text-white font-bold text-lg">6,664</div>
@@ -110,8 +106,7 @@ const LeftSidebar = () => {
           </div>
         </div>
 
-        {/* Bouton */}
-        <a href="/profile" className="btn btn-primary btn-sm w-full">
+        <Link to="/profile" className="btn btn-primary btn-sm w-full">
           My Profile
         </a>
       </div>
