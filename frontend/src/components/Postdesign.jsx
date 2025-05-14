@@ -227,29 +227,30 @@ const Postdesign = ({
           </div>
         </Link>
         <div className="relative">
-
+          {post.author.id === user.id ? (
           <button onClick={() => setEditPost(prev => (prev === post.id ? null : post.id))} className="p-2 hover:bg-gray-800 rounded-full">
             <Ellipsis size={20} className="text-gray-300" />
-          </button>
+          </button>):(<></>)}
           {editPost === post.id && (
             <>
-            <div onClick={() => setEditPost(null)} className='fixed top-0 left-0 h-screen w-screen z-[1000]'></div>
-            <div className="absolute right-0 mt-2 w-44 bg-[#2a2a2e] border border-gray-700 rounded-xl shadow-lg z-20 transition-all duration-200 transform scale-95 hover:scale-100">
-              <button
-                onClick={() => navigate(`/editpost/${post.documentId}`)}
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-white hover:bg-gray-800 hover:text-purple-400"
-              >
-                <PencilLine size={16} /> Modifier
-              </button>
-              <button
-                onClick={() => handleDeletePost(post.id)}
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-400 hover:bg-red-900/20 hover:text-red-300"
-              >
-                <Trash size={16} /> Supprimer
-              </button>
-            </div>
+              <div onClick={() => setEditPost(null)} className='fixed top-0 left-0 h-screen w-screen z-[1000]'></div>
+              <div className="absolute right-0 mt-2 w-44 z-[1001] bg-[#2a2a2e] border border-gray-700 rounded-xl shadow-lg z-20 transition-all duration-200 transform scale-95 hover:scale-100">
+                <button
+                  onClick={() => navigate(`/editpost/${post.documentId}`)}
+                  className="flex items-center gap-2 w-full px-4 py-2 text-sm text-white hover:bg-gray-800 hover:text-purple-400"
+                >
+                  <PencilLine size={16} /> Modifier
+                </button>
+                <button
+                  onClick={() => handleDeletePost(post.id)}
+                  className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-400 hover:bg-red-900/20 hover:text-red-300"
+                >
+                  <Trash size={16} /> Supprimer
+                </button>
+              </div>
             </>
           )}
+
         </div>
       </div>
 
@@ -365,13 +366,15 @@ const Postdesign = ({
                 )}
 
                 <div className="absolute top-2 right-2">
+                  {comment.author.id === user.id ? (
                   <button onClick={() => setEditComment(prev => prev === comment.id ? null : comment.id)}>
                     <Ellipsis size={16} />
                   </button>
+                  ):(<></>)}
                   {editComment === comment.id && (
                     <>
                       <div onClick={() => setEditComment(null)} className='fixed top-0 left-0 h-screen w-screen z-[1000]'></div>
-                      <div className="absolute right-0 mt-2 w-44 bg-[#2a2a2e] border border-gray-700 rounded-xl shadow-lg z-20 transition-all duration-200 transform scale-95 hover:scale-100">
+                      <div className="absolute right-0 mt-2 w-44 z-[1001] bg-[#2a2a2e] border border-gray-700 rounded-xl shadow-lg z-20 transition-all duration-200 transform scale-95 hover:scale-100">
                         <button
                           onClick={() => handleDeleteComment(comment.id)}
                           className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-900/20 hover:text-red-300"
