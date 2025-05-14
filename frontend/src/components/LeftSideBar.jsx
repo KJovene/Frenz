@@ -89,9 +89,9 @@ const LeftSidebar = () => {
         </div>
 
         {/* Bouton */}
-        <a href="/profile" className="btn btn-primary btn-sm w-full">
+        <Link to="/profile" className="btn btn-primary btn-sm w-full">
           My Profile
-        </a>
+        </Link>
       </div>
     </div>
   );
