@@ -57,14 +57,14 @@ function Profile() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetchUser(); // Récupère l'utilisateur
+      await fetchUser(); 
     };
     fetchData();
   }, []);
 
   useEffect(() => {
     if (user) {
-      fetchPost(user.id); // Charge les posts de l'utilisateur connecté
+      fetchPost(user.id); 
     }
   }, [user]);
 
@@ -87,7 +87,6 @@ function Profile() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-          {/* Profile utilisateur */}
           <div className="bg-[#27272a] rounded-3xl p-8 flex flex-col">
             <div className="flex flex-col items-center mb-8">
               <div className="relative">
@@ -115,7 +114,6 @@ function Profile() {
               Modifier le profil
             </Link>
 
-            {/* Statistiques */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold flex items-center">
                 <div className="w-2 h-2 rounded-full bg-[#c084fc] mr-2"></div>
@@ -146,7 +144,6 @@ function Profile() {
             </div>
           </div>
 
-          {/* Details */}
           <div>
             <div className="bg-[#27272a] rounded-3xl p-6 mb-6">
               <h3 className="text-xl font-semibold mb-4 flex items-center">
@@ -179,7 +176,6 @@ function Profile() {
               </div>
             </div>
 
-            {/* Activité récente */}
             <div className="bg-[#27272a] rounded-3xl p-6">
               <h3 className="text-xl font-semibold mb-4 flex items-center">
                 <div className="w-2 h-2 rounded-full bg-[#c084fc] mr-2"></div>
@@ -206,7 +202,6 @@ function Profile() {
           </div>
         </div>
 
-        {/* Posts de l'utilisateur */}
         <div className="mt-8 bg-[#27272a] rounded-3xl p-6">
           
           <h3 className="text-xl font-semibold mb-4 flex items-center">

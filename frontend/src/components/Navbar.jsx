@@ -86,7 +86,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
 
   return (
     <div className="navbar bg-base-100 shadow-sm sticky top-0 z-50 py-3 px-4 justify-between">
-      {/* Frenz logo - Sans fond */}
       <div className="navbar-center">
         <Link to="/" className="block">
           <h1 className="text-2xl font-bold font-baloo">
@@ -95,7 +94,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         </Link>
       </div>
 
-      {/* Right Side */}
       <div className="navbar-end gap-2 items-center justify-end space-x-1">
         {!showSearch ? (
           <button className="btn btn-ghost btn-circle" onClick={() => setShowSearch(true)}>
@@ -114,21 +112,18 @@ const Navbar = ({ darkMode, setDarkMode }) => {
               autoFocus
               onBlur={() => setShowSearch(false)}
             />
-            {/* Résultats de recherche */}
             {query && (
               <div className="absolute top-full mt-2 w-full bg-white shadow-lg rounded-lg z-50 max-h-48 overflow-y-auto">
                 {searchResults.length > 0 ? (
                   <ul>
                     {searchResults.map((post) => (
                       <li key={post.id} className="p-2 border-b hover:bg-gray-100">
-                        {/* Lien vers la page PostPage pour le titre */}
                         <Link
                           to={`/post/${post.documentId}`}
                           className="font-semibold text-blue-600 hover:underline"
                           onMouseDown={(e) => e.preventDefault()}
                           dangerouslySetInnerHTML={{ __html: highlightMatch(post.title, query) }}
                         />
-                        {/* Lien vers la page SubFrenz pour la thématique */}
                         <Link
                           to={`/f/${post.thematique}`}
                           className="text-sm text-gray-500 hover:underline block"
@@ -146,7 +141,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           </div>
         )}
 
-        {/* Bouton de notification */}
         <button
           className="btn btn-ghost btn-circle"
           onClick={handleNotificationsClick}
@@ -159,7 +153,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           </div>
         </button>
 
-        {/* Avatar Dropdown */}
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}

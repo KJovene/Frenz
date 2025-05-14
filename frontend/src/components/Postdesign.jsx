@@ -200,12 +200,10 @@ const Postdesign = ({
   };
   return (
     <div className="bg-[#1f1f23] border border-base-300 rounded-2xl shadow-2xl p-6 mb-8 w-full text-white post-card">
-      {/* Post Header */}
       <div className="flex justify-between mb-4">
         <Link to={post.author.id === user.id ? `/profile` : `/profile/${post.author.id}`}>
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-purple-800 text-white rounded-full flex items-center justify-center font-bold">
-              {/* Image de profil de l'auteur */}
               {post.author.image ? (
                 <img
                   src={`${post.author.image.url}`}
@@ -254,7 +252,6 @@ const Postdesign = ({
         </div>
       </div>
 
-      {/* Title & Tag */}
       <Link to={`/post/${post.documentId}`}>
         <h2 className="text-xl font-bold mb-2">{post.title || post.title_frenz}</h2>
       </Link>
@@ -269,7 +266,6 @@ const Postdesign = ({
         {post.thematique}
       </Link>
 
-      {/* Images */}
       {post.image?.map(media => (
         <div key={media.id} className="mb-4 rounded-xl overflow-hidden">
           <img
@@ -280,10 +276,8 @@ const Postdesign = ({
         </div>
       ))}
 
-      {/* Description */}
       {post.description && <p className="text-sm text-gray-300 mb-4 post-content">{post.description}</p>}
 
-      {/* Like & Comment Count */}
       <div className="flex justify-between text-xs text-gray-400 border-t pt-4">
         <span className="flex items-center gap-1">
           <ThumbsUp size={14} /> {likeCount} j'aime
@@ -293,7 +287,6 @@ const Postdesign = ({
         </span>
       </div>
 
-      {/* Action Buttons */}
       <div className="flex mt-5 gap-3">
         <button
           onClick={handleLike}
@@ -316,7 +309,6 @@ const Postdesign = ({
         </button>
       </div>
 
-      {/* Comments */}
       {visibleComments && (
         <div className="mt-6">
           <div className="flex items-center gap-3 mb-4">

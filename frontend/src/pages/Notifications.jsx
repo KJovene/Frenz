@@ -148,19 +148,16 @@ const Notifications = () => {
     }
   };
 
-  // Notif lu
   const markAsRead = (id) => {
     setNotifications(notifications.map(notif => 
       notif.id === id ? { ...notif, read: true } : notif
     ));
   };
 
-  // Lire tout les notif
   const markAllAsRead = () => {
     setNotifications(notifications.map(notif => ({ ...notif, read: true })));
   };
 
-  // Filtrer notif
   const filteredNotifications = () => {
     switch (filter) {
       case 'unread':
@@ -187,7 +184,6 @@ const Notifications = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <div className="bg-base-100 rounded-xl shadow-md border border-base-300 overflow-hidden">
-        {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-base-300">
           <h1 className="text-2xl font-bold flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -203,7 +199,6 @@ const Notifications = () => {
           </button>
         </div>
 
-        {/* Filters */}
         <div className="p-4 border-b border-base-300 overflow-x-auto">
           <div className="flex gap-2">
             <button 
@@ -245,7 +240,6 @@ const Notifications = () => {
           </div>
         </div>
 
-        {/* Notifications List */}
         <div className="max-h-[70vh] overflow-y-auto">
           {loading ? (
             <div className="flex justify-center items-center p-10">

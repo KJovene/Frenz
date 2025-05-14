@@ -65,7 +65,6 @@ function Register() {
       <div className='fixed inset-0 bg-[#18181b]'></div>
       <div className='flex w-11/12 md:w-10/12 lg:w-9/12 xl:w-8/12 max-w-5xl rounded-xl shadow-2xl relative z-10'>
 
-        {/* Image Section */}
         <div className='relative w-1/2 hidden md:block'>
           <img 
             src="https://images.unsplash.com/photo-1574692142297-8a6d4051730b?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
@@ -73,25 +72,20 @@ function Register() {
             className='h-full w-full object-cover rounded-l-xl'
           />
           
-          {/* Opacité img*/}
           <div className='absolute inset-0 bg-black bg-opacity-40 rounded-l-xl'></div>
 
-          {/* Texte par dessus*/}
           <div className='absolute bottom-0 left-0 p-12 text-white z-10'>
             <h2 className='text-5xl font-bold mb-2 font-baloo'>Just post it !</h2>
             <p className='text-2xl font-baloo'>And discover the world around you</p>
           </div>
         </div>
 
-
-        {/* Form Section */}
         <div className='w-full md:w-1/2 bg-[#27272a] p-8 flex flex-col items-center justify-center rounded-xl md:rounded-l-none md:rounded-r-xl'>
           <h1 className='text-4xl font-bold text-[#ffffff] mb-6 text-center font-baloo'>
             <span className='text-[#9333ea]'>F</span>renz
           </h1>
           <div className='flex justify-center mb-6 space-x-6'>
             
-            {/* Facebook Icon*/}
             <a href="#" className='text-[#c084fc]'>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="2" fill="none"/>
@@ -99,7 +93,6 @@ function Register() {
               </svg>
             </a>
 
-            {/* Instagram Icon */}
             <a href="#" className='text-[#c084fc]'>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -108,7 +101,6 @@ function Register() {
               </svg>
             </a>
 
-            {/* Twitter Icon */}
             <a href="#" className='text-[#c084fc]'>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
