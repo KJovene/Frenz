@@ -36,5 +36,25 @@ module.exports = createCoreController('api::post-frenz.post-frenz', ({ strapi })
 
     // Supprimer le post
     return await strapi.entityService.delete('api::post-frenz.post-frenz', postId);
+  },
+  
+  async update(ctx){
+    const userId = ctx.state.user.id;
+    const postId = ctx.params.id
+
+    const post = await strapi.entityService.findOne('api::post-frenz.post-frenz', postId, { populate: 'author' });  
+
+    if (!post) {
+      return ctx.notFound('Post pas trouvé.');
+    }
+
+    if (post.author.id !== userId) {
+      return ctx.forbidden('Vous ne pouvez pas éditer ce post.');
+    }
+
+    const updatedPost = await strapi.entityService.update('api::post-frenz.post-frenz', postId, {
+      data: ctx.request.body.data,
+    });
+    return updatedPost;
   }
 }));

@@ -25,7 +25,7 @@ module.exports = createCoreController('api::comments-frenz.comments-frenz', ({ s
     const comment = await strapi.entityService.findOne('api::comments-frenz.comments-frenz', commentId, { populate: 'author' });    
     // Vérifier si le post existe
     if (!comment) {
-      return ctx.notFound('Commentaire pas trouvé');
+      return ctx.notFound('Commentaire pas trouvé.');
     }
 
     // Vérifier si l'utilisateur est l'auteur du post
@@ -35,5 +35,27 @@ module.exports = createCoreController('api::comments-frenz.comments-frenz', ({ s
 
     // Supprimer le post
     return await strapi.entityService.delete('api::comments-frenz.comments-frenz', commentId);
+  },
+
+  async update(ctx){
+    const userId = ctx.state.user.id;
+    const commentId = ctx.params.id
+
+    const comment = await strapi.entityService.findOne('api::comments-frenz.comments-frenz', commentId, { populate: 'author' });  
+
+    if (!comment) {
+      return ctx.notFound('Commentaire pas trouvé.');
+    }
+
+    if (comment.author.id !== userId) {
+      return ctx.forbidden('Vous ne pouvez pas éditer ce commentaire.');
+    }
+
+    const updatedComment = await strapi.entityService.update('api::comments-frenz.comments-frenz', commentId, {
+      data: ctx.request.body.data,
+    });
+    return updatedComment;
   }
+
+
 }));

@@ -94,7 +94,7 @@ const Homepage = () => {
   };
 
   const toggleComments = (postId) => {
-    setVisibleComments(prev => ({ ...prev, [postId]: !prev[postId] }));
+    setVisibleComments(prev => ({ [postId]: true }));
   };
 
   const addComment = async (newComment) => {

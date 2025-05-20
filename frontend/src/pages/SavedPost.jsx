@@ -52,7 +52,7 @@ function SavedPost() {
   const fetchComments = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get(`${API_URL}/comments-frenzs?populate=post_frenz`, {
+      const res = await axios.get(`${API_URL}/comments-frenzs?populate=post_frenz&populate=author.image`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setCommentaires(res.data.data);
